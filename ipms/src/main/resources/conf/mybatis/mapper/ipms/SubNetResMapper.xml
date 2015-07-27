@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.SubNetResDao">
+	<resultMap id="subNetResultMap" type="SubNetResEntity">
+		<id column="SUBNET_ID" property="subnetId" jdbcType="VARCHAR" />
+		<result column="SUBNET_DESC" property="subnetDesc" jdbcType="VARCHAR" />
+		<result column="BEGIN_IP" property="beginIp" jdbcType="VARCHAR" />
+		<result column="BEGIN_IP_DECIMAL" property="beginIpDecimal"
+			jdbcType="BIGINT" />
+		<result column="END_IP" property="endIp" jdbcType="VARCHAR" />
+		<result column="END_IP_DECIMAL" property="endIpDecimal"
+			jdbcType="BIGINT" />
+		<result column="MASK_BITS" property="maskBits" jdbcType="SMALLINT" />
+		<result column="NETMASK" property="netmask" jdbcType="VARCHAR" />
+		<result column="IP_COUNT" property="ipCount" jdbcType="INTEGER" />
+		<result column="SUBNET_PID" property="subnetPid" jdbcType="VARCHAR" />
+		<result column="IS_IPV6" property="isIpv6" jdbcType="SMALLINT" />
+		<result column="PLAN_STATUS" property="planStatus" jdbcType="SMALLINT" />
+		<result column="USE_STATUS" property="useStatus" jdbcType="SMALLINT" />
+		<result column="POOL_ID" property="poolId" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+		<result column="LFT" property="lft" jdbcType="INTEGER" />
+		<result column="RGT" property="rgt" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="subNetResultBean" type="SubNetResBean"
+		extends="subNetResultMap">
+		<result property="poolName" column="POOL_NAME" jdbcType="VARCHAR" />
+		<result property="cityName" column="CITY_NAME" jdbcType="VARCHAR" />
+		<result property="subnetCount" column="SUBNET_COUNT" jdbcType="INTEGER" />
+		<result property="subnetAllCount" column="SUBNET_ALL_COUNT"
+			jdbcType="INTEGER" />
+		<result property="waitCount" column="WAIT_COUNT" jdbcType="INTEGER" />
+		<result property="planningCount" column="PLANNING_COUNT"
+			jdbcType="INTEGER" />
+		<result property="plannedCount" column="PLANNED_COUNT"
+			jdbcType="INTEGER" />
+		<result property="ipKeepCount" column="IP_KEEP_COUNT" jdbcType="INTEGER" />
+		<result property="ipUseCount" column="IP_USE_COUNT" jdbcType="INTEGER" />
+		<result property="ipFreeCount" column="IP_FREE_COUNT" jdbcType="INTEGER" />
+		<result property="ipAssignCount" column="IP_ASSIGN_COUNT" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="allColumn">
+		SUBNET_ID, SUBNET_DESC, BEGIN_IP, BEGIN_IP_DECIMAL, END_IP, END_IP_DECIMAL,
+		MASK_BITS,
+		NETMASK, IP_COUNT, SUBNET_PID, IS_IPV6, PLAN_STATUS, USE_STATUS, POOL_ID,
+		CITY_ID,
+		OPERATOR, OPERATE_TIME, LFT, RGT
+	</sql>
+
+	<select id="selectAllSubNet" resultMap="subNetResultBean">
+		SELECT A.*,
+		B.CITY_NAME,
+		C.POOL_NAME
+		FROM ${SCHEMA_BASE}.VW_SUBNET_STAT A
+		LEFT OUTER JOIN ${SCHEMA_BASE}.IP_DIM_CITY B
+		ON A.CITY_ID = B.CITY_ID
+		LEFT OUTER JOIN ${SCHEMA_BASE}.IP_POOL_CONF C
+		ON A.POOL_ID = C.POOL_ID
+		WHERE A.SUBNET_PID=#{subnetId}
+		<if test="planStatus != null and planStatus == 1">
+			AND (A.PLAN_STATUS=#{planStatus} OR A.WAIT_COUNT > 0)
+		</if>
+		<if test="planStatus != null and planStatus == 2">
+			AND (A.PLAN_STATUS=#{planStatus} OR A.PLANNING_COUNT > 0)
+		</if>
+		<if test="planStatus != null and planStatus == 3">
+			AND (A.PLAN_STATUS=#{planStatus} OR A.PLANNED_COUNT > 0)
+		</if>
+		ORDER BY A.SUBNET_COUNT desc,A.BEGIN_IP
+	</select>
+
+	<insert id="insertSubNet" parameterType="SubNetResEntity">
+		INSERT INTO ${SCHEMA_BASE}.IP_SUBNET_RES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="subnetId != null">
+				SUBNET_ID,
+			</if>
+			<if test="subnetDesc != null">
+				SUBNET_DESC,
+			</if>
+			<if test="beginIp != null">
+				BEGIN_IP,
+			</if>
+			<if test="beginIpDecimal != null">
+				BEGIN_IP_DECIMAL,
+			</if>
+			<if test="endIp != null">
+				END_IP,
+			</if>
+			<if test="endIpDecimal != null">
+				END_IP_DECIMAL,
+			</if>
+			<if test="maskBits != null">
+				MASK_BITS,
+			</if>
+			<if test="netmask != null">
+				NETMASK,
+			</if>
+			<if test="ipCount != null">
+				IP_COUNT,
+			</if>
+			<if test="subnetPid != null">
+				SUBNET_PID,
+			</if>
+			<if test="isIpv6 != null">
+				IS_IPV6,
+			</if>
+			<if test="planStatus != null">
+				PLAN_STATUS,
+			</if>
+			<if test="useStatus != null">
+				USE_STATUS,
+			</if>
+			<if test="poolId != null">
+				POOL_ID,
+			</if>
+			<if test="cityId != null">
+				CITY_ID,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME,
+			</if>
+			<if test="lft != null">
+				LFT,
+			</if>
+			<if test="rgt != null">
+				RGT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="subnetId != null">
+				#{subnetId,jdbcType=VARCHAR},
+			</if>
+			<if test="subnetDesc != null">
+				#{subnetDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="beginIp != null">
+				#{beginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="beginIpDecimal != null">
+				#{beginIpDecimal,jdbcType=VARCHAR},
+			</if>
+			<if test="endIp != null">
+				#{endIp,jdbcType=VARCHAR},
+			</if>
+			<if test="endIpDecimal != null">
+				#{endIpDecimal,jdbcType=VARCHAR},
+			</if>
+			<if test="maskBits != null">
+				#{maskBits,jdbcType=SMALLINT},
+			</if>
+			<if test="netmask != null">
+				#{netmask,jdbcType=VARCHAR},
+			</if>
+			<if test="ipCount != null">
+				#{ipCount,jdbcType=INTEGER},
+			</if>
+			<if test="subnetPid != null">
+				#{subnetPid,jdbcType=VARCHAR},
+			</if>
+			<if test="isIpv6 != null">
+				#{isIpv6,jdbcType=SMALLINT},
+			</if>
+			<if test="planStatus != null">
+				#{planStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="useStatus != null">
+				#{useStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="poolId != null">
+				#{poolId,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lft != null">
+				#{lft,jdbcType=INTEGER},
+			</if>
+			<if test="rgt != null">
+				#{rgt,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+
+    <insert id="insertBatchSubnet" parameterType="java.util.List" >
+        INSERT INTO ${SCHEMA_BASE}.IP_SUBNET_RES(SUBNET_ID, SUBNET_DESC, BEGIN_IP, 
+        BEGIN_IP_DECIMAL, END_IP, END_IP_DECIMAL,MASK_BITS,
+        NETMASK, IP_COUNT, SUBNET_PID, IS_IPV6, PLAN_STATUS, USE_STATUS, POOL_ID,CITY_ID,
+        OPERATOR, OPERATE_TIME, LFT, RGT) 
+        VALUES
+        <foreach collection="list" item="subnet" index="index" separator=",">  
+        (#{subnet.subnetId, jdbcType=VARCHAR},
+            #{subnet.subnetDesc, jdbcType=VARCHAR},
+            #{subnet.beginIp, jdbcType=VARCHAR},
+            #{subnet.beginIpDecimal, jdbcType=BIGINT},
+            #{subnet.endIp, jdbcType=VARCHAR},
+            #{subnet.endIpDecimal, jdbcType=BIGINT},
+            #{subnet.maskBits, jdbcType=SMALLINT},
+            #{subnet.netmask, jdbcType=VARCHAR},
+            #{subnet.ipCount, jdbcType=INTEGER},
+            #{subnet.subnetPid, jdbcType=SMALLINT},
+            #{subnet.isIpv6, jdbcType=SMALLINT},
+            #{subnet.planStatus, jdbcType=SMALLINT},
+            #{subnet.useStatus, jdbcType=SMALLINT},
+            #{subnet.poolId, jdbcType=VARCHAR},
+            #{subnet.cityId, jdbcType=VARCHAR},
+            #{subnet.operator, jdbcType=VARCHAR},
+            #{subnet.operateTime, jdbcType=TIMESTAMP},
+            #{subnet.lft, jdbcType=INTEGER},
+            #{subnet.rgt, jdbcType=INTEGER})
+        </foreach>
+    </insert>
+	
+	<select id="selectSubnetById" parameterType="java.lang.String"
+		resultMap="subNetResultBean">
+		SELECT
+			T1.*,T2.POOL_NAME,T3.CITY_NAME
+		FROM ${SCHEMA_BASE}.VW_SUBNET_STAT T1
+		LEFT OUTER JOIN ${SCHEMA_BASE}.ip_pool_conf T2
+			ON T1.POOL_ID=T2.POOL_ID
+		LEFT OUTER JOIN ${SCHEMA_BASE}.ip_dim_city T3
+			ON T1.CITY_ID=T3.CITY_ID		
+		WHERE SUBNET_ID = #{subnetId}
+	</select>
+
+	<delete id="deleteSubnetById" parameterType="java.lang.String">
+		DELETE FROM ${SCHEMA_BASE}.IP_SUBNET_RES
+		WHERE SUBNET_ID = #{subnetId,jdbcType=VARCHAR}
+	</delete>
+    
+    <delete id="deleteSubnetByPid" parameterType="java.lang.String">
+        DELETE FROM ${SCHEMA_BASE}.IP_SUBNET_RES
+        WHERE SUBNET_PID = #{subnetPid,jdbcType=VARCHAR}
+    </delete>
+
+	<update id="updateSubnetById" parameterType="SubNetResEntity">
+		UPDATE ${SCHEMA_BASE}.IP_SUBNET_RES
+		<set>
+			<if test="subnetDesc != null">
+				SUBNET_DESC = #{subnetDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="beginIp != null">
+				BEGIN_IP = #{beginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="beginIpDecimal != null">
+				BEGIN_IP_DECIMAL = #{beginIpDecimal,jdbcType=VARCHAR},
+			</if>
+			<if test="endIp != null">
+				END_IP = #{endIp,jdbcType=VARCHAR},
+			</if>
+			<if test="endIpDecimal != null">
+				END_IP_DECIMAL = #{endIpDecimal,jdbcType=VARCHAR},
+			</if>
+			<if test="maskBits != null">
+				MASK_BITS = #{maskBits,jdbcType=SMALLINT},
+			</if>
+			<if test="netmask != null">
+				NETMASK = #{netmask,jdbcType=VARCHAR},
+			</if>
+			<if test="ipCount != null">
+				IP_COUNT = #{ipCount,jdbcType=INTEGER},
+			</if>
+			<if test="subnetPid != null">
+				SUBNET_PID = #{subnetPid,jdbcType=VARCHAR},
+			</if>
+			<if test="isIpv6 != null">
+				IS_IPV6 = #{isIpv6,jdbcType=SMALLINT},
+			</if>
+			<if test="planStatus != null">
+				PLAN_STATUS = #{planStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="useStatus != null">
+				USE_STATUS = #{useStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="poolId != null">
+				POOL_ID = #{poolId,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				CITY_ID = #{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lft != null">
+				LFT = #{lft,jdbcType=INTEGER},
+			</if>
+			<if test="rgt != null">
+				RGT = #{rgt,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE SUBNET_ID = #{subnetId,jdbcType=VARCHAR}
+	</update>
+	<select id="selectSubNetsBySelfQuery" resultType="java.util.Map">
+		SELECT
+			T1.*,
+			T2.CITY_NAME,
+			T3.POOL_NAME,
+    		T4.IP_COUNT AS APPLY_IP_COUNT, 
+    		T4.INVALID_DATE, 
+    		T4.APPLICANT, 
+    		T4.APPLY_TIME, 
+    		T4.ORG_NAME, 
+    		T4.ORG_TYPE, 
+    		T4.ORG_NATURE, 
+    		T4.ORG_PROV_ID, 
+    		T4.ORG_CITY_ID, 
+    		T4.ORG_COUNTY_ID, 
+    		T4.ORG_LEVEL, 
+    		T4.ORG_TRADE, 
+    		T4.ORG_ADDRESS, 
+    		T4.LINKMAN, 
+    		T4.CONTACT_PHONE, 
+    		T4.CONTACT_EMAIL, 
+    		T4.GATEWAY_PLACE, 
+    		T4.USE_TYPE, 
+    		T4.USE_DATE, 
+    		T4.GATEWAY_IP
+		FROM
+			${SCHEMA_BASE}.VW_SUBNET_STAT T1
+		LEFT OUTER JOIN 
+			${SCHEMA_BASE}.IP_DIM_CITY T2
+			ON T1.CITY_ID = T2.CITY_ID
+		LEFT OUTER JOIN 
+			${SCHEMA_BASE}.IP_POOL_CONF T3
+			ON T1.POOL_ID = T3.POOL_ID
+		LEFT OUTER JOIN 
+			${SCHEMA_BASE}.IP_ARCHIVE_INFO T4
+			ON T1.SUBNET_ID = T4.SUBNET_ID 
+		WHERE T1.SUBNET_COUNT=0
+		<if test="poolIds!=null and poolIds.length>0">
+			AND T1.POOL_ID IN
+			<foreach item="poolId" collection="poolIds" open="(" separator="," close=")">#{poolId}</foreach>
+		</if>
+		<if test="subnet.cityId!=null and subnet.cityId!=-1">
+			AND T1.CITY_ID=#{subnet.cityId}
+		</if>
+		<if test="subnet.netmask!=null and subnet.netmask!=-1">
+			AND T1.NETMASK=#{subnet.netmask}
+		</if>
+		<if test="subnet.planStatus!=null and subnet.planStatus!=-1">
+			AND T1.PLAN_STATUS=#{subnet.planStatus}
+		</if>
+		<if test="subnet.useStatus!=null and subnet.useStatus!=-1">
+			AND T1.USE_STATUS=#{subnet.useStatus}
+		</if>
+		<if test="subnet.beginIpDecimal!=null">
+			<![CDATA[ AND T1.BEGIN_IP_DECIMAL <= #{subnet.beginIpDecimal} AND T1.END_IP_DECIMAL >= #{subnet.beginIpDecimal} ]]>
+		</if>
+		<if test="subnet.operator!=null">
+			AND T1.OPERATOR = #{subnet.operator}
+		</if>
+		<if test="archive.invalidDate!=null">
+			<![CDATA[ AND T4.INVALID_DATE <= #{archive.invalidDate} ]]>
+		</if>
+		<if test="archive.applicant!=null">
+			AND T4.APPLICANT = #{archive.applicant}
+		</if>
+		<if test="archive.applyTime!=null">
+			AND T4.APPLY_TIME = #{archive.applyTime}
+		</if>
+		<if test="archive.orgName!=null">
+			AND T4.ORG_NAME like CONCAT('%',#{archive.orgName},'%')  
+		</if>
+		<if test="archive.orgType!=null and archive.orgType!=-1">
+			AND T4.ORG_TYPE = #{archive.orgType}  
+		</if>	
+		<if test="archive.orgNature!=null and archive.orgNature!=-1">
+			AND T4.ORG_NATURE = #{archive.orgNature}  
+		</if>	
+		<if test="archive.orgProvId!=null and archive.orgProvId!=-1">
+			AND T4.ORG_PROV_ID = #{archive.orgProvId}  
+		</if>	
+		<if test="archive.orgCityId!=null and archive.orgCityId!=-1">
+			AND T4.ORG_CITY_ID = #{archive.orgCityId}  
+		</if>
+		<if test="archive.orgCountyId!=null and archive.orgCountyId!=-1">
+			AND T4.ORG_COUNTY_ID = #{archive.orgCountyId}  
+		</if>
+		<if test="archive.orgLevel!=null and archive.orgLevel!=-1">
+			AND T4.ORG_LEVEL = #{archive.orgLevel}  
+		</if>
+		<if test="archive.orgTrade!=null and archive.orgTrade!=-1">
+			AND T4.ORG_TRADE = #{archive.orgTrade}  
+		</if>		
+		<if test="archive.useType!=null and archive.useType!=-1">
+			AND T4.USETYPE = #{archive.useType}  
+		</if>
+	</select>
+	
+	<!-- 根据子网段IP获取所有父网段ID -->
+	<select id="selectParentSubNetsBySubId" resultMap="subNetResultMap" parameterType="java.lang.String">
+		<![CDATA[
+			SELECT 
+			  P.SUBNET_ID,
+			  P.SUBNET_DESC 
+			FROM
+			  ${SCHEMA_BASE}.IP_SUBNET_RES C 
+			  LEFT JOIN ${SCHEMA_BASE}.IP_SUBNET_RES P 
+			    ON P.BEGIN_IP_DECIMAL <= C.BEGIN_IP_DECIMAL 
+			    AND P.END_IP_DECIMAL >= C.END_IP_DECIMAL 
+			    AND C.SUBNET_ID != P.SUBNET_ID 
+			WHERE C.SUBNET_ID = #{subnetId} AND P.SUBNET_ID IS NOT NULL
+		]]>
+	</select>
+	<select id="selectAssignSubnetByPoolId" resultMap="subNetResultBean" parameterType="java.lang.String">
+		<if test="poolId==null">
+		SELECT T1.*,T2.CITY_NAME,T3.POOL_NAME 
+		  FROM ${SCHEMA_BASE}.IP_SUBNET_RES T1
+		  LEFT OUTER JOIN ${SCHEMA_BASE}.IP_DIM_CITY T2
+		       ON T1.CITY_ID=T2.CITY_ID
+		  LEFT OUTER JOIN ${SCHEMA_BASE}.IP_POOL_CONF T3
+		       ON T1.POOL_ID=T3.POOL_ID
+		 WHERE T1.PLAN_STATUS=1 
+		 ORDER BY T1.BEGIN_IP_DECIMAL
+		</if>
+		<if test="poolId!=null">
+		SELECT T1.*,T2.CITY_NAME,T3.POOL_NAME 
+		  FROM IPMS.IP_SUBNET_RES T1
+		  LEFT OUTER JOIN IPMS.IP_DIM_CITY T2
+		       ON T1.CITY_ID=T2.CITY_ID
+		  LEFT OUTER JOIN IPMS.IP_POOL_CONF T3
+		       ON T1.POOL_ID=T3.POOL_ID
+		 WHERE T1.PLAN_STATUS=2 
+		   AND T1.POOL_ID =#{poolId}
+		 ORDER BY T1.BEGIN_IP_DECIMAL
+		</if>
+	</select>
+    <!--根据父网段id查询子网段是规划中或者已规划的-->
+    <select id="selectPlanedOrPlaningByPid" resultMap="subNetResultMap" parameterType="java.lang.String">
+       <![CDATA[ 
+        SELECT 
+          C.SUBNET_ID 
+        FROM
+          ${SCHEMA_BASE}.IP_SUBNET_RES P,
+          ${SCHEMA_BASE}.IP_SUBNET_RES C 
+        WHERE P.BEGIN_IP_DECIMAL <= C.BEGIN_IP_DECIMAL 
+          AND P.END_IP_DECIMAL >= C.END_IP_DECIMAL 
+          AND P.SUBNET_ID != C.SUBNET_ID
+          AND P.SUBNET_ID = #{subnetId} 
+          AND (C.PLAN_STATUS="3" OR C.PLAN_STATUS='2')
+          ]]>
+    </select>
+    <!--删除子网段-->
+    <delete id="deleteChildByPid" parameterType="java.lang.String">
+        <![CDATA[ 
+        DELETE 
+        FROM
+          ${SCHEMA_BASE}.IP_SUBNET_RES 
+        WHERE SUBNET_ID IN 
+          (SELECT 
+            subnet_id 
+          FROM
+            (SELECT 
+              C.SUBNET_ID 
+            FROM
+              ${SCHEMA_BASE}.IP_SUBNET_RES P,
+              ${SCHEMA_BASE}.IP_SUBNET_RES C 
+            WHERE P.BEGIN_IP_DECIMAL <= C.BEGIN_IP_DECIMAL 
+              AND P.END_IP_DECIMAL >= C.END_IP_DECIMAL 
+              AND P.SUBNET_ID != C.SUBNET_ID 
+              AND P.SUBNET_ID = #{subnetId}) T)
+          ]]>
+    </delete>
+    <!--验证新添加网段是否存在-->
+    <select id="isExistSubnet" resultMap="subNetResultMap" parameterType="java.lang.String">
+       SELECT SUBNET_ID FROM ${SCHEMA_BASE}.IP_SUBNET_RES WHERE SUBNET_DESC=#{desc}
+    </select>
+    
+</mapper>

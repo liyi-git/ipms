@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.IPPoolConfDao">
+	<resultMap id="ipPoolConfMap" type="IPPoolConfEntity">
+		<result property="poolId" column="POOL_ID"/>
+		<result property="poolName" column="POOL_NAME"/>
+		<result property="poolDesc" column="POOL_DESC"/>
+		<result property="poolPid" column="POOL_PID"/>
+		<result property="warnValve" column="WARN_VALVE"/>
+		<result property="isPlanCity" column="IS_PLAN_CITY"/>
+		<result property="isDir" column="IS_DIR"/>
+		<result property="assignType" column="ASSIGN_TYPE"/>
+		<result property="creator" column="CREATOR"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="modifier" column="MODIFIER"/>
+		<result property="modifyTime" column="MODIFY_TIME"/>
+		<result property="sortIndex" column="SORT_INDEX"/>
+		<result property="isValid" column="IS_VALID"/>
+		<result property="deep" column="DEEP"/>
+	</resultMap>
+	
+	<select id="selectAllPoolConf"  resultMap="ipPoolConfMap">
+		SELECT 
+		  A.*,
+		  COUNT(P.POOL_ID) AS DEEP 
+		FROM
+		  ${SCHEMA_BASE}.IP_POOL_CONF AS A,
+		  ${SCHEMA_BASE}.IP_POOL_CONF AS P 
+		WHERE (A.LFT BETWEEN P.LFT 
+		    AND P.RGT) 
+		  AND A.IS_VALID = 1 
+		GROUP BY A.POOL_ID
+		ORDER BY COUNT(P.POOL_ID),
+		  A.SORT_INDEX 
+	</select>
+	
+	<select id="selectPoolConfByPoolId"  resultMap="ipPoolConfMap" parameterType="java.lang.String">
+		SELECT * FROM ${SCHEMA_BASE}.IP_POOL_CONF WHERE IS_VALID=1 AND POOL_ID=#{poolId}
+	</select>
+</mapper>

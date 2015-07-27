@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.IPAddressResDao">
+	<resultMap id="BaseResultMap" type="IPAddressResEntity">
+		<id column="ADDRESS_ID" property="addressId" jdbcType="VARCHAR" />
+		<result column="ADDRESS_IP" property="addressIp" jdbcType="VARCHAR" />
+		<result column="SUBNET_ID" property="subnetId" jdbcType="VARCHAR" />
+		<result column="ADDRESS_STATUS" property="addressStatus"
+			jdbcType="SMALLINT" />
+		<result column="ADDRESS_TYPE" property="addressType" jdbcType="SMALLINT" />
+		<result column="IS_IPV6" property="isIpv6" jdbcType="SMALLINT" />
+		<result column="DEVICE_TYPE" property="deviceType" jdbcType="SMALLINT" />
+		<result column="ADDRESS_USAGE" property="addressUsage"
+			jdbcType="VARCHAR" />
+		<result column="EXPIRE_DATE" property="expireDate" jdbcType="DATE" />
+		<result column="DEVICE_MODEL" property="deviceModel" jdbcType="VARCHAR" />
+		<result column="DEVICE_POSITION" property="devicePosition"
+			jdbcType="VARCHAR" />
+		<result column="USE_PORT" property="usePort" jdbcType="VARCHAR" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="BaseResultMap2" type="IPAddressResBean"
+		extends="BaseResultMap">
+		<result column="NETMASK" property="netmask" jdbcType="VARCHAR" />
+		<result column="SUBNET_DESC" property="subnetDesc" jdbcType="VARCHAR" />
+		<result column="DEVICE_TYPE_NAME" property="deviceTypeName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+
+		ADDRESS_ID, ADDRESS_IP, SUBNET_ID, ADDRESS_STATUS,
+		ADDRESS_TYPE, IS_IPV6,
+		ADDRESS_USAGE, EXPIRE_DATE, DEVICE_MODEL,
+		DEVICE_POSITION, USE_PORT,
+		OPERATOR, OPERATE_TIME
+	</sql>
+	<select id="selectByAddressId" resultMap="BaseResultMap2"
+		parameterType="java.lang.String">
+		select T1.*,T2.NETMASK,T2.SUBNET_DESC,T3.DEVICE_TYPE_NAME
+		from ip_address_res T1
+		INNER JOIN ip_subnet_res T2
+		ON T1.SUBNET_ID=T2.SUBNET_ID 
+		LEFT OUTER JOIN ip_dim_device_type T3
+		ON T1.DEVICE_TYPE=T3.DEVICE_TYPE_ID
+		WHERE T1.ADDRESS_ID = #{addressId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAllAddressBySubnetId" resultMap="BaseResultMap2"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,T2.DEVICE_TYPE_NAME
+		from ip_address_res T1
+		LEFT OUTER
+		JOIN ip_dim_device_type T2
+		ON T2.DEVICE_TYPE_ID=T1.DEVICE_TYPE
+		where
+		SUBNET_ID=#{subnetId}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+		delete from
+		ip_address_res
+		where ADDRESS_ID = #{addressId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="IPAddressResEntity">
+
+		insert into ip_address_res
+		(ADDRESS_ID, ADDRESS_IP, SUBNET_ID,
+		ADDRESS_STATUS, ADDRESS_TYPE,
+		IS_IPV6,
+		DEVICE_TYPE, ADDRESS_USAGE, EXPIRE_DATE,
+		DEVICE_MODEL,
+		DEVICE_POSITION, USE_PORT,
+		OPERATOR, OPERATE_TIME)
+		values
+		(#{addressId,jdbcType=VARCHAR}, #{addressIp,jdbcType=VARCHAR},
+		#{subnetId,jdbcType=VARCHAR},
+		#{addressStatus,jdbcType=SMALLINT},
+		#{addressType,jdbcType=SMALLINT}, #{isIpv6,jdbcType=SMALLINT},
+		#{deviceType,jdbcType=SMALLINT}, #{addressUsage,jdbcType=VARCHAR},
+		#{expireDate,jdbcType=DATE},
+		#{deviceModel,jdbcType=VARCHAR},
+		#{devicePosition,jdbcType=VARCHAR}, #{usePort,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="IPAddressResEntity">
+
+		insert into ip_address_res
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="addressId != null">
+				ADDRESS_ID,
+			</if>
+			<if test="addressIp != null">
+				ADDRESS_IP,
+			</if>
+			<if test="subnetId != null">
+				SUBNET_ID,
+			</if>
+			<if test="addressStatus != null">
+				ADDRESS_STATUS,
+			</if>
+			<if test="addressType != null">
+				ADDRESS_TYPE,
+			</if>
+			<if test="isIpv6 != null">
+				IS_IPV6,
+			</if>
+			<if test="deviceType != null">
+				DEVICE_TYPE,
+			</if>
+			<if test="addressUsage != null">
+				ADDRESS_USAGE,
+			</if>
+			<if test="expireDate != null">
+				EXPIRE_DATE,
+			</if>
+			<if test="deviceModel != null">
+				DEVICE_MODEL,
+			</if>
+			<if test="devicePosition != null">
+				DEVICE_POSITION,
+			</if>
+			<if test="usePort != null">
+				USE_PORT,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="addressId != null">
+				#{addressId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressIp != null">
+				#{addressIp,jdbcType=VARCHAR},
+			</if>
+			<if test="subnetId != null">
+				#{subnetId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressStatus != null">
+				#{addressStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="addressType != null">
+				#{addressType,jdbcType=SMALLINT},
+			</if>
+			<if test="isIpv6 != null">
+				#{isIpv6,jdbcType=SMALLINT},
+			</if>
+			<if test="deviceType != null">
+				#{deviceType,jdbcType=SMALLINT},
+			</if>
+			<if test="addressUsage != null">
+				#{addressUsage,jdbcType=VARCHAR},
+			</if>
+			<if test="expireDate != null">
+				#{expireDate,jdbcType=DATE},
+			</if>
+			<if test="deviceModel != null">
+				#{deviceModel,jdbcType=VARCHAR},
+			</if>
+			<if test="devicePosition != null">
+				#{devicePosition,jdbcType=VARCHAR},
+			</if>
+			<if test="usePort != null">
+				#{usePort,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+    <insert id="insertBatchIp" parameterType="java.util.List" >
+        INSERT INTO ${SCHEMA_BASE}.IP_ADDRESS_RES(ADDRESS_ID, ADDRESS_IP,SUBNET_ID,ADDRESS_STATUS,ADDRESS_TYPE,IS_IPV6,OPERATE_TIME,OPERATOR) 
+        VALUES
+        <foreach collection="list" item="ip" index="index" separator=",">  
+        (#{ip.addressId, jdbcType=VARCHAR},
+            #{ip.addressIp, jdbcType=VARCHAR},
+            #{ip.subnetId, jdbcType=VARCHAR},
+            #{ip.addressStatus, jdbcType=SMALLINT},
+            #{ip.addressType, jdbcType=SMALLINT},
+            #{ip.isIpv6, jdbcType=SMALLINT},
+            #{ip.operateTime, jdbcType=TIMESTAMP},
+            #{ip.operator, jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+      <delete id="deleteIpBySubnetId" parameterType="java.lang.String" >
+        delete from ${SCHEMA_BASE}.IP_ADDRESS_RES
+        where SUBNET_ID = #{subnetId,jdbcType=VARCHAR}
+      </delete>
+	<update id="updateByPrimaryKeySelective" parameterType="IPAddressResEntity">
+
+		update ip_address_res
+		<set>
+			<if test="addressIp != null">
+				ADDRESS_IP = #{addressIp,jdbcType=VARCHAR},
+			</if>
+			<if test="subnetId != null">
+				SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressStatus != null">
+				ADDRESS_STATUS = #{addressStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="addressType != null">
+				ADDRESS_TYPE = #{addressType,jdbcType=SMALLINT},
+			</if>
+			<if test="isIpv6 != null">
+				IS_IPV6 = #{isIpv6,jdbcType=SMALLINT},
+			</if>
+			<if test="deviceType != null">
+				DEVICE_TYPE = #{deviceType,jdbcType=SMALLINT},
+			</if>
+			<if test="addressUsage != null">
+				ADDRESS_USAGE = #{addressUsage,jdbcType=VARCHAR},
+			</if>
+			<if test="expireDate != null">
+				EXPIRE_DATE = #{expireDate,jdbcType=DATE},
+			</if>
+			<if test="deviceModel != null">
+				DEVICE_MODEL = #{deviceModel,jdbcType=VARCHAR},
+			</if>
+			<if test="devicePosition != null">
+				DEVICE_POSITION = #{devicePosition,jdbcType=VARCHAR},
+			</if>
+			<if test="usePort != null">
+				USE_PORT = #{usePort,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ADDRESS_ID = #{addressId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="IPAddressResEntity">
+
+		update
+		ip_address_res
+		set ADDRESS_IP = #{addressIp,jdbcType=VARCHAR},
+		SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+		ADDRESS_STATUS =
+		#{addressStatus,jdbcType=SMALLINT},
+		ADDRESS_TYPE =
+		#{addressType,jdbcType=SMALLINT},
+		IS_IPV6 =
+		#{isIpv6,jdbcType=SMALLINT},
+		DEVICE_TYPE =
+		#{deviceType,jdbcType=SMALLINT},
+		ADDRESS_USAGE =
+		#{addressUsage,jdbcType=VARCHAR},
+		EXPIRE_DATE =
+		#{expireDate,jdbcType=DATE},
+		DEVICE_MODEL =
+		#{deviceModel,jdbcType=VARCHAR},
+		DEVICE_POSITION =
+		#{devicePosition,jdbcType=VARCHAR},
+		USE_PORT =
+		#{usePort,jdbcType=VARCHAR},
+		OPERATOR = #{operator,jdbcType=VARCHAR},
+		OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP}
+		where ADDRESS_ID =
+		#{addressId,jdbcType=VARCHAR}
+	</update>
+</mapper>

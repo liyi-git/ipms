@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="_DBAdapter">
+	<sql id="Func_decimal">
+		<if test="_databaseId == 'oracle'">
+			number(20,4)
+		</if>
+		<if test="_databaseId == 'db2'">
+			decimal(20,4)
+		</if>
+		<if test="_databaseId == 'mysql'">
+			decimal(20,4)
+		</if>
+	</sql>
+	<sql id="VAR_currentDate">
+		<if test="_databaseId == 'oracle'">
+			sysdate
+		</if>
+		<if test="_databaseId == 'db2'">
+			current date
+		</if>
+		<if test="_databaseId == 'mysql'">
+			curdate()
+		</if>
+	</sql>
+	<sql id="VAR_currentTime">
+		<if test="_databaseId == 'oracle'">
+			sysdate
+		</if>
+		<if test="_databaseId == 'db2'">
+			current timestamp
+		</if>
+		<if test="_databaseId == 'mysql'">
+			now()
+		</if>
+	</sql>
+	<sql id="VAR_dual">
+		<if test="_databaseId == 'oracle'">
+			dual
+		</if>
+		<if test="_databaseId == 'db2'">
+			SYSIBM.SYSDUMMY1
+		</if>
+		<if test="_databaseId == 'mysql'">
+			dual
+		</if>
+	</sql>
+	<sql id="FORMAT_func">
+		<if test="_databaseId == 'oracle'">
+			TO_CHAR
+		</if>
+		<if test="_databaseId == 'db2'">
+			TO_CHAR
+		</if>
+		<if test="_databaseId == 'mysql'">
+			date_format
+		</if>
+	</sql>
+	<sql id="FORMAT_varToDate">
+		<if test="_databaseId == 'oracle'">
+			TO_DATE
+		</if>
+		<if test="_databaseId == 'db2'">
+			TO_DATE
+		</if>
+		<if test="_databaseId == 'mysql'">
+			STR_TO_DATE
+		</if>
+	</sql>
+	<sql id="FORMAT_Expression">
+		<if test="_databaseId == 'oracle'">
+			'yyyyMMdd'
+		</if>
+		<if test="_databaseId == 'db2'">
+			'yyyyMMdd'
+		</if>
+		<if test="_databaseId == 'mysql'">
+			'%Y%m%d'
+		</if>
+	</sql>
+	<sql id="FORMAT_Expression_date">
+		<if test="_databaseId == 'oracle'">
+			'YYYY-MM-DD'
+		</if>
+		<if test="_databaseId == 'db2'">
+			'YYYY-MM-DD'
+		</if>
+		<if test="_databaseId == 'mysql'">
+			'%Y-%m-%d'
+		</if>
+	</sql>
+	<sql id="FORMAT_Expression_timestamp">
+		<if test="_databaseId == 'oracle'">
+			'YYYY-MM-DD HH24:MI:SS'
+		</if>
+		<if test="_databaseId == 'db2'">
+			'YYYY-MM-DD HH24:MI:SS'
+		</if>
+		<if test="_databaseId == 'mysql'">
+			'%Y-%m-%d %H:%i:%s'
+		</if>
+	</sql>
+	<sql id="FORMAT_Expression_number">
+		<if test="_databaseId == 'oracle'">
+			TO_NUMBER
+		</if>
+		<if test="_databaseId == 'db2'">
+			TO_NUMBER
+		</if>
+		<if test="_databaseId == 'mysql'">
+			CAST
+		</if>
+	</sql>
+</mapper>

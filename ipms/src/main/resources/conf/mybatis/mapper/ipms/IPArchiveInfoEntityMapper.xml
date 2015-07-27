@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.IPArchiveInfoDao">
+	<resultMap id="BaseResultMap" type="IPArchiveInfoEntity">
+
+		<id column="ARCHIVE_ID" property="archiveId" jdbcType="VARCHAR" />
+		<result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+		<result column="POOL_ID" property="poolId" jdbcType="VARCHAR" />
+		<result column="SUBNET_ID" property="subnetId" jdbcType="VARCHAR" />
+		<result column="IP_COUNT" property="ipCount" jdbcType="INTEGER" />
+		<result column="APPLY_REASON" property="applyReason" jdbcType="VARCHAR" />
+		<result column="INVALID_DATE" property="invalidDate" jdbcType="DATE" />
+		<result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+		<result column="APPLICANT" property="applicant" jdbcType="VARCHAR" />
+		<result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="BEGIN_IP" property="beginIp" jdbcType="VARCHAR" />
+		<result column="END_IP" property="endIp" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="ORG_TYPE" property="orgType" jdbcType="VARCHAR" />
+		<result column="LICENCE_CODE" property="licenceCode" jdbcType="VARCHAR" />
+		<result column="ORG_NATURE" property="orgNature" jdbcType="VARCHAR" />
+		<result column="ORG_PROV_ID" property="orgProvId" jdbcType="VARCHAR" />
+		<result column="ORG_CITY_ID" property="orgCityId" jdbcType="VARCHAR" />
+		<result column="ORG_COUNTY_ID" property="orgCountyId" jdbcType="VARCHAR" />
+		<result column="ORG_LEVEL" property="orgLevel" jdbcType="VARCHAR" />
+		<result column="ORG_TRADE" property="orgTrade" jdbcType="VARCHAR" />
+		<result column="ORG_ADDRESS" property="orgAddress" jdbcType="VARCHAR" />
+		<result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+		<result column="CONTACT_PHONE" property="contactPhone"
+			jdbcType="VARCHAR" />
+		<result column="CONTACT_EMAIL" property="contactEmail"
+			jdbcType="VARCHAR" />
+		<result column="GATEWAY_PLACE" property="gatewayPlace"
+			jdbcType="VARCHAR" />
+		<result column="USE_TYPE" property="useType" jdbcType="VARCHAR" />
+		<result column="USE_DATE" property="useDate" jdbcType="DATE" />
+		<result column="GATEWAY_IP" property="gatewayIp" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+
+		ARCHIVE_ID, APPLY_ID, POOL_ID, SUBNET_ID, IP_COUNT, APPLY_REASON, INVALID_DATE,
+		AREA_ID,
+		APPLICANT, APPLY_TIME, BEGIN_IP, END_IP, ORG_NAME, ORG_TYPE, LICENCE_CODE,
+		ORG_NATURE,
+		ORG_PROV_ID, ORG_CITY_ID, ORG_COUNTY_ID, ORG_LEVEL, ORG_TRADE, ORG_ADDRESS,
+		LINKMAN,
+		CONTACT_PHONE, CONTACT_EMAIL, GATEWAY_PLACE, USE_TYPE, USE_DATE, GATEWAY_IP
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+
+		select
+		<include refid="Base_Column_List" />
+		from ${SCHEMA_BASE}.ip_archive_info
+		where ARCHIVE_ID = #{archiveId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+		delete from ${SCHEMA_BASE}.ip_archive_info
+		where ARCHIVE_ID = #{archiveId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="IPArchiveInfoEntity">
+
+		insert into ${SCHEMA_BASE}.ip_archive_info (ARCHIVE_ID, APPLY_ID, POOL_ID,
+		SUBNET_ID, IP_COUNT, APPLY_REASON,
+		INVALID_DATE, AREA_ID, APPLICANT,
+		APPLY_TIME, BEGIN_IP, END_IP,
+		ORG_NAME, ORG_TYPE, LICENCE_CODE,
+		ORG_NATURE, ORG_PROV_ID, ORG_CITY_ID,
+		ORG_COUNTY_ID, ORG_LEVEL, ORG_TRADE,
+		ORG_ADDRESS, LINKMAN, CONTACT_PHONE,
+		CONTACT_EMAIL, GATEWAY_PLACE, USE_TYPE,
+		USE_DATE, GATEWAY_IP)
+		values (#{archiveId,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR},
+		#{poolId,jdbcType=VARCHAR},
+		#{subnetId,jdbcType=VARCHAR}, #{ipCount,jdbcType=INTEGER}, #{applyReason,jdbcType=VARCHAR},
+		#{invalidDate,jdbcType=DATE}, #{areaId,jdbcType=VARCHAR},
+		#{applicant,jdbcType=VARCHAR},
+		#{applyTime,jdbcType=TIMESTAMP}, #{beginIp,jdbcType=VARCHAR}, #{endIp,jdbcType=VARCHAR},
+		#{orgName,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR},
+		#{licenceCode,jdbcType=VARCHAR},
+		#{orgNature,jdbcType=VARCHAR}, #{orgProvId,jdbcType=VARCHAR}, #{orgCityId,jdbcType=VARCHAR},
+		#{orgCountyId,jdbcType=VARCHAR}, #{orgLevel,jdbcType=VARCHAR},
+		#{orgTrade,jdbcType=VARCHAR},
+		#{orgAddress,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR},
+		#{contactEmail,jdbcType=VARCHAR}, #{gatewayPlace,jdbcType=VARCHAR},
+		#{useType,jdbcType=VARCHAR},
+		#{useDate,jdbcType=DATE}, #{gatewayIp,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="IPArchiveInfoEntity">
+
+		insert into ${SCHEMA_BASE}.ip_archive_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="archiveId != null">
+				ARCHIVE_ID,
+			</if>
+			<if test="applyId != null">
+				APPLY_ID,
+			</if>
+			<if test="poolId != null">
+				POOL_ID,
+			</if>
+			<if test="subnetId != null">
+				SUBNET_ID,
+			</if>
+			<if test="ipCount != null">
+				IP_COUNT,
+			</if>
+			<if test="applyReason != null">
+				APPLY_REASON,
+			</if>
+			<if test="invalidDate != null">
+				INVALID_DATE,
+			</if>
+			<if test="areaId != null">
+				AREA_ID,
+			</if>
+			<if test="applicant != null">
+				APPLICANT,
+			</if>
+			<if test="applyTime != null">
+				APPLY_TIME,
+			</if>
+			<if test="beginIp != null">
+				BEGIN_IP,
+			</if>
+			<if test="endIp != null">
+				END_IP,
+			</if>
+			<if test="orgName != null">
+				ORG_NAME,
+			</if>
+			<if test="orgType != null">
+				ORG_TYPE,
+			</if>
+			<if test="licenceCode != null">
+				LICENCE_CODE,
+			</if>
+			<if test="orgNature != null">
+				ORG_NATURE,
+			</if>
+			<if test="orgProvId != null">
+				ORG_PROV_ID,
+			</if>
+			<if test="orgCityId != null">
+				ORG_CITY_ID,
+			</if>
+			<if test="orgCountyId != null">
+				ORG_COUNTY_ID,
+			</if>
+			<if test="orgLevel != null">
+				ORG_LEVEL,
+			</if>
+			<if test="orgTrade != null">
+				ORG_TRADE,
+			</if>
+			<if test="orgAddress != null">
+				ORG_ADDRESS,
+			</if>
+			<if test="linkman != null">
+				LINKMAN,
+			</if>
+			<if test="contactPhone != null">
+				CONTACT_PHONE,
+			</if>
+			<if test="contactEmail != null">
+				CONTACT_EMAIL,
+			</if>
+			<if test="gatewayPlace != null">
+				GATEWAY_PLACE,
+			</if>
+			<if test="useType != null">
+				USE_TYPE,
+			</if>
+			<if test="useDate != null">
+				USE_DATE,
+			</if>
+			<if test="gatewayIp != null">
+				GATEWAY_IP,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="archiveId != null">
+				#{archiveId,jdbcType=VARCHAR},
+			</if>
+			<if test="applyId != null">
+				#{applyId,jdbcType=VARCHAR},
+			</if>
+			<if test="poolId != null">
+				#{poolId,jdbcType=VARCHAR},
+			</if>
+			<if test="subnetId != null">
+				#{subnetId,jdbcType=VARCHAR},
+			</if>
+			<if test="ipCount != null">
+				#{ipCount,jdbcType=INTEGER},
+			</if>
+			<if test="applyReason != null">
+				#{applyReason,jdbcType=VARCHAR},
+			</if>
+			<if test="invalidDate != null">
+				#{invalidDate,jdbcType=DATE},
+			</if>
+			<if test="areaId != null">
+				#{areaId,jdbcType=VARCHAR},
+			</if>
+			<if test="applicant != null">
+				#{applicant,jdbcType=VARCHAR},
+			</if>
+			<if test="applyTime != null">
+				#{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginIp != null">
+				#{beginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="endIp != null">
+				#{endIp,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgType != null">
+				#{orgType,jdbcType=VARCHAR},
+			</if>
+			<if test="licenceCode != null">
+				#{licenceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="orgNature != null">
+				#{orgNature,jdbcType=VARCHAR},
+			</if>
+			<if test="orgProvId != null">
+				#{orgProvId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgCityId != null">
+				#{orgCityId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgCountyId != null">
+				#{orgCountyId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgLevel != null">
+				#{orgLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="orgTrade != null">
+				#{orgTrade,jdbcType=VARCHAR},
+			</if>
+			<if test="orgAddress != null">
+				#{orgAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="linkman != null">
+				#{linkman,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPhone != null">
+				#{contactPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactEmail != null">
+				#{contactEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="gatewayPlace != null">
+				#{gatewayPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="useType != null">
+				#{useType,jdbcType=VARCHAR},
+			</if>
+			<if test="useDate != null">
+				#{useDate,jdbcType=DATE},
+			</if>
+			<if test="gatewayIp != null">
+				#{gatewayIp,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="IPArchiveInfoEntity">
+
+		update ${SCHEMA_BASE}.ip_archive_info
+		<set>
+			<if test="applyId != null">
+				APPLY_ID = #{applyId,jdbcType=VARCHAR},
+			</if>
+			<if test="poolId != null">
+				POOL_ID = #{poolId,jdbcType=VARCHAR},
+			</if>
+			<if test="subnetId != null">
+				SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+			</if>
+			<if test="ipCount != null">
+				IP_COUNT = #{ipCount,jdbcType=INTEGER},
+			</if>
+			<if test="applyReason != null">
+				APPLY_REASON = #{applyReason,jdbcType=VARCHAR},
+			</if>
+			<if test="invalidDate != null">
+				INVALID_DATE = #{invalidDate,jdbcType=DATE},
+			</if>
+			<if test="areaId != null">
+				AREA_ID = #{areaId,jdbcType=VARCHAR},
+			</if>
+			<if test="applicant != null">
+				APPLICANT = #{applicant,jdbcType=VARCHAR},
+			</if>
+			<if test="applyTime != null">
+				APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginIp != null">
+				BEGIN_IP = #{beginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="endIp != null">
+				END_IP = #{endIp,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				ORG_NAME = #{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgType != null">
+				ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+			</if>
+			<if test="licenceCode != null">
+				LICENCE_CODE = #{licenceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="orgNature != null">
+				ORG_NATURE = #{orgNature,jdbcType=VARCHAR},
+			</if>
+			<if test="orgProvId != null">
+				ORG_PROV_ID = #{orgProvId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgCityId != null">
+				ORG_CITY_ID = #{orgCityId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgCountyId != null">
+				ORG_COUNTY_ID = #{orgCountyId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgLevel != null">
+				ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="orgTrade != null">
+				ORG_TRADE = #{orgTrade,jdbcType=VARCHAR},
+			</if>
+			<if test="orgAddress != null">
+				ORG_ADDRESS = #{orgAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="linkman != null">
+				LINKMAN = #{linkman,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPhone != null">
+				CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactEmail != null">
+				CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="gatewayPlace != null">
+				GATEWAY_PLACE = #{gatewayPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="useType != null">
+				USE_TYPE = #{useType,jdbcType=VARCHAR},
+			</if>
+			<if test="useDate != null">
+				USE_DATE = #{useDate,jdbcType=DATE},
+			</if>
+			<if test="gatewayIp != null">
+				GATEWAY_IP = #{gatewayIp,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ARCHIVE_ID = #{archiveId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="IPArchiveInfoEntity">
+
+		update ${SCHEMA_BASE}.ip_archive_info
+		set APPLY_ID = #{applyId,jdbcType=VARCHAR},
+		POOL_ID = #{poolId,jdbcType=VARCHAR},
+		SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+		IP_COUNT = #{ipCount,jdbcType=INTEGER},
+		APPLY_REASON = #{applyReason,jdbcType=VARCHAR},
+		INVALID_DATE = #{invalidDate,jdbcType=DATE},
+		AREA_ID = #{areaId,jdbcType=VARCHAR},
+		APPLICANT = #{applicant,jdbcType=VARCHAR},
+		APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+		BEGIN_IP = #{beginIp,jdbcType=VARCHAR},
+		END_IP = #{endIp,jdbcType=VARCHAR},
+		ORG_NAME = #{orgName,jdbcType=VARCHAR},
+		ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+		LICENCE_CODE = #{licenceCode,jdbcType=VARCHAR},
+		ORG_NATURE = #{orgNature,jdbcType=VARCHAR},
+		ORG_PROV_ID = #{orgProvId,jdbcType=VARCHAR},
+		ORG_CITY_ID = #{orgCityId,jdbcType=VARCHAR},
+		ORG_COUNTY_ID = #{orgCountyId,jdbcType=VARCHAR},
+		ORG_LEVEL = #{orgLevel,jdbcType=VARCHAR},
+		ORG_TRADE = #{orgTrade,jdbcType=VARCHAR},
+		ORG_ADDRESS = #{orgAddress,jdbcType=VARCHAR},
+		LINKMAN = #{linkman,jdbcType=VARCHAR},
+		CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+		CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+		GATEWAY_PLACE = #{gatewayPlace,jdbcType=VARCHAR},
+		USE_TYPE = #{useType,jdbcType=VARCHAR},
+		USE_DATE = #{useDate,jdbcType=DATE},
+		GATEWAY_IP = #{gatewayIp,jdbcType=VARCHAR}
+		where ARCHIVE_ID = #{archiveId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectBySubNetId" parameterType="String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ${SCHEMA_BASE}.ip_archive_info
+		where SUBNET_ID = #{subnetId}
+		order by APPLY_TIME desc limit 1
+	</select>
+</mapper>

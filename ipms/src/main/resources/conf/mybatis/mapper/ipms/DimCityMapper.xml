@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.DimCityDao">
+	<resultMap id="dimCityMap" type="DimCityEntity">
+		<result property="cityId" column="CITY_ID"/>
+		<result property="cityName" column="CITY_NAME"/>
+		<result property="cityDesc" column="CITY_DESC"/>
+		<result property="sortIndex" column="SORT_INDEX"/>
+		<result property="isValid" column="IS_VALID"/>
+	</resultMap>
+	
+	<select id="selectAllCity"  resultMap="dimCityMap">
+		SELECT * FROM ${SCHEMA_BASE}.IP_DIM_CITY WHERE IS_VALID=1 ORDER BY SORT_INDEX
+	</select>
+	
+	<select id="selectCityById"  resultMap="dimCityMap" parameterType="java.lang.String">
+		SELECT * FROM ${SCHEMA_BASE}.IP_DIM_CITY WHERE CITY_ID=#{cityId}
+	</select>
+</mapper>

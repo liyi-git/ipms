@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.privilege.sysmgr.dao.SysMenuDao">
+	<resultMap id="BaseResultMap" type="SysMenuEntity">
+		<result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+		<result column="MENU_PID" property="menuPid" jdbcType="VARCHAR" />
+		<result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+		<result column="MENU_DESC" property="menuDesc" jdbcType="VARCHAR" />
+		<result column="MENU_TYPE" property="menuType" jdbcType="SMALLINT" />
+		<result column="MENU_LEVEL" property="menuLevel" jdbcType="SMALLINT" />
+		<result column="URL_PATH" property="urlPath" jdbcType="VARCHAR" />
+		<result column="IS_VALID" property="isValid" jdbcType="SMALLINT" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_USER" property="modifyUser" jdbcType="VARCHAR" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="MENU_CLS" property="menuCls" jdbcType="VARCHAR" />
+	</resultMap>
+    <sql id="allColumn">
+       MENU_ID, MENU_PID, MENU_NAME,MENU_DESC, MENU_TYPE, MENU_LEVEL,URL_PATH, IS_VALID, CREATE_USER,
+       CREATE_TIME, MODIFY_USER, MODIFY_TIME,MENU_CLS
+    </sql>
+	<insert id="insert" parameterType="SysMenuEntity">
+		insert into ip_sys_menu (MENU_ID, MENU_PID, MENU_NAME,
+		MENU_DESC, MENU_TYPE, MENU_LEVEL,
+		URL_PATH, IS_VALID, CREATE_USER,
+		CREATE_TIME, MODIFY_USER, MODIFY_TIME,MENU_CLS
+		)
+		values (#{menuId,jdbcType=VARCHAR}, #{menuPid,jdbcType=VARCHAR},
+		#{menuName,jdbcType=VARCHAR},
+		#{menuDesc,jdbcType=VARCHAR}, #{menuType,jdbcType=SMALLINT}, #{menuLevel,jdbcType=SMALLINT},
+		#{urlPath,jdbcType=VARCHAR}, #{isValid,jdbcType=SMALLINT},
+		#{createUser,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},#{menuCls,jdbcType=VARCHAR}
+		)
+	</insert>
+    <select id="selectAllMenu" resultMap="BaseResultMap">
+        SELECT
+            <include refid="allColumn"/>
+        FROM
+            ${SCHEMA_BASE}.IP_SYS_MENU
+        WHERE     
+            IS_VALID != -1
+    </select>
+</mapper>

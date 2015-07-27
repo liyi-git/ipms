@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.ipms.dao.IPStatisticDao">
+	<select id="statIPPlanStatusForPool" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		<if test="poolId==null">
+			SELECT T.PLAN_STATUS name,SUM(T.IP_COUNT) value
+			FROM
+			${SCHEMA_BASE}.VW_SUBNET_STAT T
+			WHERE T.SUBNET_COUNT=0
+			GROUP BY
+			T.PLAN_STATUS
+		</if>
+		<if test="poolId!=null">
+			SELECT T1.PLAN_STATUS name ,SUM(T1.IP_COUNT) value
+			FROM
+			${SCHEMA_BASE}.VW_SUBNET_STAT T1
+			INNER JOIN (SELECT POOL_ID,POOL_NAME
+			FROM ${SCHEMA_BASE}.VW_POOL_HIERARCHY WHERE POOL_PID=#{poolId})T2
+			WHERE
+			T1.SUBNET_COUNT=0 AND T1.POOL_ID=T2.POOL_ID
+			<if test="cityId!=null">
+				AND T1.CITY_ID=#{cityId}
+			</if>
+			GROUP BY
+			T1.PLAN_STATUS
+		</if>
+	</select>
+	<select id="statIPUseStatusForPool" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		<if test="poolId==null">
+			SELECT T.USE_STATUS name,SUM(T.IP_COUNT) value
+			FROM
+			IPMS.VW_SUBNET_STAT T
+			WHERE T.SUBNET_COUNT=0
+			<if test="cityId!=null">
+				AND T.CITY_ID=#{cityId}
+			</if>
+			GROUP BY T.USE_STATUS
+		</if>
+		<if test="poolId!=null">
+			SELECT T1.USE_STATUS name,SUM(T1.IP_COUNT) value
+			FROM
+			${SCHEMA_BASE}.VW_SUBNET_STAT T1
+			INNER JOIN (SELECT POOL_ID,POOL_NAME
+			FROM ${SCHEMA_BASE}.VW_POOL_HIERARCHY WHERE POOL_PID=#{poolId})T2
+			WHERE
+			T1.SUBNET_COUNT=0 AND T1.POOL_ID=T2.POOL_ID
+			<if test="cityId!=null">
+				AND T1.CITY_ID=#{cityId}
+			</if>
+			GROUP BY
+			T1.USE_STATUS
+		</if>
+	</select>
+</mapper>

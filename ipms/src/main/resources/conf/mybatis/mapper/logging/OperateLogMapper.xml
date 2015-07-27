@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.logging.dao.OperateLogDao">
+	<resultMap id="BaseResultMap" type="OperateLogEntity">
+		<id column="LOG_ID" property="logId" jdbcType="VARCHAR" />
+		<result column="OPERATE_TYPE" property="operateType" jdbcType="VARCHAR" />
+		<result column="OPERATE_OBJ" property="operateObj" jdbcType="VARCHAR" />
+		<result column="OBJ_TYPE" property="objType" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+		<result column="POOL_ID" property="poolId" jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+		<result column="POOL_NAME" property="poolName" jdbcType="VARCHAR" />
+		<result column="OPERATE_CONT" property="operateCont" jdbcType="VARCHAR" />
+		<result column="OPERATE_SOURCE" property="operateSource"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectLogsByCond" parameterType="OperateLogEntity"
+		resultMap="BaseResultMap">
+		select T1.*,T2.POOL_NAME,T3.CITY_NAME from ip_operate_log T1
+		left outer
+		join ip_pool_conf T2
+		on T1.POOL_ID=T2.POOL_ID
+		left outer join
+		ip_dim_city T3
+		on T1.CITY_ID=T3.CITY_ID
+		where 1=1
+		<if test="operLog.operateType!=null and operLog.operateType!='-1'">
+			AND T1.OPERATE_TYPE=#{operLog.operateType}
+		</if>
+		<if
+			test="operLog.operateSource!=null and operLog.operateSource!='' and operLog.operateSource!='-1'">
+			AND T1.OPERATE_SOURCE=#{operLog.operateSource}
+		</if>
+		<if test="operLog.operator!=null and operLog.operator!=''">
+			AND T1.OPERATOR like CONCAT('%',#{operLog.operator},'%')
+		</if>
+		<if
+			test="operLog.operateObj!=null and operLog.operateObj!='-1' and operLog.operateObj!='-9'">
+			AND T1.OPERATE_OBJ=#{operLog.operateObj}
+		</if>
+		<if
+			test="operLog.objType!=null and operLog.objType!='' and operLog.objType!='-1'">
+			AND T1.OBJ_TYPE=#{operLog.objType}
+		</if>
+		<if
+			test="operLog.cityId!=null and operLog.cityId!='' and operLog.cityId!='-1'">
+			AND T1.CITY_ID=#{operLog.cityId}
+		</if>
+		<if
+			test="operLog.poolId!=null and operLog.poolId!='' and operLog.poolId!='-1'">
+			AND T1.POOL_ID=#{operLog.poolId}
+		</if>
+		order by T1.OPERATE_TIME desc
+	</select>
+	<insert id="insert" parameterType="OperateLogEntity">
+		INSERT INTO IP_OPERATE_LOG
+		(LOG_ID, OPERATE_TYPE,OPERATE_OBJ,OBJ_TYPE, POOL_ID,CITY_ID,OPERATE_CONT, OPERATE_SOURCE, OPERATOR,
+        OPERATE_TIME)
+		values
+		(#{logId,jdbcType=VARCHAR}, #{operateType,jdbcType=VARCHAR},
+		#{operateObj,jdbcType=VARCHAR}, #{objType,jdbcType=VARCHAR},
+        #{poolId,jdbcType=VARCHAR},#{cityId,jdbcType=VARCHAR},
+		#{operateCont,jdbcType=VARCHAR}, #{operateSource,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR},
+		#{operateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO IP_OPERATE_LOG
+		(LOG_ID, OPERATE_TYPE,OPERATE_OBJ,OBJ_TYPE,POOL_ID,
+        CITY_ID, OPERATE_CONT, OPERATE_SOURCE, OPERATOR,
+        OPERATE_TIME) values
+		<foreach collection="loglist" item="item" index="index" separator=",">
+			(#{item.logId,jdbcType=VARCHAR},
+             #{item.operateType,jdbcType=VARCHAR},#{item.operateObj,jdbcType=VARCHAR},
+             #{item.objType,jdbcType=VARCHAR},#{item.poolId,jdbcType=VARCHAR},
+             #{item.cityId,jdbcType=VARCHAR},
+             #{item.operateCont,jdbcType=VARCHAR},
+			 #{item.operateSource,jdbcType=VARCHAR},
+			 #{item.operator,jdbcType=VARCHAR},
+			 #{item.operateTime,jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+</mapper>
