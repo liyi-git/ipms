@@ -50,8 +50,6 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
         {
             throw new LockedAccountException(); //帐号锁定
         }
-        user.setSalt("5c442f9dea3c6bdfb13961a510054bfa");
-        user.setPassword("cfec3f9ac4b6bb4b771c4fc3fbfe404a");
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getUserId(), user.getPassword(),
             ByteSource.Util.bytes(user.getCredentialsSalt()), getName());
         return authenticationInfo;

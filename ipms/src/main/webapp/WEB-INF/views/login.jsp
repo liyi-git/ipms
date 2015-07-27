@@ -26,10 +26,10 @@
 						<div style="color: red;">帐号被锁定!</div>
 					</c:if>
 					<c:if test="${LOGIN_ERROR!='org.apache.shiro.authc.LockedAccountException'}">
-						<div style="color: red;">登录验证失败</div>
+						<div style="color: red;">用户名密码不正确，登录验证失败!</div>
 					</c:if>	
 				</c:if>
-					<form action="<c:url value="/login"/>" method="post">
+					<form name="loginForm" id="loginForm" action="<c:url value="/login"/>" method="post">
 						<div class="form-group">
 							<input  class="form-input" name="username" type="text" value="" placeholder="账号">
 						</div>
