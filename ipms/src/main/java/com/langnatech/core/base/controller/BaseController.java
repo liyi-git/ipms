@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 该类是可以被其他所有的controller继承的基类，里面提供了一些基于controller层的公共方法。
  * 
- * @author NanBo
+ * @author
  * @version V0.0.1-SNAPSHOT 日期：2014-10-12
  * @since 0.0.1-SNAPSHOT
  */
