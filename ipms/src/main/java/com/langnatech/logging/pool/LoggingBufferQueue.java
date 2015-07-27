@@ -94,7 +94,7 @@ public enum LoggingBufferQueue
                 multimap.put(loggingBean.getLogType(), loggingBean);
             }
 
-            for (LoggingTypeEnum loggingType : multimap.keys())
+            for (LoggingTypeEnum loggingType : multimap.keySet())
             {
                 try
                 {
