@@ -1,0 +1,70 @@
+/***********ailk 图标 ailk.ui-icons.css***********/
+@charset "UTF-8";
+/**查询小图标**/
+.aui-icon{
+	background:url("images/ailk.ui-icons.png") no-repeat;
+	*min-height: 1px;
+	*min-width: 1px;
+	*display:inline-block;
+}
+/**图标x：大小18 间距20 后缀g为灰色y:0,b为蓝色y:190,w为白色y:380**/
+/**查询**/
+.aui-icon-query-g {background-position:-76px -76px;}
+.aui-icon-query-b {background-position:-76px -266px;}
+.aui-icon-query-w {background-position:-76px -456px;}
+/**导出**/
+.aui-icon-export-g {background-position:-38px 0;}
+.aui-icon-export-b {background-position:-38px -190px;}
+.aui-icon-export-w {background-position:-38px -380px;}
+/**下载**/
+.aui-icon-download-g {background-position: -342px -38px;}
+.aui-icon-download-b {background-position: -342px -228px;}
+.aui-icon-download-w {background-position: -342px -418px;}
+/**列定制**/
+.aui-icon-custom-g {background-position: -228px -76px;}
+.aui-icon-custom-b {background-position: -228px -266px;}
+.aui-icon-custom-w {background-position: -228px -456px;}
+/**帮助**/
+.aui-icon-help-g {background-position: -152px -38px;}
+.aui-icon-help-b {background-position: -152px -228px;}
+.aui-icon-help-w {background-position: -152px -418px;}
+/**提示**/
+.aui-icon-tips-g {background-position: -114px -38px;}
+.aui-icon-tips-b {background-position: -114px -228px;}
+.aui-icon-tips-w {background-position: -114px -418px;}
+/**日历**/
+.aui-icon-calendar-g {background-position: -537px -76px;}
+.aui-icon-calendar-b {background-position: -537px -266px;}
+.aui-icon-calendar-w {background-position: -537px -456px;}
+/**对比**/
+.aui-icon-compare-g {background-position: -499px 0;}
+.aui-icon-compare-b {background-position: -537px -190px;}
+.aui-icon-compare-w {background-position: -537px -380px;}
+/**书签**/
+.aui-icon-bookmark-b {background-position: -651px -304px;}
+/**返回**/
+.aui-icon-back-w{background-position: -114px -532px;}
+/**查看*/
+.aui-icon-view-g{background-position: -608px -114px;}
+.aui-icon-view-b{background-position: -608px -304px;}
+.aui-icon-view-w{background-position: -608px -494px;}
+/**展开+*/
+.aui-icon-open-g{background-position:0px -38px;}
+.aui-icon-open-b{background-position:0px -228px;}
+.aui-icon-open-w{background-position:0px -418px;}
+/**收缩-*/
+.aui-icon-unfold-g{background-position:-38px -38px;}
+.aui-icon-unfold-b{background-position:-38px -228px;}
+.aui-icon-unfold-w{background-position:-38px -418px;}
+/**展开 向下*/
+.aui-icon-drop-g{background-position:-456px -38px;}
+.aui-icon-drop-b{background-position:-456px -228px;}
+.aui-icon-drop-w{background-position:-456px -418px;}
+/**收起 向上*/
+.aui-icon-raise-g{background-position:-494px -38px;}
+.aui-icon-raise-b{background-position:-494px -228px;}
+.aui-icon-raise-w{background-position:-494px -418px;}
+/**确定*/
+.aui-icon-confirm-g { background-position: -304px  0px;}
+.aui-icon-confirm-b { background-position: -304px  -190px;}
+.aui-icon-confirm-w {  background-position: -304px  -380px;}

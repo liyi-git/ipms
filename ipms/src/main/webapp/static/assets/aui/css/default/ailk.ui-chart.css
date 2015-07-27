@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.aui-chart-panel{
+	height:300px;
+	width:100%;
+}
+.aui-chart-popup{
+	height:300px;
+	width:800px;
+}

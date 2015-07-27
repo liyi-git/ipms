@@ -1,0 +1,50 @@
+require([ 'jquery', 'ztree', 'aui/tabs','table'], function($) {
+	var gridConfig={
+		getSource:	function(poolId){
+			return new $.jqx.dataAdapter({
+	            dataType: "json",
+	            dataFields: [
+			        { name: 'POOL_ID', type: 'string' },
+			        { name: 'POOL_NAME', type: 'string' },
+	                { name: 'IP_COUNT', type: 'int' },
+	                { name: 'KEEP_COUNT', type: 'int' },
+	                { name: 'USE_COUNT', type: 'int' }
+	            ],
+	            url: _g_const.ctx+"/pool/statistics?poolId="+poolId
+	        });
+		},
+        columns:[
+	         { text: '地址池', dataField: 'POOL_ID',displayField:'POOL_NAME',align: 'center', cellsAlign: 'left',minWidth:150},
+	         { text: 'IP数量', dataField: 'IP_COUNT',align: 'center', cellsAlign: 'right',width:120},
+	         { text: '预留IP数量', dataField: 'KEEP_COUNT',align: 'center', cellsAlign: 'right',width:120},
+	         { text: '已使用IP数量', dataField: 'USE_COUNT',align: 'center', cellsAlign: 'right',width:120},
+	         { text: '空闲IP数量',align: 'center', cellsAlign: 'right',width:120,cellsRenderer: function (row, column, value, rowData) {
+	         	return rowData['IP_COUNT']-rowData['USE_COUNT']-rowData['KEEP_COUNT'];
+	         } },
+	         { text: 'IP使用率',align: 'center', cellsAlign: 'left',width:150,cellsRenderer: function (row, column, value, rowData) {
+	             var val=rowData['USE_COUNT']/rowData['IP_COUNT']*100;
+	             var s = '<div style="width:100%;border:1px solid #ccc">';
+	             if(val){
+	             	s+='<div style="width:' + val + '%;background:#5ab0ee;color:#fff;font-size:12px;padding-left:2px 0 2px 3px;">'+ val + '%' + '</div>';
+	             }else{
+	             	s+='<div style="font-size:12px;padding:2px 0 2px 3px;">0%</div>'
+	             }
+	             return s;
+	         } },
+	         { text: '操作',align: 'center', cellsAlign: 'center',cellsRenderer: function (row, column, value, rowData) {
+	         	return "<a href='javascript:;'>查看</a>"
+	         }}
+	     ]
+	};	
+	$(document).ready(function() {
+		$('#pool-view-tab').tabs();
+		var $statTable=$("#pool-stat-Table");
+		$statTable.jqxDataTable({
+            width: '100%',
+            pageable: false,
+            source: gridConfig.getSource($statTable.attr('poolId')),
+            columnsResize: false,
+            columns: gridConfig.columns
+        });
+	});
+});

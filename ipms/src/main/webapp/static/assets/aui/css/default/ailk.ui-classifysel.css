@@ -1,0 +1,309 @@
+/***********ailk页面区块样式ailk.ui-classifysel.css*应用内容的分类选取*************/
+@charset "UTF-8";
+.aui-box-classify{
+	border:2px solid #66a8ef;
+   	box-shadow: 0 2px 3px rgba(0,0,0,0.25);
+   	border-left:none;
+	background: #fff;
+	height:auto;
+	letter-spacing:1px;
+	z-index:500;
+	overflow:hidden;
+	padding:10px 15px 15px 15px;
+	position: absolute;
+}
+.aui-box-classify-demo{
+	border:2px solid #66a8ef;
+	border-left:none;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.25);
+   	/* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6); */
+	background: #fff;
+	height:auto;
+	margin-top:5px;
+	min-width:930px;
+	margin-bottom: -9999px;
+	margin-left:250px;
+	/* overflow:hidden; */
+	padding:10px 15px 0px 15px;
+	padding-bottom: 9999px;
+	position:static;
+	top:0px;
+	width:69%;
+}
+.aui-classify-header{
+	height:40px;
+	overflow:hidden;
+	width:100%;
+}
+.aui-classify-header dl{
+	float:left;
+	height:30px;
+	margin-top:4px;
+}
+.aui-classify-header dl dt{
+	background:#66a8ef;
+	color:#f3feff;
+	float:left;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	width:80px;
+}
+.aui-classify-header dl dd{
+	background:#fbfbfb;
+	border:1px solid #bed3e2;
+	border-left:none;
+	border-right:none;
+	float:left;
+	height:28px;
+	line-height:28px;
+	padding:0px 10px;
+	width:auto;
+}
+.aui-classify-header dl dd a{
+	color:#666;
+	display:inline-block;
+	height:28px;
+	line-height:28px;
+	margin-right:10px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.aui-classify-header dl dd a:hover{
+	color:#66a8ef;
+	cursor: pointer;
+}
+.aui-classify-search{
+	float:right;
+	height:30px;
+	line-height:30px;
+	margin-top:4px;
+	position:relative;
+	width:165px;
+}
+.aui-classify-search input{
+	background:#fbfbfb;
+	border:1px solid  #bed3e2;
+	color:#666;
+	height:28px;
+	line-height:28px;
+	letter-spacing:1px;
+	outline:none;
+	padding:0px 0px 0px 5px;
+	width:135px;
+}
+.aui-classify-search span{
+	background-color: #66a8ef;
+    background-position: -71px -450px;
+    cursor: pointer;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 28px;
+}
+.aui-classify-search span:hover{
+	background-color:#4896ec;
+}
+.aui-classify-container{
+	height:auto;
+	margin-top: 10px;
+	overflow: hidden;
+	width: 100%;
+}
+.aui-classify-container dl{
+	height: auto;
+	overflow: hiddden;
+	padding-bottom:5px;
+	position:relative;
+	width: 100%;
+}
+.aui-classify-container dl dt{
+	/* background:url(../../../../common/css/default/images/tas-icon.png) -263px 4px no-repeat;
+		 background:url(../../../../common/css/default/images/tas-icon.png) -308px 4px no-repeat; */
+	background:url(../../../../common/css/default/images/tas-icon.png) -300px -19px no-repeat;
+	border-bottom: 1px dotted #e4e4e4;
+	height:29px;
+	padding-left:30px;
+	width:auto;
+}
+.aui-classify-container dl dt a{
+	color:#4D4D4D;
+	font-size:15px;
+	height:29px;
+	line-height:29px;
+	letter-spacing:2px;
+	width:auto;
+}
+.aui-classify-container dl dt a:hover{
+	color:#66a8ef;
+	cursor: pointer;
+}
+.aui-classify-container dl dd{
+	height:auto;
+	margin:5px 0px;
+	padding:0px 14px;
+}
+.aui-classify-container dl dd a{
+	background: url("images/aui-dimsel-bg.png") no-repeat 0 -208px;
+	color:#666;
+	display:inline-block;
+	height:25px;
+	line-height:25px;
+	padding:5px 10px 0px 10px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.aui-classify-container dl dd a:hover{
+	color:#0088CC;
+	cursor: pointer;
+}
+.aui-classify-container dl dt span.opendown{
+	background: url("images/ailk.ui-classify-slidedown.png") no-repeat center center;
+	cursor: pointer;
+	height: 30px;
+	line-height: 30px;
+	position: absolute;
+	right: 5px;
+	width: 16px;
+}
+.aui-classify-container dl dt span.openup{
+	background: url("images/ailk.ui-classify-slideup.png") no-repeat center center;
+	cursor: pointer;
+	height: 30px;
+	line-height: 30px;
+	position: absolute;
+	right: 5px;
+	width: 16px;
+}
+.aui-classify-container dl .aui-box-func{
+	position:absolute;
+	right:0px;
+	text-align:right;
+	top:37px;
+	width:80px;
+}
+.aui-classify-container dl .aui-box-func a{
+	border-left:none;
+	float:none;
+	height:30px;
+	line-height:30px;
+	overflow:hidden;
+	padding:0px 3px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.aui-classify-container dl .aui-box-func span{
+	cursor: pointer;
+	display: inline-block;
+	height: 15px;
+}
+.aui-classify-container .aui-classify-left{
+	float:left;
+	height:auto;
+	overflow: hidden;
+}
+.aui-classify-container .aui-classify-left dl{
+	overflow:hidden;
+	padding:5px 10px;
+}
+.aui-classify-container .aui-classify-left dl dt{
+	background:none;
+	border-left:5px solid #66a8ef;
+	border-bottom:none;
+	height:23px;
+	overflow:hidden;
+	padding-left:10px;
+}
+.aui-classify-container .aui-classify-left dl dt a{
+	font-size:13px;
+	font-weight:none;
+	height:23px;
+	line-height:23px;
+	letter-spacing: 1px;
+} 
+.aui-classify-container .aui-classify-left dl dd{
+	margin-top:0px;
+	padding:0px 10px;
+}
+.aui-classify-container .aui-classify-left dl dd a{
+	height:21px;
+	line-height:21px;
+	padding:7px 5px 0px 5px;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+.aui-classify-container .aui-classify-left dl dd a:hover{
+	color:#0088CC;
+	cursor: pointer;
+}
+.aui-classify-container .aui-classify-left dl span{
+	background:url(../../../../common/css/default/images/tas-icon.png) 15px -100px no-repeat;
+	height:20px;
+	width:30px;
+	position:absolute;
+	right:30px;
+	top:45%;
+	cursor: pointer;
+}
+.aui-classify-container .aui-classify-left .aui-classify-selected,.aui-classify-container .aui-classify-left dl:hover{
+	background:#fafafc;
+/* 	cursor: pointer; */
+}
+.aui-classify-container .aui-classify-right{
+	background:#fafafc; 
+	float:left;
+	height:auto;
+	min-height:600px;
+	overflow:hidden;
+	padding:5px 10px;
+}
+.aui-classify-container .aui-classify-right dl dt{
+	background:none;
+	border-bottom:3px solid #e4e4e4;
+	padding-left:15px;
+}
+.aui-classify-right dl dt h3{
+	display:block;
+	font-size:12px;
+	font-weight:none;
+	float:left;
+	height:29px;
+	line-height:29px;
+}
+.aui-classify-right dl dt ul{
+	float:right;
+	height:auto;
+	width:auto;
+}
+.aui-classify-right dl dt ul li{
+	float:left;
+	height:29px;
+	line-height:29px;
+	letter-spacing:1px;
+	margin-right:5px;
+	padding:0px 5px;
+	text-align:center;
+}
+.aui-classify-right dl dt ul li:hover,.aui-classify-right dl dt ul li.selected{
+	border-bottom:3px solid #66a8ef;
+	color:#66a8ef;
+	cursor:pointer;
+}
+.aui-classify-right dl dd a{
+	margin:2px;
+}
+.aui-box-classify-cursor{
+	cursor:pointer;
+}
+.aui-box-classify-searchMore{
+	text-align: center;
+	margin-top:10px;
+}
+.aui-box-classify-searchMore a:hover{
+	color:#0088CC;
+	cursor:pointer;
+}

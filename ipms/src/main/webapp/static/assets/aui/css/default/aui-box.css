@@ -1,0 +1,200 @@
+/***********ailk页面区块样式ailk.ui-box.css*************/
+@charset "UTF-8";
+.aui-body-box{
+	position: relative;
+	padding:15px;
+	height: auto;
+	width: auto;
+	overflow: hidden;
+	background: #f3f4f9;
+}
+.aui-box{
+	position: relative;
+	margin: 0;
+	margin-bottom:15px;
+	padding: 0;
+	font-size: 12px;
+	border: 1px solid #e9e9e9;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.aui-box-head{
+	position: relative;
+	height: 35px;
+	line-height: 35px;
+	background-color: #f6f6f6;
+	border-bottom: 1px solid #e9e9e9;
+	border-top-right-radius: 1px;
+	border-top-left-radius: 1px;
+	zoom: 1;
+}
+.aui-box-head-title{
+	display: inline;
+	float: left;
+	padding-left:10px;
+	color: #666;
+	font-size: 12px;
+}
+.aui-box-func{
+	float:right;
+}
+.aui-box-func a{
+    display: block;
+	float: left;
+	height: 35px;
+	padding:0 12px;
+	line-height: 35px;
+	border-left: 1px solid #d8dce0;
+	color:#666;
+}
+.aui-box-func a:hover{
+	color:#6597ff;
+	text-decoration: none;
+}
+.aui-box-func a span{
+	padding-left:30px;
+}
+.aui-box-container{
+	padding: 5px;
+	overflow:hidden;
+	border-bottom-left-radius: 1px;
+	border-bottom-right-radius: 1px;	
+	background: #fff;
+}
+.aui-box-content{
+	padding:5px;
+}
+.aui-box-nopadding .aui-box-content{
+	padding:0;
+}
+.aui-box-margin{
+	margin-left:17px;
+}
+.aui-box-abreast{
+	height:auto;
+	overflow:hidden;
+	width:auto;
+}
+.aui-box-left{
+	float:left;
+	width:49%;
+}
+.aui-box-right{
+	float:right;
+	width:49.5%;
+}
+/**导出功能**/
+.aui-box-func .aui-box-func-export{
+	background-position:-38px 0;
+}
+.aui-box-func a:hover .aui-box-func-export{
+	background-position:-38px -190px;
+}
+/**导入功能**/
+.aui-box-func .aui-box-func-import{
+	background-position: -190px -152px;
+}
+.aui-box-func a:hover .aui-box-func-import{
+	background-position:-190px -342px;
+}
+/**下载功能**/
+.aui-box-func .aui-box-func-download{
+	background-position: -342px -38px;
+}
+.aui-box-func a:hover .aui-box-func-download{
+	background-position: -342px -228px;
+}
+/**列定制功能**/
+.aui-box-func .aui-box-func-custom{
+	background-position: -226px -149px;
+}
+.aui-box-func a:hover .aui-box-func-custom{
+	background-position: -226px -339px;
+}
+/**图表选择对比项**/
+.aui-box-func .aui-box-func-compare{
+	/*background-position: -499px 0;*/
+	background-position: -266px -153px;
+}
+.aui-box-func a:hover .aui-box-func-compare{
+	/*background-position: -499px -190px;*/
+	background-position: -266px -343px;
+}
+/**展开+加号**/
+.aui-box-func .aui-box-func-open{
+	background-position:-38px -38px;
+}
+.aui-box-func a:hover .aui-box-func-open{
+	background-position:-38px -228px;
+}
+/**收缩—减号**/
+.aui-box-func .aui-box-func-unfold{
+	background-position:0px -38px;
+}
+.aui-box-func a:hover .aui-box-func-unfold{
+	background-position:0px -228px;
+}
+/**展开 向下箭头**/
+.aui-box-func .aui-box-func-open-down{
+	background-position:-608px -38px;
+}
+.aui-box-func a:hover .aui-box-func-open-down{
+	background-position:-608px -228px;
+}
+/**收起 向上箭头**/
+.aui-box-func .aui-box-func-unfold-up{
+	background-position:-648px -38px;
+}
+.aui-box-func a:hover .aui-box-func-unfold-up{
+	background-position:-648px -228px;
+}
+/**多选**/
+.aui-box-func .aui-box-func-multiple{
+	background-position:-684px 0px;
+}
+.aui-box-func a:hover .aui-box-func-multiple{
+	background-position:-684px -190px;
+}
+/**查看*/
+.aui-box-func .aui-box-func-view{
+	background-position: -608px -114px;
+}
+.aui-box-func a:hover .aui-box-func-view{
+	background-position: -608px -304px;
+}
+/**添加**/
+.aui-box-func .aui-box-func-add{
+	background-position: -456px -153px;
+}
+.aui-box-func a:hover .aui-box-func-add{
+	background-position: -456px -342px;
+}
+/**修改**/
+.aui-box-func .aui-box-func-edit{
+	background-position: -418px -153px;
+}
+.aui-box-func a:hover .aui-box-func-edit{
+	background-position: -418px -341px;
+}
+/**查看详细**/
+.aui-box-func .aui-box-func-look{
+	background-position: -380px -153px;
+}
+.aui-box-func a:hover .aui-box-func-look{
+	background-position: -380px -341px;
+}
+/**删除**/
+.aui-box-func .aui-box-func-del{
+	background-position: -341px -152px;
+}
+.aui-box-func a:hover .aui-box-func-del{
+	background-position: -342px -342px;
+}
+/**针对添加水印模块**/
+.aui-wartermark .dataTables_wrapper table.dataTable thead th{background:none;}
+.aui-wartermark .dataTables_wrapper table.dataTable tr.odd {background: none;}
+.aui-wartermark .dataTables_wrapper table.dataTable tr.even {background: none;}
+.aui-wartermark .dataTables_wrapper table.dataTable tbody tr.hover {background: #66a8ef; color: #fff; }
+.aui-wartermark .dataTables_wrapper table.dataTable tr.row_selected td {background:none;color:#666;}
+.aui-wartermark .dataTables_wrapper table.dataTable tr.row_selected span{color:#666;}

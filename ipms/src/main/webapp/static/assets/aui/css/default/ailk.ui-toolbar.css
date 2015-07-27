@@ -1,0 +1,154 @@
+@charset "UTF-8";
+/*** aui-toolbar ***/
+.aui-toolbar{
+	height: auto;
+	position:fixed;
+	right: -82px;
+	bottom:40px;
+	width:auto;
+}
+.aui-toolbar-item{
+	background-color:#FFFFFF;
+	cursor:pointer;
+	height: 44px;
+	margin-top:-1px;
+	overflow: inherit;
+	opacity: .7;
+	filter: alpha(opacity=70);
+	position: relative;
+	right: 0px;
+	transition:right .5s;
+	-moz-transition:right .5s;
+	-webkit-transition:right .5s;
+	z-index:998;
+	width:126px;
+}
+.aui-toolbar-item:first-child{
+	margin-top:0px;
+}
+.aui-toolbar-item:hover{
+	right:82px;
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+.aui-toolbar-ctx{
+	border:1px solid #D6D6D6;
+	border-left:none;
+	color:#575757;
+	float:left;
+	font-size:14px;
+	height:42px;
+	line-height:42px;
+	text-align:center;
+	width:80px;
+}
+.aui-toolbar-item a{
+	border:1px solid #D6D6D6;
+	border-right:none;
+	background-image:url(images/ailk.ui-toolbar.png);
+	background-repeat: no-repeat;
+	cursor:pointer;
+	float:left;
+	height:42px;
+	width:43px;
+}
+.aui-toolbar-message{background-position:14px 15px;}
+.aui-toolbar-item a.newMessage{background-position:-83px -49px;}
+.aui-toolbar-item:hover .aui-toolbar-message{background-color:#1796F9;background-position:13px -17px;border-color:#1796F9;}
+.aui-toolbar-sql{background-position:-18px 14px;}
+.aui-toolbar-item:hover .aui-toolbar-sql{background-color:#1796F9;background-position:-18px -18px;border-color:#1796F9;}
+.aui-toolbar-modules{background-position:-83px 14px;}
+.aui-toolbar-item:hover .aui-toolbar-modules{background-color:#1796F9;background-position:-83px -18px;border-color:#1796F9;}
+.aui-toolbar-advice{background-position:-148px 14px;}
+.aui-toolbar-item:hover .aui-toolbar-advice{background-color:#1796F9;background-position:-148px -18px;border-color:#1796F9;}
+.aui-toolbar-backtop{background-position:-52px 14px;}
+.aui-toolbar-item:hover .aui-toolbar-backtop{background-color:#1796F9;background-position:-52px -18px;border-color:#1796F9;}
+.aui-toolbar-box{
+	background-color: #FFF;
+	border: 1px solid #DFDFDF;
+	box-shadow: 0 2px 5px 2px #E0E0E0;
+	height: auto;
+	position: absolute;
+	right: 0;
+	z-index: 1000;
+	width: auto;
+}
+.aui-toolbar-masked{
+	background-color: #FFF;
+	bottom: 0;
+	opacity: .7;
+	filter: alpha(opacity=70);
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	-moz-transition: all .5s;
+	-webkit-transition: all .5s;
+	transition: all .5s;
+	z-index: 999;
+}
+.aui-toolbar-box-head{
+	height: 34px;
+	line-height: 34px;
+	overflow: inherit;
+	padding: 0px 10px;
+	width: auto;
+}
+.aui-toolbar-box-head h3{
+	color: #676a6c;
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	float: left;
+	height: 34px;
+	line-height: 34px;
+	letter-spacing: 1px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.aui-toolbar-box-func{
+	height:24px;
+	line-height:24px;
+	overflow: hidden;
+	position:absolute;
+	right: 5px;
+	top: 6px;
+	
+}
+.aui-toolbar-box-func a{
+	border:1px solid #fff;
+	background: url(images/ailk.ui-toolbar.png) -62px -62px no-repeat;
+	display: block;
+	float: left;
+	padding:10px;
+}
+.aui-toolbar-box-func a:hover{
+	background-color: #efefef;
+	border: 1px solid #efefef;
+	border-radius: 10px;
+}
+.aui-message{
+	background:#ffffff;
+	padding:8px 5px;
+	height:auto;
+	min-height:28px;
+	width:auto;
+	z-index:1001;
+}
+.aui-message li{
+	cursor:pointer;
+	padding:9px;
+	margin:0px 5px;
+}
+.aui-message li:hover{
+	background:#66a8ef;
+	color:#fff;
+}
+.aui-message li i{
+	font-style:normal;
+	margin-left:8px;
+}
+
+
+
+

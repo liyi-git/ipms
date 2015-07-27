@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+    <title></title>
+    <!-- meta定义 -->
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" type="text/css" href="static/common/css/main.css" media="all" />
+    <script type="text/javascript" src="ipsplit.js"></script>
+</head>
+<body>
+    <div id="page-header">
+        <div class="logo">
+            <a href="#">中国移动</a>
+        </div>
+        <div class="binding">
+            <span class="binding-cn"></span>
+            <span class="binding-en"></span>
+        </div> 
+        <a class="toggle-nav" title="收起菜单"></a>
+        <ul class="header-func">
+            <li class="userinfo">系统管理员</li>
+        </ul>
+    </div>
+    <div id="page-container">
+        <div class="ipms-content" style="margin-left:0px;">
+            <!--维度选择区域 start-->
+            <div class="aui-dimpanel">
+
+                <div class="aui-dimpanel-item">
+                    <label>输入框：</label>
+                    <input type="text" placeholder="Enter Info"></div>
+
+                <div class="aui-dimpanel-item">
+                    <label>日期选择：</label>
+                    <div class="aui-datesel">
+                        <a class="aui-datesel-txt" href="javascript:;">2013-11-01</a>
+                    </div>
+                </div>
+                <div class="aui-dimpanel-item">
+                    <label>地域选择：</label>
+                    <div class="aui-dimsel" style="width: 150px;">
+                        <a class="aui-dimsel-txt" href="javascript:;"></a>
+                    </div>
+                </div>
+                <div class="aui-dimpanel-item">
+                    <label>下拉列表：</label>
+                    <div class="aui-dimsel" style="width: 150px;">
+                        <a class="aui-dimsel-txt" href="javascript:;">全部品牌</a>
+                    </div>
+                </div>
+                <div class="aui-dimpanel-func">
+                    <button type="button" class="aui-btn aui-btn-sm">查询</button>
+                </div>
+            </div>
+            <!--维度选择区域 end-->
+
+            <!--MS物流注入 start-->
+            <div class="aui-panel">
+                <div class="aui-panel-heading">
+                    <h3 class="aui-panel-title">注入物流信息</h3>
+                </div>
+                <div class="aui-panel-body">
+                    <div class="aui-grid-8 aui-grid-offset-2">
+                        <div class="aui-form">
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <input type="text" class="aui-input" placeholder="Enter Info"></div>
+                            </div>
+
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <input type="text" class="aui-input" placeholder="Enter Info"></div>
+                            </div>
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <input type="text" class="aui-input" placeholder="Enter Info"></div>
+                            </div>
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <input type="text" class="aui-input" placeholder="Enter Info"></div>
+                            </div>
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <input type="text" class="aui-input" placeholder="Enter Info"></div>
+                            </div>
+                            <div class="aui-form-item">
+                                <label class="aui-label aui-grid-4">label</label>
+                                <div class="aui-grid-8">
+                                    <textarea name="" id="" class="aui-input" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-panel-footer">
+                    <div class="aui-grid-3 aui-grid-offset-5">
+                        <button type="button" class="aui-btn aui-btn-md" id="test">提交</button>
+                        <button type="button" class="aui-btn aui-btn-md">取消</button>
+                    </div>
+                </div>
+            </div>
+            <!--MS物流注入 end-->
+        </div>
+    </div>
+    <script type="text/javascript">
+        var $IP=$ip("#page-header");
+        // // var declimaIp=$IP.getNetDecimal("192.168.0.103","255.0.0.0");
+        // // var addr=$IP.decimalToAddr(declimaIp);
+        // // var broadcastIp=$IP.getBroadcastDec("192.168.0.103","255.255.255.0");
+        // //var usableinfo=$IP.getUsableAsObj("192.168.0.103","255.255.255.0");
+        // // console.log("网络地址-------"+"十进制："+declimaIp+"::::二进制："+addr);
+        // // console.log("广播地址------"+$IP.decimalToAddr(broadcastIp));
+        // //console.log("可用Ip数量："+usableinfo.uIpNum+" 第一个可用IP："+usableinfo.firstIp+" 最后一个可用IP："+usableinfo.lastIp+" 主机数量："+usableinfo.hostNum);
+        // //var test=$IP.getObjBySubnetNum("192.168.0.103","27");
+        // //console.log(test);
+        // //var test=$IP.getObjByHostNum("168.195.0.0","700");
+        // // /console.log(test);
+        // var test=$IP.getObjBymBits("192.168.0.103","10");
+        // console.log(test);
+        console.log($IP.getSubnetJson("192.168.10.0","26"));
+        /*require([ 'jquery','aui/confirm'], function($) {
+
+            $("#test").click(function(){
+                $.confirm({
+                        'title'     : 'Delete Confirmation',
+                        'message'   : 'You are about to delete this item. <br />It cannot be restored at a later time! Continue?',
+                        'buttons'   : {
+                            'Yes'   : {
+                                'class' : 'blue',
+                                'action': function(){
+                                    console.log("sublit");
+                                }
+                            },
+                            'No'    : {
+                                'class' : 'gray',
+                                'action': function(){
+                                    console.log("cancle");
+                                }
+                            }
+                        }
+                    });
+            });
+        });*/
+    </script>
+</body>
+</html>

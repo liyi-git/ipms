@@ -1,0 +1,44 @@
+.ip-stat-info li {
+	float: left; padding : 5px;
+	width: 30%;
+	padding: 5px;
+}
+
+.ip-stat-info span {
+	font-style: italic;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.ip-stat-chart {
+	clear: left;
+	width: 100%;
+	overflow:hidden;
+	padding: 5px;
+}
+
+.ip-stat-chart li {
+	float: left;
+	color: #fff;
+	padding: 8px 0;
+	text-align: center;
+}
+
+.ip-stat-legend {
+	clear: left;
+	margin-top: 10px;
+	list-style-type: none;
+	text-align: center;
+}
+
+.ip-stat-legend  li {
+	padding: 5px;
+	display: inline;
+}
+
+.ip-stat-legend i {
+	padding: 5px;
+	display: inline-block;
+	width: 5px;
+	margin: 5px 5px 0 0;
+}

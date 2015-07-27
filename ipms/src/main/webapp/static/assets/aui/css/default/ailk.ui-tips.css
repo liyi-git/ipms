@@ -1,0 +1,49 @@
+/***********ailk Tips提示信息ailk.ui-tips.css*************/
+@charset "UTF-8";
+
+.aui-tips-container{
+	position: relative;
+	padding: 7px 12px;
+	margin-bottom:15px;
+	background: #FEFFE5;
+	border: 1px solid #EBD482;
+	zoom: 1;
+}
+.aui-tips-close{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 20px;
+	height:20px;
+	font-weight:bold;
+	font-size:20px;
+	color:#dfca37;
+	text-decoration:none;
+	cursor:pointer;
+}
+.aui-tips-close:hover{
+	text-decoration: none;
+	color:#cab520;
+}
+.aui-tips-icon{
+	position: absolute;
+	top:6px;
+	left:5px;
+	width: 20px;
+	height:20px;
+}
+.aui-tips-text{
+	padding-left:15px;
+	color: #B79442;
+}
+a.aui-tips-action{
+	position: absolute;
+	top: 7px;
+	right:10px;
+	color: #B79442;
+	cursor: pointer;
+}
+a.aui-tips-action:hover{
+	color: #926908;
+	text-decoration: underline;
+};

@@ -1,0 +1,108 @@
+.messageTips-modal-bg { 
+	position: fixed; 
+	height: 100%;
+	width: 100%;
+	background: #000;
+	background: rgba(0,0,0,.8);
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 99999;
+	display: none;
+	top: 0;
+	left: 0; 
+}
+
+.messageTips-modal {
+	visibility: hidden;
+	top: 100px; 
+	left: 50%;
+	margin-left: -150px;
+	width: 300px;
+	background: #eee url(images/ailk.ui-dialog-bg.png) no-repeat -200px -80px;
+	position: absolute;
+	z-index: 999999;
+	padding: 20px 20px 10px 20px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	-box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+
+.messageTips-modal > h1 {
+	font-size: 18px;
+	font-weight: bolder;
+}
+
+.messageTips-modal.small 		{ width: 200px; margin-left: -140px;}
+.messageTips-modal.medium 		{ width: 400px; margin-left: -240px;}
+.messageTips-modal.large 		{ width: 600px; margin-left: -340px;}
+.messageTips-modal.xlarge 		{ width: 800px; margin-left: -440px;}
+
+.messageTips-modal .close-messageTips-modal {
+	font-size: 22px;
+	line-height: .5;
+	position: absolute;
+	top: 8px;
+	right: 11px;
+	color: #aaa;
+	text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.messageTips-modal > textarea {
+	margin: 5px 0px 5px 0px;
+}
+
+.messageTips-modal-footer {
+	text-align: center;
+}
+
+.messageTips-modal-footer > button {
+	cursor: pointer;
+	height: 28px;
+	margin: 0px 5px 0px 0px;
+}
+
+.messageTips-item {
+	height: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: block;
+	position: relative;
+}
+
+.messageTips-item > p {
+	text-align: left;
+    margin-left: 50px;
+	font-size: 14px;
+}
+
+.messageTips-item-image {
+    width:32px;
+    height: 32px;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    left: 10px;
+}
+
+.messageTips-item-image-notice {
+    background:url(images/ailk.ui-dialog-notice.png);
+}
+
+.messageTips-item-image-success {
+    background:url(images/ailk.ui-dialog-success.png);
+}
+
+.messageTips-item-image-warning {
+    background:url(images/ailk.ui-dialog-warning.png);
+}
+
+.messageTips-item-image-error {
+    background:url(images/ailk.ui-dialog-error.png);
+}

@@ -1,0 +1,23 @@
+/***********ailk页面区块样式之页面右侧扩展区域样式*************/
+@charset "UTF-8";
+.aui-message{
+	background:#ffffff;
+	border: 3px solid #1796f9;
+	padding:8px 5px;
+	height:auto;
+	min-height:28px;
+	width:auto;
+	z-index:999;
+}
+.aui-message li{
+	cursor:pointer;
+	padding:9px;
+}
+.aui-message li:hover{
+	color:#fff;
+	background:#66a8ef;
+}
+.aui-message li i{
+	font-style:normal;
+	margin-left:8px;
+}

@@ -1,0 +1,45 @@
+/***********ailk 维度选择区块样式 ailk.ui-popup.css*************/
+@charset "UTF-8";
+
+div.aui-popup-wrap {
+}
+
+.aui-popup-wrap .fancybox-skin {
+	background: #0a4879;
+}
+
+.aui-popup-wrap .fancybox-outer {
+	padding: 10px;
+	background: #d9d9d9;
+}
+
+.aui-popup-wrap .fancybox-inner {
+	background: #fff;
+}
+
+.aui-popup-title {
+	height: 35px;
+	line-height: 35px;
+	color: #fff;
+	font-size: 14px;
+	padding-left: 10px;
+	letter-spacing: 1px;
+	float: left;
+}
+
+.aui-popup-close {
+	position: absolute;
+	top: 3px;
+	right: 2px;
+	z-index: 99999;
+	width: 30px;
+	height: 30px;
+	float: right;
+	cursor: pointer;
+	background: url(images/aui-popup-close.png);
+}
+
+.aui-popup-close:hover {
+	background: url(images/aui-popup-close.png) 0 -30px;
+	text-decoration: none;
+}

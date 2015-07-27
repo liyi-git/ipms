@@ -1,0 +1,35 @@
+/***********ailk 图标字体 ailk.ui-iconfont.css***********/
+@charset "UTF-8";
+@font-face {
+    font-family: "rei";
+    src: url("fonts/rei.eot"); /* IE9*/
+    src: url("fonts/rei.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+         url("fonts/rei.woff") format("woff"), /* chrome 6+、firefox 3.6+、Safari5.1+、Opera 11+ */
+         url("fonts/rei.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+         url("fonts/rei.svg#rei") format("svg"); /*  iOS 4.1- */
+    font-weight: normal;
+    font-style: normal;
+}
+.iconfont {
+    font-family: "rei";
+    font-style: normal;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+}
+@font-face {
+	font-family: 'tasfont';
+	src: url('fonts/tasfont.eot'); /* IE9*/
+	src: url('fonts/tasfont.eot?#iefix') format('embedded-opentype'),/* IE6-IE8 */ 
+		 url('fonts/tasfont.ttf') format('truetype'),/* chrome 6+、firefox 3.6+、Safari5.1+、Opera 11+ */ 
+		 url('fonts/tasfont.woff') format('woff'),/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ 
+		 url('fonts/tasfont.svg#tasfont') format('svg'); /*  iOS 4.1- */
+	font-weight: normal;
+	font-style: normal;
+}
+
+.tasiconfont {
+	font-family: 'tasfont';
+	font-style: normal;
+	cursor: default;
+	-webkit-font-smoothing: antialiased;
+}

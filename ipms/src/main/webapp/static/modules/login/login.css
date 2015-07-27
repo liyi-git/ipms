@@ -1,0 +1,247 @@
+@charset 'UTF-8';
+html
+{
+    font-size: 10px;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body
+{
+    font-family: 'Microsoft YaHei','simsun','Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #666;
+    background-color: #fafaf9;
+}
+button,
+input,
+optgroup,
+select,
+textarea
+{
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+button
+{
+    overflow: visible;
+}
+button,
+select
+{
+    text-transform: none;
+}
+button,
+html input[type='button'],
+input[type='reset'],
+input[type='submit']
+{
+    cursor: pointer;
+
+    -webkit-appearance: button;
+}
+button[disabled],
+html input[disabled]
+{
+    cursor: default;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner
+{
+    padding: 0;
+    border: 0;
+}
+input
+{
+    line-height: normal;
+}
+input[type='checkbox'],
+input[type='radio']
+{
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 0;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button
+{
+    height: auto;
+}
+input[type='search']
+{
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+            box-sizing: content-box;
+
+    -webkit-appearance: textfield;
+}
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration
+{
+    -webkit-appearance: none;
+}
+#ipms-login
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 446px;
+    margin: -215px 0 0 -50%;
+    background: url(ipms-login-bg.png) no-repeat top center;
+    
+}
+#ipms-login .container
+{
+    position: relative;
+    width: 1003px;
+    height: 100%;
+    margin: 0 auto;
+    background: url(ipms-login-panelbg.png) no-repeat 16% center;
+}
+#ipms-login .desc
+{
+    position: absolute;
+    top: 13%;
+    left: 15%;
+}
+#ipms-login .desc h2
+{
+    font-weight: normal;
+    text-indent: 2em;
+    letter-spacing: 1px;
+    word-spacing: 8px;
+    color: #fff;
+}
+#ipms-login .panel
+{
+    float: left;
+    width:381px;
+    height: auto;
+    margin-left: 581px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, .05)
+    -moz-box-shadow: 0 0 2px 2px rgba(0, 0, 0, .05);
+            box-shadow: 0 0 2px 2px rgba(0, 0, 0, .05) ;
+}
+#ipms-login .panel .panel-heading
+{
+    overflow: hidden;
+    width: 100%;
+    height: 35px;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    background-color: #31485a;
+}
+#ipms-login .panel .panel-heading h1
+{
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    wdith:100%;
+    margin:0 auto;
+    padding: 3px 0;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 30px;
+    letter-spacing: 1px;
+    word-spacing: 8px;
+    color: #fff;
+}
+#ipms-login .panel .panel-body
+{
+    padding: 40px 40px 20px 40px;
+}
+#ipms-login .form-group
+{
+    margin-bottom: 30px;
+    color: #c4c1bb;
+}
+#ipms-login .form-group > .form-input
+{
+    display: block;
+    width: 275px;
+    height: 21px;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+         -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    background-color: #fff;
+}
+#ipms-login .form-group > .form-input:focus
+{
+    border-color: #4c4c49;
+    outline: 0;
+}
+#ipms-login .form-group input[type=checkbox]
+{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    margin-left: 0;
+    vertical-align: middle;
+    color: #c4c1bb;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    outline: none;
+    background-color: #fff;
+}
+#ipms-login .form-group > .form-button
+{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    color: #fff;
+    border: 0;
+    outline: none;
+    background-color: #486984;
+}
+#ipms-login .form-group > .form-button:focus,
+#ipms-login .form-group > .form-button:hover
+{
+    color: #fff;
+    background-color: #31485a;
+}
+
+#ipms-login .panel .panel-footer
+{
+    margin: 0 30px;
+    padding: 20px 0 30px 0;
+    border-top: 1px solid #dbd8d3;
+}
+#ipms-login .panel .panel-footer a
+{
+    text-decoration: none;
+    color: #4e9350;
+}
+
+#ipms-login .panel .panel-footer a > span
+{
+    margin-right: 5px;
+    color: #c4c1bb;
+}
+#ipms-login .footer
+{
+    margin: 60px auto 20px auto;
+    text-align: center;
+}
