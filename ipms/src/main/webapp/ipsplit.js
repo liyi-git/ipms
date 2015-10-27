@@ -748,6 +748,7 @@
          * 
          */
         getSubnetJson: function(ip, maskbits) {
+            console.log(maskbits);
             var mask = this.decimalToAddr(this.getMaskDecimal(parseInt(maskbits)));
             if (!this.isIP(ip) || !this.isMask(mask)) {
                 return true;
@@ -763,6 +764,7 @@
                 // A类
 
                 if (defaultMask == "255.0.0.0") {
+                    console.log(1111);
                     for (var i = 8; i < 32; i++) {
                         if (binaryMask[i] == 1) {
                             nbits = nbits + 1;
@@ -816,6 +818,7 @@
                 // B类
 
                 if (defaultMask == "255.255.0.0") {
+                    console.log(2222);
                     for (var i = 16; i < 32; i++) {
                         if (binaryMask[i] == 1) {
                             nbits = nbits + 1;
@@ -864,6 +867,7 @@
                 }
                 // C类
                 if (defaultMask == "255.255.255.0") {
+                    console.log(333333);
                     for (var i = 24; i < 32; i++) {
                         if (binaryMask[i] == 1) {
                             nbits = nbits + 1;
