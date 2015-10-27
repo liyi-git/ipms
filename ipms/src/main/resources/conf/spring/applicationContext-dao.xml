@@ -111,7 +111,6 @@
 		<property name="logFormatter">
 			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
 				<property name="loggingType" value="SINGLE_LINE" />
-				<property name="margin" value="2" />
 				<property name="sqlPrefix" value="SQL:::" />
 			</bean>
 		</property>

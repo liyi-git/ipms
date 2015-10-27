@@ -39,4 +39,8 @@ public interface SubNetResDao {
     boolean deleteChildByPid(@Param(value = "subnetId") String subnetId);
 
     public List<String> isExistSubnet(@Param(value = "desc") String desc);
+
+    //ESOP接口扩展
+    public List<SubNetResEntity> getUsableSubnetList(@Param(value = "cityId") String cityId);
+
 }
