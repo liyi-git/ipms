@@ -25,6 +25,8 @@ public class IPApplyException extends Exception {
   }
 
   public IPApplyException(IPApplyServRespCode servRespCode) {
+    this.errCode=servRespCode.getCode();
+    this.errDesc=servRespCode.getDesc();
     new IPApplyException(servRespCode.getCode(), servRespCode.getDesc());
   }
 
