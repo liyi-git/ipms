@@ -59,6 +59,10 @@
 		delete from ${SCHEMA_BASE}.ip_archive_info
 		where ARCHIVE_ID = #{archiveId,jdbcType=VARCHAR}
 	</delete>
+	<delete id="deleteByApplyId" parameterType="java.lang.String">
+		delete from ${SCHEMA_BASE}.ip_archive_info
+		where APPLY_ID = #{applyId,jdbcType=VARCHAR}
+  	</delete>	
 	<insert id="insert" parameterType="IPArchiveInfoEntity">
 
 		insert into ${SCHEMA_BASE}.ip_archive_info (ARCHIVE_ID, APPLY_ID, POOL_ID,
@@ -400,5 +404,11 @@
 		from ${SCHEMA_BASE}.ip_archive_info
 		where SUBNET_ID = #{subnetId}
 		order by APPLY_TIME desc limit 1
+	</select>
+	<select id="selectByApplyId" parameterType="String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ${SCHEMA_BASE}.ip_archive_info
+		where APPLY_ID = #{applyId} limit 1
 	</select>
 </mapper>

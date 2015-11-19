@@ -245,8 +245,7 @@
         DELETE FROM ${SCHEMA_BASE}.IP_SUBNET_RES
         WHERE SUBNET_PID = #{subnetPid,jdbcType=VARCHAR}
     </delete>
-
-	<update id="updateSubnetById" parameterType="SubNetResEntity">
+	<update id="updateSubnet" parameterType="SubNetResEntity">
 		UPDATE ${SCHEMA_BASE}.IP_SUBNET_RES
 		<set>
 			<if test="subnetDesc != null">

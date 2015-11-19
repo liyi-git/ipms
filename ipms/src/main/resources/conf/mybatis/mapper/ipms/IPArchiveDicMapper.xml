@@ -21,5 +21,5 @@
 		SELECT 
 			DISTINCT A.COUNTY_ID ID,A.COUNTY_NAME TXT,A.CITY_ID AS PID
 		FROM ${SCHEMA_BASE}.IP_ARCHIVE_DIC_CITY A
-  </select>
+  </select>  
 </mapper>

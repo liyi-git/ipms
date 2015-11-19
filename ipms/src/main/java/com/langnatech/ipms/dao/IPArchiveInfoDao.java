@@ -11,6 +11,10 @@ public interface IPArchiveInfoDao
     IPArchiveInfoEntity selectBySubNetId(@Param(value = "subnetId") String subnetId);
 
     int deleteByPrimaryKey(String archiveId);
+    
+    int deleteByApplyId(String applyId);
+    
+    IPArchiveInfoEntity selectByApplyId(String applyId);
 
     int insert(IPArchiveInfoEntity record);
 

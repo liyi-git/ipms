@@ -1,0 +1,207 @@
+18:17:14.364 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:17:15.661 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:17:15.712 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:17:15.834 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:17:15.897 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:17:15.919 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:05.834 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:06.717 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:06.750 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:06.847 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:06.880 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:06.907 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:41.644 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:42.516 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:42.555 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:42.661 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:42.686 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:18:42.717 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:19:42.815 [main] WARN  o.a.cxf.phase.PhaseInterceptorChain - Interceptor for {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService#{http://webservice.ipms.langnatech.com/}call has thrown exception, unwinding now
+org.apache.cxf.interceptor.Fault: Could not send Message.
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:64) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.phase.PhaseInterceptorChain.doIntercept(PhaseInterceptorChain.java:272) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.doInvoke(ClientImpl.java:565) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:474) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:377) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:330) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.frontend.ClientProxy.invokeSync(ClientProxy.java:96) [cxf-rt-frontend-simple-2.7.10.jar:2.7.10]
+	at org.apache.cxf.jaxws.JaxWsClientProxy.invoke(JaxWsClientProxy.java:135) [cxf-rt-frontend-jaxws-2.7.10.jar:2.7.10]
+	at com.sun.proxy.$Proxy38.call(Unknown Source) [na:na]
+	at com.langnatech.test.IpmsSoapTest.testCancel(IpmsSoapTest.java:53) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_45]
+	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_45]
+	at junit.framework.TestCase.runTest(TestCase.java:176) [junit-4.11.jar:na]
+	at junit.framework.TestCase.runBare(TestCase.java:141) [junit-4.11.jar:na]
+	at junit.framework.TestResult$1.protect(TestResult.java:122) [junit-4.11.jar:na]
+	at junit.framework.TestResult.runProtected(TestResult.java:142) [junit-4.11.jar:na]
+	at junit.framework.TestResult.run(TestResult.java:125) [junit-4.11.jar:na]
+	at junit.framework.TestCase.run(TestCase.java:129) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.runTest(TestSuite.java:255) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.run(TestSuite.java:250) [junit-4.11.jar:na]
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84) [junit-4.11.jar:na]
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192) [.cp/:na]
+Caused by: java.net.SocketTimeoutException: SocketTimeoutException invoking http://localhost:8080/ipms/soap/ipmsservice: Read timed out
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27) ~[na:1.6.0_45]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.mapException(HTTPConduit.java:1339) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1323) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.AbstractConduit.close(AbstractConduit.java:56) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit.close(HTTPConduit.java:628) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:62) ~[cxf-api-2.7.10.jar:2.7.10]
+	... 28 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method) ~[na:1.6.0_45]
+	at java.net.SocketInputStream.read(SocketInputStream.java:129) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read1(BufferedInputStream.java:258) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:317) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:698) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:641) ~[na:1.6.0_45]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1218) ~[na:1.6.0_45]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:379) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.URLConnectionHTTPConduit$URLConnectionWrappedOutputStream.getResponseCode(URLConnectionHTTPConduit.java:266) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponseInternal(HTTPConduit.java:1531) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponse(HTTPConduit.java:1504) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1310) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	... 31 common frames omitted
+18:19:54.890 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:04.051 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:04.087 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:04.206 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:04.231 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:04.254 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:16.869 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:39.756 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:39.794 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:39.897 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:39.923 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:20:39.955 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:21:39.988 [main] WARN  o.a.cxf.phase.PhaseInterceptorChain - Interceptor for {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService#{http://webservice.ipms.langnatech.com/}call has thrown exception, unwinding now
+org.apache.cxf.interceptor.Fault: Could not send Message.
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:64) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.phase.PhaseInterceptorChain.doIntercept(PhaseInterceptorChain.java:272) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.doInvoke(ClientImpl.java:565) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:474) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:377) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:330) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.frontend.ClientProxy.invokeSync(ClientProxy.java:96) [cxf-rt-frontend-simple-2.7.10.jar:2.7.10]
+	at org.apache.cxf.jaxws.JaxWsClientProxy.invoke(JaxWsClientProxy.java:135) [cxf-rt-frontend-jaxws-2.7.10.jar:2.7.10]
+	at com.sun.proxy.$Proxy38.call(Unknown Source) [na:na]
+	at com.langnatech.test.IpmsSoapTest.testCancel(IpmsSoapTest.java:53) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_45]
+	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_45]
+	at junit.framework.TestCase.runTest(TestCase.java:176) [junit-4.11.jar:na]
+	at junit.framework.TestCase.runBare(TestCase.java:141) [junit-4.11.jar:na]
+	at junit.framework.TestResult$1.protect(TestResult.java:122) [junit-4.11.jar:na]
+	at junit.framework.TestResult.runProtected(TestResult.java:142) [junit-4.11.jar:na]
+	at junit.framework.TestResult.run(TestResult.java:125) [junit-4.11.jar:na]
+	at junit.framework.TestCase.run(TestCase.java:129) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.runTest(TestSuite.java:255) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.run(TestSuite.java:250) [junit-4.11.jar:na]
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84) [junit-4.11.jar:na]
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192) [.cp/:na]
+Caused by: java.net.SocketTimeoutException: SocketTimeoutException invoking http://localhost:8080/ipms/soap/ipmsservice: Read timed out
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27) ~[na:1.6.0_45]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.mapException(HTTPConduit.java:1339) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1323) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.AbstractConduit.close(AbstractConduit.java:56) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit.close(HTTPConduit.java:628) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:62) ~[cxf-api-2.7.10.jar:2.7.10]
+	... 28 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method) ~[na:1.6.0_45]
+	at java.net.SocketInputStream.read(SocketInputStream.java:129) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read1(BufferedInputStream.java:258) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:317) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:698) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:641) ~[na:1.6.0_45]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1218) ~[na:1.6.0_45]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:379) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.URLConnectionHTTPConduit$URLConnectionWrappedOutputStream.getResponseCode(URLConnectionHTTPConduit.java:266) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponseInternal(HTTPConduit.java:1531) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponse(HTTPConduit.java:1504) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1310) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	... 31 common frames omitted
+18:22:25.638 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:22:28.629 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:22:28.658 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:22:28.761 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:22:28.788 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:22:28.810 [main] INFO  o.a.c.s.f.ReflectionServiceFactoryBean - Creating Service {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService from class com.langnatech.ipms.webservice.IpmsSoapService
+18:23:28.835 [main] WARN  o.a.cxf.phase.PhaseInterceptorChain - Interceptor for {http://webservice.ipms.langnatech.com/}IpmsSoapServiceService#{http://webservice.ipms.langnatech.com/}call has thrown exception, unwinding now
+org.apache.cxf.interceptor.Fault: Could not send Message.
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:64) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.phase.PhaseInterceptorChain.doIntercept(PhaseInterceptorChain.java:272) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.doInvoke(ClientImpl.java:565) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:474) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:377) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.endpoint.ClientImpl.invoke(ClientImpl.java:330) [cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.frontend.ClientProxy.invokeSync(ClientProxy.java:96) [cxf-rt-frontend-simple-2.7.10.jar:2.7.10]
+	at org.apache.cxf.jaxws.JaxWsClientProxy.invoke(JaxWsClientProxy.java:135) [cxf-rt-frontend-jaxws-2.7.10.jar:2.7.10]
+	at com.sun.proxy.$Proxy38.call(Unknown Source) [na:na]
+	at com.langnatech.test.IpmsSoapTest.testCancel(IpmsSoapTest.java:53) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_45]
+	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_45]
+	at junit.framework.TestCase.runTest(TestCase.java:176) [junit-4.11.jar:na]
+	at junit.framework.TestCase.runBare(TestCase.java:141) [junit-4.11.jar:na]
+	at junit.framework.TestResult$1.protect(TestResult.java:122) [junit-4.11.jar:na]
+	at junit.framework.TestResult.runProtected(TestResult.java:142) [junit-4.11.jar:na]
+	at junit.framework.TestResult.run(TestResult.java:125) [junit-4.11.jar:na]
+	at junit.framework.TestCase.run(TestCase.java:129) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.runTest(TestSuite.java:255) [junit-4.11.jar:na]
+	at junit.framework.TestSuite.run(TestSuite.java:250) [junit-4.11.jar:na]
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84) [junit-4.11.jar:na]
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382) [.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192) [.cp/:na]
+Caused by: java.net.SocketTimeoutException: SocketTimeoutException invoking http://localhost:8080/ipms/soap/ipmsservice: Read timed out
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[na:1.6.0_45]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39) ~[na:1.6.0_45]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27) ~[na:1.6.0_45]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.mapException(HTTPConduit.java:1339) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1323) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.AbstractConduit.close(AbstractConduit.java:56) ~[cxf-api-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit.close(HTTPConduit.java:628) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.interceptor.MessageSenderInterceptor$MessageSenderEndingInterceptor.handleMessage(MessageSenderInterceptor.java:62) ~[cxf-api-2.7.10.jar:2.7.10]
+	... 28 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method) ~[na:1.6.0_45]
+	at java.net.SocketInputStream.read(SocketInputStream.java:129) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:218) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read1(BufferedInputStream.java:258) ~[na:1.6.0_45]
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:317) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:698) ~[na:1.6.0_45]
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:641) ~[na:1.6.0_45]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1218) ~[na:1.6.0_45]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:379) ~[na:1.6.0_45]
+	at org.apache.cxf.transport.http.URLConnectionHTTPConduit$URLConnectionWrappedOutputStream.getResponseCode(URLConnectionHTTPConduit.java:266) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponseInternal(HTTPConduit.java:1531) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.handleResponse(HTTPConduit.java:1504) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	at org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream.close(HTTPConduit.java:1310) ~[cxf-rt-transports-http-2.7.10.jar:2.7.10]
+	... 31 common frames omitted

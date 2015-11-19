@@ -25,12 +25,15 @@ public class IPApplyException extends Exception {
   }
 
   public IPApplyException(IPApplyServRespCode servRespCode) {
+    super("错误代码：" + servRespCode.getCode() + "   错误信息：" + servRespCode.getDesc());
     this.errCode=servRespCode.getCode();
-    this.errDesc=servRespCode.getDesc();
+    this.errDesc=servRespCode.getDesc();    
   }
 
   public IPApplyException(Integer errCode, String errDesc) {
     super("错误代码：" + errCode + "   错误信息：" + errDesc);
+    this.errCode=errCode;
+    this.errDesc=errDesc;
   }
 
   public IPApplyException(String message, Throwable cause) {

@@ -23,7 +23,7 @@ public interface SubNetResDao {
 
     boolean deleteSubnetByPid(String subnetPid);
 
-    boolean updateSubnetById(SubNetResEntity entity);
+    boolean updateSubnet(SubNetResEntity entity);
 
     SubNetResBean selectSubnetById(@Param(value = "subnetId") String subnetId);
 

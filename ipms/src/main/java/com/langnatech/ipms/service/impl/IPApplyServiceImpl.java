@@ -1,16 +1,22 @@
 package com.langnatech.ipms.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.langnatech.core.holder.IDGeneratorHolder;
+import com.langnatech.core.holder.PropertiesHolder;
+import com.langnatech.ipms.entity.DimCityEntity;
 import com.langnatech.ipms.entity.IPArchiveInfoEntity;
+import com.langnatech.ipms.enums.SubNetUseStatusEnum;
 import com.langnatech.ipms.exception.IPApplyException;
+import com.langnatech.ipms.service.DimCityService;
 import com.langnatech.ipms.service.IPApplyService;
 import com.langnatech.ipms.service.IPArchiveInfoService;
+import com.langnatech.ipms.service.IPAssignService;
+import com.langnatech.ipms.service.SubNetResService;
 import com.langnatech.ipms.webservice.IPApplyServRespCode;
 import com.langnatech.ipms.webservice.bean.ApplyInfoBean;
 import com.langnatech.ipms.webservice.bean.ApplyResultBean;
@@ -21,84 +27,94 @@ public class IPApplyServiceImpl implements IPApplyService {
   @Autowired
   private IPArchiveInfoService archiveInfoService;
 
+  @Autowired
+  private IPAssignService assignService;
+
+  @Autowired
+  private DimCityService cityService;
+
+  private SubNetResService subnetService;
+
   @Override
-  public ApplyResultBean availableQuery(String applyCity, Integer busiType, Integer IpCount)
+  public ApplyResultBean availableQuery(String applyCity, Integer busiType, Integer ipCount)
       throws IPApplyException {
-    ApplyResultBean resultBean = new ApplyResultBean();
-    // TODO 实现查询可用IP的逻辑，如果无可用IP，返回null
-    resultBean.setStartIP("111.20.40.1");
-    resultBean.setEndIP("111.20.40.6");
-    resultBean.setNetmask("255.255.255.248");
-    resultBean.setIpCount(6);
-    resultBean.setIplist(Lists.newArrayList("111.20.40.1", "111.20.40.2", "111.20.40.3",
-        "111.20.40.4", "111.20.40.5", "111.20.40.6"));
-    return resultBean;
+    String poolId = paramValidate(applyCity, busiType);
+    return assignService.availableQuery(poolId, applyCity, ipCount);
   }
 
   @Override
   public ApplyResultBean applyReserveIP(ApplyInfoBean applyInfo) throws IPApplyException {
-    // TODO 申请备案信息校验
-    String validateErr = validateArchiveInfo(applyInfo);
-    if (StringUtils.isNotEmpty(validateErr)) {
-      throw new IPApplyException(IPApplyServRespCode.Validate_Error.getCode(), validateErr);
-    }
-    // TODO 根据申请ip数量，验证是否有可用ip，拆分子网并更新为预留状态
     ApplyResultBean resultBean = null;
+    // 1.接口调用参数验证
+    String poolId = paramValidate(applyInfo.getApplyCity(), applyInfo.getBusiType());
+    // 2.备案信息校验
     try {
-      resultBean = reserveSubnet(applyInfo);
+      archiveInfoService.validateArchiveInfo(applyInfo);
     } catch (Exception e) {
-      e.printStackTrace();
-      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
-          "动态拆分网段出错！" + e.getMessage());
+      throw new IPApplyException(IPApplyServRespCode.Validate_Error.getCode(), e.getMessage());
     }
-    // TODO 备案信息入库
-    if (resultBean != null) {
+    // 3.分配子网，标记网段为预留状态
+    try {
+      resultBean =
+          assignService.assignIpSubnet(poolId, applyInfo.getApplyCity(), applyInfo.getIpCount());
+    } catch (Exception e) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "分配网段出错！" + e.getMessage());
+    }
+    // 4.如分配子网成功，保存备案信息；如无可用IP，返回异常信息
+    if (resultBean != null && CollectionUtils.isNotEmpty(resultBean.getIplist())) {
       IPArchiveInfoEntity archiveInfo = fillArchiveInfo(applyInfo, resultBean);
-      int flag = archiveInfoService.saveArchiveInfo(archiveInfo);
-      if (flag == 1) {
-        return resultBean;
+      try {
+        archiveInfoService.saveArchiveInfo(archiveInfo);
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+            "分配网段出错！保存备案信息出错！" + e.getMessage());
       }
     } else {
       throw new IPApplyException(IPApplyServRespCode.No_Available_IP);
     }
-    
-    
-    //TODO 临时代替
-    resultBean.setStartIP("111.20.40.1");
-    resultBean.setEndIP("111.20.40.6");
-    resultBean.setNetmask("255.255.255.248");
-    resultBean.setIpCount(6);
     return resultBean;
   }
 
   @Override
   public void applyCancel(String applyCode, String operator) throws IPApplyException {
-    // TODO 判断申请单号是否存在
-    boolean isExist = isExistApplyCode(applyCode);
-    if (!isExist) {
+    // 查询申请单号是否存在
+    IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
+    if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
     }
-    // TODO 取消申请单，标记网段状态为空闲，备案信息标记为删除
+    // 标记网段状态为空闲
+    subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
+        SubNetUseStatusEnum.AVAILABLE.getCode());
+    // 备案信息标记为删除
+    archiveInfoService.delArchiveInfo(applyCode);
   }
 
   @Override
   public void applyUse(String applyCode, String operator) throws IPApplyException {
-    // TODO 判断申请单号是否存在
-    boolean isExist = isExistApplyCode(applyCode);
-    if (!isExist) {
+    // 查询申请单号是否存在
+    IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
+    if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
     }
-    // TODO 更新网段状态为已使用
+    // 标记网段状态为已使用
+    subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
+        SubNetUseStatusEnum.USED.getCode());
   }
 
   @Override
   public void applyRecycle(String applyCode, String operator) throws IPApplyException {
-    // TODO 判断申请单号是否存在
-    boolean isExist = isExistApplyCode(applyCode);
-    if (!isExist) {
+    // 查询申请单号是否存在
+    IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
+    if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
     }
-    // TODO 更新网段状态为空闲，备案信息标记为删除
+    // 标记网段状态为空闲
+    subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
+        SubNetUseStatusEnum.AVAILABLE.getCode());
+    // 备案信息标记为删除
+    archiveInfoService.delArchiveInfo(applyCode);
   }
 
   private IPArchiveInfoEntity fillArchiveInfo(ApplyInfoBean applyInfo, ApplyResultBean resultBean) {
@@ -128,10 +144,10 @@ public class IPApplyServiceImpl implements IPApplyService {
     archiveInfo.setOrgTrade(applyInfo.getCoIndustry());
     archiveInfo.setOrgType(applyInfo.getCoClassify());
     if (applyInfo.getBusiType() == 1) {
-      archiveInfo.setPoolId("");// TODO 根据地址编码，修改为专线地址池编码
+      archiveInfo.setPoolId(PropertiesHolder.getProperty("POOL_ID_SPECIAL"));
     }
     if (applyInfo.getBusiType() == 2) {
-      archiveInfo.setPoolId("");// TODO 根据地址编码，修改为IDC地址池编码
+      archiveInfo.setPoolId(PropertiesHolder.getProperty("POOL_ID_IDC"));
     }
     archiveInfo.setSubnetId(resultBean.getSubnetId());
     archiveInfo.setUseDate(null);
@@ -139,18 +155,30 @@ public class IPApplyServiceImpl implements IPApplyService {
     return archiveInfo;
   }
 
-  // TODO 根据申请ip数量，验证是否有可用ip，拆分子网并更新为预留状态
-  private ApplyResultBean reserveSubnet(ApplyInfoBean applyInfoBean) throws Exception {
-    return null;
-  }
-
-  // TODO 校验备案信息
-  private String validateArchiveInfo(ApplyInfoBean applyInfoBean) {
-    return null;
-  }
-
-  // TODO 判断申请单号是否存在
-  private boolean isExistApplyCode(String applyCode) {
-    return true;
+  /**
+   * 接口调用入参校验
+   * 
+   * @param applyInfo
+   * @return
+   * @throws IPApplyException
+   */
+  private String paramValidate(String applyCity, Integer busiType) throws IPApplyException {
+    String poolId = null;
+    if (busiType == 1) {// 专线地址
+      poolId = PropertiesHolder.getProperty("POOL_ID_SPECIAL");
+    }
+    if (busiType == 2) {// IDC地址
+      poolId = PropertiesHolder.getProperty("POOL_ID_IDC");
+    }
+    if (StringUtils.isEmpty(poolId)) {
+      throw new IPApplyException(IPApplyServRespCode.Parameter_Error.getCode(),
+          "接口调用传参不正确 , 申请业务类型参数不正确！[busiType="+busiType+"] ]");
+    }
+    DimCityEntity cityBean = cityService.getCityByCityId(applyCity);
+    if (cityBean == null) {
+      throw new IPApplyException(IPApplyServRespCode.Parameter_Error.getCode(),
+          "接口调用传参不正确 ， 申请地市不存在！[applyCity="+applyCity+"] ]");
+    }
+    return poolId;
   }
 }

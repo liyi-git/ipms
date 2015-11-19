@@ -35,4 +35,6 @@ public interface SubNetResService {
     public boolean isExistSubnet(String desc);
 
     public List<SubNetResEntity> getParentSubNetsBySubId(String subnetId);
+    
+    public boolean updateSubnetUseStatus(String subnetId,Integer status);
 }
