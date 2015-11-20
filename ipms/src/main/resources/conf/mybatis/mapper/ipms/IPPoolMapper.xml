@@ -25,7 +25,7 @@
 		WHERE A.IS_PLAN_CITY = 1 
 		  AND A.IS_VALID = 1 
 		  AND B.IS_VALID = 1 
-		  AND B.CITY_ID != '999') 
+		  AND B.CITY_ID != '-999') 
 		UNION
 		(SELECT 
 			  A.SUBNET_ID AS ID,
@@ -51,7 +51,7 @@
 		(SELECT 
 		  POOL_ID AS ID,
 		  POOL_NAME AS NAME,
-		  '999' AS PID,
+		  '-999' AS PID,
 		  'P' AS TYPE,
 		  SORT_INDEX 
 		FROM
@@ -81,7 +81,7 @@
 		WHERE A.IS_PLAN_CITY = 1 
 		  AND A.IS_VALID = 1 
 		  AND B.IS_VALID = 1 
-		  AND B.CITY_ID != '999') 
+		  AND B.CITY_ID != '-999') 
 		UNION
 		(SELECT 
 			  A.SUBNET_ID AS ID,
@@ -192,7 +192,7 @@
 		    GROUP BY A.CITY_ID
 		    ) T2
 		 ON T1.CITY_ID=T2.CITY_ID
-		 WHERE T1.IS_VALID=1 AND T1.CITY_ID!='999'
+		 WHERE T1.IS_VALID=1 AND T1.CITY_ID!='-999'
 		 ORDER BY T1.SORT_INDEX
 	</select>
 	<!--查询IP地址池概况信息（地址池下展示子网）-->
@@ -238,7 +238,7 @@
 	</select>
 	
 	<select id="selectPoolStatByCity" parameterType="java.lang.String" resultType="map">
-		<if test="cityId!=999">
+		<if test="cityId!=-999">
 		SELECT 
 		  T1.POOL_ID,
 		  T1.POOL_NAME,
@@ -260,7 +260,7 @@
 		  T1.POOL_NAME 
 		ORDER BY T1.SORT_INDEX 
 		</if>
-		<if test="cityId==999">
+		<if test="cityId==-999">
 		SELECT 
 		  T1.POOL_ID,
 		  T1.POOL_NAME,

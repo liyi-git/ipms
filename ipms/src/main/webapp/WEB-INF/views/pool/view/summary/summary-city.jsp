@@ -79,10 +79,10 @@ require([ 'jquery','module/main','echart-chart/pie','table'], function($,main,ec
    		    var args = event.args;
    		    if(args.dataField==='POOL_ID'){
 				var poolId=args.row['POOL_ID'];
-				<c:if test="${CITY_ID=='999'}">
+				<c:if test="${CITY_ID=='-999'}">
 				main.loadPage( _g_const.ctx+ '/pool/P_'+poolId+"/show",{},"CLOSEST",$(this));
 				</c:if>
-				<c:if test="${CITY_ID!='999'}">
+				<c:if test="${CITY_ID!='-999'}">
 				main.loadPage( _g_const.ctx+ '/pool/PC_'+poolId+'-'+${CITY_ID}+"/show",{},"CLOSEST",$(this));
 				</c:if>
    		    }
