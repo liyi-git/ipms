@@ -128,7 +128,7 @@
 	                                	reloadGrid();
 	                                });
 	                             }else if($(this).attr("class")=="func_split"){
-	                                popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+$(this).attr('val'), {width:700,height:700},function(){
+	                                popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+$(this).attr('val'), {width:800,height:800},function(){
 	                                    reloadGrid();
 	                                });
 	                             }else if($(this).attr("class")=="func_merge"){

@@ -9,14 +9,17 @@ import org.springframework.util.Assert;
 public class IpUtils {
 
     public static void main(String[] args) {
-        System.out.println(getMaskBits("255.255.235.0"));
-        System.out.println(getHostNum(24));
-        System.out.println(getBroadcastIp("222.216.207.55", 24));
-        System.out.println(getNetWorkIp("222.216.207.55", 24));
-        System.out.println(getFirstIp("222.216.207.55", 24));
-        System.out.println(getLastIp("222.216.207.55", 24));
-        long dec=IpUtils.getDecByIp("222.216.0.1");
-        System.out.println(IpUtils.getIpByDec(dec+550));
+//        System.out.println(getMaskBits("255.255.235.0"));
+//        System.out.println(getHostNum(24));
+        //System.out.println(getBroadcastIp("222.216.207.55", 24));
+//        System.out.println(getNetWorkIp("222.216.207.55", 24));
+//        System.out.println(getFirstIp("222.216.207.55", 24));
+//        System.out.println(getLastIp("222.216.207.55", 24));
+//        long dec=IpUtils.getDecByIp("222.216.0.1");
+//        System.out.println(IpUtils.getIpByDec(dec+550));
+       // System.out.println(getIpByDec(getFirstIp("20.2.3.4",28)));
+    	//System.out.println(getIpByDec(352453380));
+    	System.out.println(getBroadcastIp("20.2.3.4",28));
     }
 
     private final static int ipbits = 32;
@@ -220,20 +223,24 @@ public class IpUtils {
      * @return String 点分十进制地址
      */
     public static String getBroadcastIp(String ip, String netmask) {
-        String ipBin = Long.toBinaryString(getDecByIp(ip));
         int maskbits = getMaskBits(netmask);
+        String ipAddress = Long.toBinaryString(getDecByIp(ip));
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < maskbits - ipBin.length(); i++ ) {
+        for(int i=0;i<32-ipAddress.length();i++){
             sb.append("0");
         }
-        sb.append(ipBin);
-        char[] valueList = sb.toString().toCharArray();
-        for (int k = maskbits; k < ipbits && k < valueList.length; k++ ) {
-            valueList[k] = '1';
+        sb.append(ipAddress);
+        char[] valuelist = sb.toString().toCharArray();
+        for(int k=maskbits;k<32 && k<valuelist.length;k++)
+        {
+            valuelist[k]='1';
         }
-
-        return getIpByBin(String.valueOf(valueList));
+         
+        return getIpByBin(String.valueOf(valuelist));
     }
+    
+    
+    
 
     /**
      * @Title: getBroadcastIp
@@ -246,30 +253,6 @@ public class IpUtils {
         String netMaskBin = getMaskBinByMbits(maskbits);
         return getBroadcastIp(ip, getIpByBin(netMaskBin));
     }
-
-    // public static String getNetWorkIp(String ip, int maskbits) {
-    // String binIp = Long.toBinaryString(getDecByIp(ip));
-    // String binMask = getMaskBinByMbits(maskbits);
-    // int len = binIp.length();
-    // String netIp = "";
-    //
-    // if (binMask.length() > len) {
-    // len = binMask.length();
-    // }
-    //
-    // while (binIp.length() < len) {
-    // binIp = "0" + binIp;
-    // }
-    //
-    // while (binMask.length() < len) {
-    // binMask = "0" + binMask;
-    // }
-    // for (int i = 0; i < len; i++ ) {
-    // netIp = netIp + ( (String.valueOf(binIp.charAt(i)).equals("1") && String.valueOf(binMask.charAt(i)).equals("1"))
-    // ? "1" : "0");
-    // }
-    // return getIpByBin(netIp);
-    // }
 
     /**
      * @Title: getFirstIp
@@ -404,5 +387,8 @@ public class IpUtils {
     public static String replaceChar(String str, int pos, String text) {
         return str.substring(0, pos - 1) + text + str.substring(pos, str.length());
     }
+    
+    
+
 
 }

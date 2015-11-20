@@ -10,31 +10,29 @@ import com.langnatech.ipms.entity.SubNetResEntity;
 
 public interface SubNetResService {
 
-    public List<SubNetResBean> getAllSubNet(String subnetPid, Integer planStatus);
+	 public List<SubNetResBean> getAllSubNet(String subnetPid, Integer planStatus);
 
-    public PageList<SubNetResBean> getAssignSubnetByPoolId(String poolId, PageQuery pageQuery);
+	    public PageList<SubNetResBean> getAssignSubnetByPoolId(String poolId, PageQuery pageQuery);
 
-    public PageList<SubNetResBean> getAllSubNet(String subnetPid, PageQuery pageQuery);
+	    public PageList<SubNetResBean> getAllSubNet(String subnetPid, PageQuery pageQuery);
 
-    public PageList<Map<String, Object>> getSubNetsBySelfQuery(String[] poolIds, SubNetResEntity subNetRes, IPArchiveInfoEntity archiveInfo, PageQuery page);
+	    public PageList<Map<String, Object>> getSubNetsBySelfQuery(String[] poolIds, SubNetResEntity subNetRes, IPArchiveInfoEntity archiveInfo, PageQuery page);
 
-    public boolean insertSubNet(SubNetResEntity entity);
+	    public SubNetResBean selectSubnetById(String subnetId);
+	    
+	    public List<SubNetResEntity> getParentSubNetsBySubId(String subnetId);
 
-    public boolean insertBatchSubnet(List<SubNetResEntity> entitys);
+	    public boolean splitSubnet(SubNetResEntity[] entitys);
 
-    public SubNetResBean selectSubnetById(String subnetId);
+	    public boolean planSubnet(SubNetResEntity entity);
 
-    public boolean updateSubnetById(SubNetResEntity entity);
+	    public boolean deleteSubnetById(String subnetId);
 
-    public boolean splitSubnet(SubNetResEntity entity);
+	    public boolean mergeSubnetById(String subnetId);
 
-    public boolean deleteSubnetById(String subnetId);
+	    public boolean isExistSubnet(String desc);
 
-    public boolean mergeSubnetById(String subnetId);
+	    public boolean insertSubNet(String ip, int maskbits, String area, String pool);
 
-    public boolean isExistSubnet(String desc);
-
-    public List<SubNetResEntity> getParentSubNetsBySubId(String subnetId);
-    
-    public boolean updateSubnetUseStatus(String subnetId,Integer status);
+	    public boolean updateSubnetUseStatus(String subnetId,Integer status);
 }

@@ -22,6 +22,8 @@ public interface SubNetResDao {
     boolean deleteSubnetById(String subnetId);
 
     boolean deleteSubnetByPid(String subnetPid);
+    
+    boolean deleteChildByPid(@Param(value = "subnetId") String subnetId);
 
     boolean updateSubnet(SubNetResEntity entity);
 
@@ -29,18 +31,17 @@ public interface SubNetResDao {
 
     public PageList<Map<String, Object>> selectSubNetsBySelfQuery(@Param(value = "poolIds") String[] poolIds, @Param(value = "subnet") SubNetResEntity subNetRes,
                                                                   @Param(value = "archive") IPArchiveInfoEntity archiveInfo, PageQuery page);
-
     public List<SubNetResEntity> selectParentSubNetsBySubId(@Param(value = "subnetId") String subnetId);
 
     public PageList<SubNetResBean> selectAssignSubnetByPoolId(@Param(value = "poolId") String poolId, PageQuery pageQuery);
 
     public List<String> selectPlanedOrPlaningByPid(@Param(value = "subnetId") String subnetId);
 
-    boolean deleteChildByPid(@Param(value = "subnetId") String subnetId);
+    
 
     public List<String> isExistSubnet(@Param(value = "desc") String desc);
 
-    //ESOP接口扩展
-    public List<SubNetResEntity> getUsableSubnetList(@Param(value = "cityId") String cityId);
+  
+    public List<SubNetResEntity> selectUsableSubnets(@Param(value = "poolId") String poolId,@Param(value = "cityId") String cityId);
 
 }

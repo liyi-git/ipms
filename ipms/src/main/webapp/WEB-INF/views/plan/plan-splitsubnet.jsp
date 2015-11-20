@@ -72,7 +72,7 @@
 					value="${entity.beginIp}" name="beginIp"> <input type="hidden" class="aui-input"
 					value="${entity.beginIpDecimal}" name="beginIpDecimal"> <input type="hidden" class="aui-input"
 					value="${entity.endIp}" name="endIp"> <input type="hidden" class="aui-input" value="${entity.endIpDecimal}"
-					name="endIpDecimal"> <input type="hidden" class="aui-input" value="${entity.maskBits}" name="maskBits">
+					name="endIpDecimal"> <input id="pmaskbits" type="hidden" class="aui-input" value="${entity.maskBits}" name="maskBits">
 				<input type="hidden" class="aui-input" value="${entity.subnetPid}" name="subnetPid"> <input type="hidden"
 					class="aui-input" value="${entity.isIpv6}" name="isIpv6"> <input type="hidden" class="aui-input"
 					value="${entity.useStatus}" name="useStatus"> <input type="hidden" class="aui-input" value="${entity.lft}"
@@ -158,7 +158,16 @@
             var $ele=$(this.element);
             if(!!$ele.attr("id")&&$ele.attr("id")=="inputNetMask"){
                 if($ele.is(":visible")&&obj!="-9"){
-                    getSubnetData($("input[name='beginIp']").val(),$ele.attr("val"));
+                	var subnetIp=$("#inputIp").val();
+                	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+                	if($ele.attr("val")<$("#pmaskbits").val()){
+                		alert("拆分网段超出规划IP地址数量!");
+                		$("#ipms-splitTable").hide();
+                		return false;
+                	}else{
+                		getSubnetData(subnetIp,$ele.attr("val"));
+                	}
+                    
                 }
             }
             var $ul=this.getDimPanel(),
@@ -198,24 +207,60 @@
             $(this).val("");
         }).blur(function(){
             if(!!$(this).val()){
-            	var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
-            	getSubnetData($("input[name='beginIp']").val(),$split.getMaskBits(jsonObj.mask));
+            	var subnetIp=$("#inputIp").val();
+            	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+            	//var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
+            	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val());
+            	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
+            		alert("拆分网段超出规划IP地址数量!");
+            		$("#ipms-splitTable").hide();
+            		return false;
+            	}else{
+            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
+            	}
             }
         }).keyup(function(event){
              if(event.keyCode == 13){
-            	 var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
-                 getSubnetData($("input[name='beginIp']").val(),$split.getMaskBits(jsonObj.mask)); 
+            	 var subnetIp=$("#inputIp").val();
+            	 subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+             	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val())
+            	 //var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
+             	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
+            		alert("拆分网段超出规划IP地址数量!");
+            		$("#ipms-splitTable").hide();
+            		return false;
+            	}else{
+            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
+            	}
              }     
         });
         $("#ipNum").find("input").focus(function(){
         	$(this).val("")
         }).blur(function(){
-        	var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
-            getSubnetData($("input[name='beginIp']").val(),$split.getMaskBits(jsonObj.mask));
+        	var subnetIp=$("#inputIp").val();
+        	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+        	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
+        	//var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
+        	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
+        		alert("拆分网段超出规划IP地址数量!");
+        		$("#ipms-splitTable").hide();
+        		return false;
+        	}else{
+        		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
+        	}
         }).keyup(function(event){
         	 if(event.keyCode == 13){
-        		 var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
-                 getSubnetData($("input[name='beginIp']").val(),$split.getMaskBits(jsonObj.mask));
+        		 var subnetIp=$("#inputIp").val();
+             	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+             	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
+             	//var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
+             	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
+            		alert("拆分网段超出规划IP地址数量!");
+            		$("#ipms-splitTable").hide();
+            		return false;
+            	}else{
+            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
+            	}
         	 }
         });
        // 拆分后子网段数据
@@ -277,10 +322,11 @@
         				poolId=$($spanList[0]).attr("val")||"-9";
         				cityId=$($spanList[1]).attr("val")||"-1";
         			}
-        			
-        			if($(this).prop("checked")){
+        			//TODO 待增加网段合并功能
+        			/* if($(this).prop("checked")){
         				saveDataAry.push({subnetPid:$("input[name='subnetId']").val(),beginIp:$tdList.eq(1).text(),netmask:splitMask,endIp:$tdList.eq(2).text(),poolId:poolId,cityId:cityId});
-        			}
+        			} */
+        			saveDataAry.push({subnetPid:$("input[name='subnetId']").val(),beginIp:$tdList.eq(1).text(),netmask:splitMask,endIp:$tdList.eq(2).text(),poolId:poolId,cityId:cityId});
         		});
         	}
 

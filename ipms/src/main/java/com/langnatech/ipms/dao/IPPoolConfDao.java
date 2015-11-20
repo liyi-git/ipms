@@ -9,5 +9,5 @@ public interface IPPoolConfDao
 {
     List<IPPoolConfEntity> selectAllPoolConf();
 
-    IPPoolConfEntity selectPoolConfByPoolId();
+    IPPoolConfEntity selectPoolConfByPoolId(String poolId);
 }

@@ -245,6 +245,7 @@
         DELETE FROM ${SCHEMA_BASE}.IP_SUBNET_RES
         WHERE SUBNET_PID = #{subnetPid,jdbcType=VARCHAR}
     </delete>
+    
 	<update id="updateSubnet" parameterType="SubNetResEntity">
 		UPDATE ${SCHEMA_BASE}.IP_SUBNET_RES
 		<set>
@@ -305,6 +306,7 @@
 		</set>
 		WHERE SUBNET_ID = #{subnetId,jdbcType=VARCHAR}
 	</update>
+	
 	<select id="selectSubNetsBySelfQuery" resultType="java.util.Map">
 		SELECT
 			T1.*,
@@ -402,17 +404,17 @@
 		</if>
 	</select>
 	
-	
-	<!-- ESOP 查询指定地市下的可用专线地址段 -->
-	<select id="getUsableSubnetList" resultMap="subNetResultMap" parameterType="java.lang.String">
+	<!-- 根据poolId和cityId查询可用网段数据 -->
+	<select id="selectUsableSubnets" resultMap="subNetResultMap" parameterType="java.lang.String">
 		<![CDATA[
 			SELECT 
 			  *
 			FROM
 			  ${SCHEMA_BASE}.IP_SUBNET_RES 
-			WHERE POOL_ID='301' AND CITY_ID=#{cityId} AND (USE_STATUS='-1' OR USE_STATUS='1') 
+			WHERE POOL_ID=#{poolId} AND CITY_ID=#{cityId} AND (USE_STATUS='-1' OR USE_STATUS='1') ORDER BY IP_COUNT
 		]]>
 	</select>
+	
 	<!-- 根据子网段IP获取所有父网段ID -->
 	<select id="selectParentSubNetsBySubId" resultMap="subNetResultMap" parameterType="java.lang.String">
 		<![CDATA[
@@ -428,6 +430,7 @@
 			WHERE C.SUBNET_ID = #{subnetId} AND P.SUBNET_ID IS NOT NULL
 		]]>
 	</select>
+	
 	<select id="selectAssignSubnetByPoolId" resultMap="subNetResultBean" parameterType="java.lang.String">
 		<if test="poolId==null">
 		SELECT T1.*,T2.CITY_NAME,T3.POOL_NAME 
@@ -451,6 +454,7 @@
 		 ORDER BY T1.BEGIN_IP_DECIMAL
 		</if>
 	</select>
+	
     <!--根据父网段id查询子网段是规划中或者已规划的-->
     <select id="selectPlanedOrPlaningByPid" resultMap="subNetResultMap" parameterType="java.lang.String">
        <![CDATA[ 
@@ -466,7 +470,8 @@
           AND (C.PLAN_STATUS="3" OR C.PLAN_STATUS='2')
           ]]>
     </select>
-    <!--删除子网段-->
+    
+    <!--递归删除子网段-->
     <delete id="deleteChildByPid" parameterType="java.lang.String">
         <![CDATA[ 
         DELETE 
@@ -487,6 +492,7 @@
               AND P.SUBNET_ID = #{subnetId}) T)
           ]]>
     </delete>
+    
     <!--验证新添加网段是否存在-->
     <select id="isExistSubnet" resultMap="subNetResultMap" parameterType="java.lang.String">
        SELECT SUBNET_ID FROM ${SCHEMA_BASE}.IP_SUBNET_RES WHERE SUBNET_DESC=#{desc}

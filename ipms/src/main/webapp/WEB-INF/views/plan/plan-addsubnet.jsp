@@ -67,12 +67,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="aui-form-item" style="display:none;">
-                    <label class="aui-label">描述信息</label>
-                    <div class="form-control">
-                        <textarea name="desc" class="aui-input" rows="4" id="inputDesc"></textarea>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -106,8 +100,11 @@
                         if (obj != "-9") {
                             if (!!inputIp) {
                             	isExistSubnet(inputIp,$("#inputNetMask").attr("val"));
+                            	// 先提示是否是超网
+                            	var mask = $split.decimalToAddr($split.getMaskDecimal(parseInt($("#inputNetMask").attr("val"))));
+                            	$split.isSupernetted(inputIp,mask);
                                 var ipObj = $split.getObjBymBits(inputIp,
-                                        $("#inputNetMask").attr("val"));
+                                		$("#inputNetMask").attr("val"));
                                 $("#inputIp").val(ipObj.firstIp);
                                 $("#lastedIp").val(ipObj.lastIp);
                                 $("#usableIp").val(ipObj.uIpNum);
@@ -169,7 +166,6 @@
                     params.area = "-1";
                 }
                 params.pool = $("#inputPool").attr("val");
-                params.desc = $("#inputDesc").val();
                 var url = _g_const.ctx + '/subnet/plan/addSubnet';
                 $.ajax({
                     type:'POST',

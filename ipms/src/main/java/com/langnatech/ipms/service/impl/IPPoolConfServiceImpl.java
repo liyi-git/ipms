@@ -23,7 +23,7 @@ public class IPPoolConfServiceImpl implements IPPoolConfService
 
     public IPPoolConfEntity getIPPoolConfByPoolId(String poolId)
     {
-        return ipPoolConfDao.selectPoolConfByPoolId();
+        return ipPoolConfDao.selectPoolConfByPoolId(poolId);
     }
 
 }
