@@ -73,7 +73,11 @@
                   	d_updatePlan="<a href='javascript:;' val="+rowData['subnetId']+" class='func_updatePlan'>重新规划</a>";
                  
                   if(status==Enums.planStatus.WAIT_PLAN){
-                  	return d_plan+d_split+d_delete;
+                	if(rowData['subnetPid']!=-1){
+                  		return d_plan+d_split;
+                	}else{
+                  		return d_plan+d_split+d_delete;
+                	}
                   }else if(status==Enums.planStatus.PLANNING){
                       return d_updatePlan+d_split;
                   }else if(status==Enums.planStatus.PLANNED){
