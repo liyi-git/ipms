@@ -651,7 +651,7 @@
         * 根据要拆分子网数量得到拆分掩码位数
         */
         getSplitMbitsBySubNum:function(){
-        	//1
+        	//s
         },
         /**
          * 根据子网内IP数量得到拆分掩码位数
@@ -986,7 +986,7 @@
                 ipobj.netIp = this.decimalToAddr(subnetBeginIpDec);
                 ipobj.beginIp = this.decimalToAddr(subnetBeginIpDec + 1);
                 subnetBeginIpDec += subnetHostNum - 1;
-                ipobj.maskIp = this.decimalToAddr(subnetBeginIpDec);
+                ipobj.maskIp = this.decimalToAddr(this.getMaskDecimal(splitMaskBit));
                 ipobj.endIp = this.decimalToAddr(subnetBeginIpDec - 1);
                 subnetBeginIpDec++;
                 resultList.push(ipobj);
