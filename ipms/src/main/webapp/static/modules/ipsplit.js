@@ -486,6 +486,85 @@
         },
 
         /**
+         *根据网段数量得到掩码位数
+         */
+        getMaskBitsBySubnetNum: function(subnetNum) {
+            var mbits = "";
+            switch (subnetNum - 2) {
+                case 2:
+                    mbits = 30;
+                    break;
+                case 6:
+                    mbits = 29;
+                    break;
+                case 14:
+                    mbits = 28;
+                    break;
+                case 30:
+                    mbits = 27;
+                    break;
+                case 62:
+                    mbits = 26;
+                    break;
+                case 126:
+                    mbits = 25;
+                    break;
+                case 254:
+                    mbits = 24;
+                    break;
+                case 510:
+                    mbits = 23;
+                    break;
+                case 1022:
+                    mbits = 22;
+                    break;
+                case 2046:
+                    mbits = 21;
+                    break;
+                case 4094:
+                    mbits = 20;
+                    break;
+                case 8190:
+                    mbits = 19;
+                    break;
+                case 16382:
+                    mbits = 18;
+                    break;
+                case 32766:
+                    mbits = 17;
+                    break;
+                case 65534:
+                    mbits = 16;
+                    break;
+                case 131070:
+                    mbits = 15;
+                    break;
+                case 262142:
+                    mbits = 14;
+                    break;
+                case 524286:
+                    mbits = 13;
+                    break;
+                case 1048574:
+                    mbits = 12;
+                    break;
+                case 2097150:
+                    mbits = 11;
+                    break;
+                case 4194302:
+                    mbits = 10;
+                    break;
+                case 8388606:
+                    mbits = 9;
+                    break;
+                case 16777214:
+                    mbits = 8;
+                    break;
+            }
+            return mbits;
+        },
+
+        /**
          * _getHostNum 获得主机数量（含广播地址和网络地址）
          *
          * @param {Number} maskdec(子网掩码十进制)
@@ -646,20 +725,66 @@
             }
 
         },
-        
-       /**
-        * 根据要拆分子网数量得到拆分掩码位数
-        */
-        getSplitMbitsBySubNum:function(){
-        	//s
-        },
+
         /**
-         * 根据子网内IP数量得到拆分掩码位数
+         * 根据要拆分子网数量得到拆分掩码位数
          */
-        getSplitMbitsByIpNum:function(){
-        
+        getSplitMbitsBySubNum: function(subnetIpCount, subnetNum) {
+            var i = 0;
+            var splitSubnetNum = 1;
+            subnetIpCount=parseInt(subnetIpCount);
+            subnetNum=parseInt(subnetNum);
+            if (subnetNum > 0 & (subnetNum & (subnetNum - 1)) == 0) {
+                splitSubnetNum = subnetNum;
+            } else {
+                if (subnetNum <= 0) {
+                    splitSubnetNum = 2;
+                } else {
+                    while ((splitSubnetNum = Math.pow(2, i)) <= subnetNum) {
+                        i++;
+                    }
+                }
+            }
+            splitSubnetNum = (subnetIpCount + 2) / splitSubnetNum;
+            if (splitSubnetNum < 1) {
+                alert("请输入能除尽 " + (subnetIpCount + 2) + "的正整数");
+                return false;
+            }
+            return this.getMaskBitsBySubnetNum(splitSubnetNum);
         },
 
+        /**
+         * 根据需要的子网内IP数量（ipCount）得到拆分掩码位数
+         */
+        getSplitMbitsByIpNum: function(subnetIpCount, ipCount) {
+            var i = 0;
+            var splitSubnetNum = 1;
+            subnetIpCount=parseInt(subnetIpCount);
+            subnetNum=parseInt(ipCount);
+            
+            if (ipCount > 0 & (ipCount & (ipCount - 1)) == 0) {
+            	if(ipCount=2){
+            		ipCount=ipCount*2;
+            	}
+                splitSubnetNum = ipCount;
+            } else {
+                if (ipCount <= 0) {
+                    splitSubnetNum = 4;
+                } else {
+                    while ((splitSubnetNum = Math.pow(2, i)) <= ipCount) {
+                        i++;
+                    }
+                }
+            }
+            splitSubnetNum = (subnetIpCount + 2) / splitSubnetNum;
+            if (splitSubnetNum < 1) {
+                alert("请输入能除尽 " + (subnetIpCount + 2) + "的正整数");
+                return false;
+            }
+            
+            return this.getSplitMbitsBySubNum(subnetIpCount,splitSubnetNum);
+        },
+        
         /**
          * getObjByHostNum 通过ip地址和每个网络的主机数来拆分IP
          *
@@ -801,7 +926,7 @@
                 var defaultMask = this.getDefaultMask(this.getIpDecimal(ip)),
                     binaryMask = this.decimalToBinary(this.getIpDecimal(mask)),
                     subnetNum = 0, // 可划分子网数量
-                	subnetList = [],
+                    subnetList = [],
                     blockSize = 0;
                 var addrAry = this.getAddrAry(ip);
                 var nbits = 0;
@@ -831,7 +956,7 @@
                             i3 = 0,
                             i2 = 0,
                             j = 0,
-                        	topi4 = 0,
+                            topi4 = 0,
                             topi3 = 0,
                             topi2 = 0,
                             topj = 0;
@@ -965,17 +1090,17 @@
 
 
         },
-        getSplitSubnet:function(subnetBeginIp, subnetIpCount,splitMaskBit) {
-        	subnetIpCount=parseInt(subnetIpCount);
-        	splitmaskBits=parseInt(splitMaskBit);
+        getSplitSubnet: function(subnetBeginIp, subnetIpCount, splitMaskBit) {
+            subnetIpCount = parseInt(subnetIpCount);
+            splitmaskBits = parseInt(splitMaskBit);
             if (splitMaskBit < 8 || splitMaskBit > 31) {
                 throw new Error("要拆分的子网掩码位数参数不正确！");
             }
             var subnetBeginIpDec = this.getIpDecimal(subnetBeginIp);
             var usableInfo = this.getObjBymBits(subnetBeginIp, splitMaskBit);
-            var subnetHostNum = usableInfo.hostNum+2;
-            
-            
+            var subnetHostNum = usableInfo.hostNum + 2;
+
+
             if (subnetHostNum > (subnetIpCount + 2)) {
                 throw new Error("将要拆分的子网主机数量不能大于当前子网的主机数量！");
             }

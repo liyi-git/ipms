@@ -203,16 +203,16 @@
             if(!!$(this).val()){
             	var subnetIp=$("#inputIp").val();
             	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-            	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val());
-            	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask)); 
+            	var splitMbits=$split.getSplitMbitsBySubNum($("#ipCount").val(),$(this).val());
+            	getSubnetData(subnetIp,$("#ipCount").val(),splitMbits); 
             	
             }
         }).keyup(function(event){
              if(event.keyCode == 13){
             	var subnetIp=$("#inputIp").val();
              	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-             	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val());
-             	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask)); 
+             	var splitMbits=$split.getSplitMbitsBySubNum($("#ipCount").val(),$(this).val());
+            	getSubnetData(subnetIp,$("#ipCount").val(),splitMbits);  
              }     
         });
         $("#ipNum").find("input").focus(function(){
@@ -220,13 +220,15 @@
         }).blur(function(){
         	var subnetIp=$("#inputIp").val();
          	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-        	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
-        	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask));
+        	var splitMbits=$split.getSplitMbitsByIpNum($("#ipCount").val(),$(this).val());
+        	getSubnetData(subnetIp,$("#ipCount").val(),splitMbits);
         }).keyup(function(event){
+        	if(event.keyCode == 13){
         	var subnetIp=$("#inputIp").val();
          	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-        	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
-        	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask));
+         	var splitMbits=$split.getSplitMbitsByIpNum($("#ipCount").val(),$(this).val());
+        	getSubnetData(subnetIp,$("#ipCount").val(),splitMbits);
+        	}
         });
        // 拆分后子网段数据
         function getSubnetData(subnetBeginIp, subnetIpCount,splitMaskBit){
