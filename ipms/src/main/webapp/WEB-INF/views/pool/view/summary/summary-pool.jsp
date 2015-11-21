@@ -80,7 +80,9 @@ require([ 'jquery','module/main','echart-chart/pie','table'], function($,main,ec
    		    var args = event.args;
    		    if(args.dataField==='POOL_ID'){
 				var poolId=args.row['POOL_ID'];
-				main.loadPage( _g_const.ctx+ '/pool/P_'+poolId+"/show",{},"CLOSEST",$(this));
+				if(poolId>0){
+					main.loadPage( _g_const.ctx+ '/pool/P_'+poolId+"/show",{},"CLOSEST",$(this));
+				}
    		    }
    		});
 	});
