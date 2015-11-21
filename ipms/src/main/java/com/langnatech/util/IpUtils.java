@@ -26,6 +26,7 @@ public class IpUtils {
     // System.out.println(getIpByDec(getFirstIp("20.2.3.4",28)));
     // System.out.println(getIpByDec(352453380));
     // System.out.println(getBroadcastIp("20.2.3.4", 28));
+    System.out.println(1%1000);
     System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
   }
 

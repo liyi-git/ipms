@@ -42,7 +42,6 @@ public class IPAddressController
     @ResponseBody
     public String saveReg(@PathVariable(value = "addressId") String addressId,IPAddressResEntity addressEntity, ModelMap map)
     {
-        System.out.println(addressEntity);
         int result=this.addressService.saveAddressRegistry(addressEntity);
         if(result>0){
             return "{\"success\":true}";

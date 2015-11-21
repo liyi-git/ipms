@@ -105,7 +105,7 @@
 		<property name="password" value="${jdbc.ipms.password}" />
 		<property name="defaultAutoCommit" value="false" />
 	</bean>
-	<!--log4jdbc-remix 日志输出跟踪 -->
+	<!--log4jdbc-remix 日志输出跟踪 
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="dataSourceSpied" />
 		<property name="logFormatter">
@@ -115,12 +115,11 @@
 			</bean>
 		</property>
 	</bean>
-	<!--
-		<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-			<property name="jndiName">
-				<value>${jndi.prefix}${jndi.ds.ipms}</value>
-			</property>
-		</bean>
-		-->
+	-->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>${jndi.prefix}${jndi.ds.ipms}</value>
+		</property>
+	</bean>
 	<!-- :::::: END 数据源配置 :::::: -->
 </beans>
