@@ -294,6 +294,9 @@ legend {
 			cellsAlign : 'center',
 			width : '80',
 			cellsRenderer : function(row, column, value, rowData) {
+				if(rowData['PLAN_STATUS']==Enums.planStatus.WAIT_PLAN){
+					return "";
+				}
 				return "<a href='javascript:;' evt-handler='view' val='"+rowData['SUBNET_ID']+"' desc='"+rowData['SUBNET_DESC']+"'>查看</a>";
 			}
 		} ];

@@ -478,7 +478,7 @@
          *
          */
         getMaskDecimal: function(maskbits) {
-            if (typeof maskbits != "number" || maskbits < 0 || maskbits > 32) {
+            if (maskbits < 0 || maskbits > 32) {
                 throw "getMaskDecimal(" + [].slice.call(arguments).join(',') + "): invalid argument " + maskbits;
             }
 
