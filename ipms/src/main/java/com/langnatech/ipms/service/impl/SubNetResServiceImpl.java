@@ -132,7 +132,7 @@ public class SubNetResServiceImpl implements SubNetResService {
          System.out.println(endIp);
          SubNetResEntity entity = new SubNetResEntity();
          entity.setSubnetId(IDGeneratorHolder.getId());
-         entity.setSubnetDesc(ip + "/" + maskbits);
+         entity.setSubnetDesc(IpUtils.getNetWorkIp(ip,maskbits) + "/" + maskbits);
 
          // 设置地址段状态(如果地址段不处于-9地址池向下判断，如果处于-9地址池则规划状态为待规划状态)
          if ( !POOL_ROOT_ID.equals(poolId)) {
@@ -255,7 +255,7 @@ public class SubNetResServiceImpl implements SubNetResService {
             subnetId = subnetPid;
             int maskbits = IpUtils.getMaskBits(netMask);
             entity.setSubnetId(IDGeneratorHolder.getId());
-            entity.setSubnetDesc(beginIp + "/" + maskbits);
+            entity.setSubnetDesc(IpUtils.getNetWorkIp(entitys[i].getBeginIp(),maskbits) + "/" + maskbits);
             
             if ( !POOL_ROOT_ID.equals(poolId)) {
             	// 更改设备、IDC、业务三个地址池的状态

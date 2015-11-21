@@ -22,7 +22,7 @@
 					<div class="aui-form-item">
 						<label class="aui-label">可用IP数量</label>
 						<div class="form-control">
-							<input type="text" class="aui-input" value="${entity.ipCount}" name="entity.ipCount" disabled="disabled">
+							<input type="text" class="aui-input" value="${entity.ipCount}" name="entity.ipCount" id="ipCount" disabled="disabled">
 						</div>
 					</div>
 					<div class="aui-form-item">
@@ -160,13 +160,7 @@
                 if($ele.is(":visible")&&obj!="-9"){
                 	var subnetIp=$("#inputIp").val();
                 	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-                	if($ele.attr("val")<$("#pmaskbits").val()){
-                		alert("拆分网段超出规划IP地址数量!");
-                		$("#ipms-splitTable").hide();
-                		return false;
-                	}else{
-                		getSubnetData(subnetIp,$ele.attr("val"));
-                	}
+                	getSubnetData(subnetIp,$("#ipCount").val(),$ele.attr("val")); 
                     
                 }
             }
@@ -209,74 +203,48 @@
             if(!!$(this).val()){
             	var subnetIp=$("#inputIp").val();
             	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-            	//var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
             	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val());
-            	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
-            		alert("拆分网段超出规划IP地址数量!");
-            		$("#ipms-splitTable").hide();
-            		return false;
-            	}else{
-            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
-            	}
+            	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask)); 
+            	
             }
         }).keyup(function(event){
              if(event.keyCode == 13){
-            	 var subnetIp=$("#inputIp").val();
-            	 subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-             	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val())
-            	 //var jsonObj=$split.getObjBySubnetNum($("input[name='beginIp']").val(),$(this).val());
-             	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
-            		alert("拆分网段超出规划IP地址数量!");
-            		$("#ipms-splitTable").hide();
-            		return false;
-            	}else{
-            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
-            	}
+            	var subnetIp=$("#inputIp").val();
+             	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+             	var jsonObj=$split.getObjBySubnetNum(subnetIp,$(this).val());
+             	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask)); 
              }     
         });
         $("#ipNum").find("input").focus(function(){
         	$(this).val("")
         }).blur(function(){
         	var subnetIp=$("#inputIp").val();
-        	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+         	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
         	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
-        	//var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
-        	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
-        		alert("拆分网段超出规划IP地址数量!");
-        		$("#ipms-splitTable").hide();
-        		return false;
-        	}else{
-        		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
-        	}
+        	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask));
         }).keyup(function(event){
-        	 if(event.keyCode == 13){
-        		 var subnetIp=$("#inputIp").val();
-             	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
-             	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
-             	//var jsonObj=$split.getObjByIpNum($("input[name='beginIp']").val(),$(this).val());
-             	if($split.getMaskBits(jsonObj.mask)<$("#pmaskbits").val()){
-            		alert("拆分网段超出规划IP地址数量!");
-            		$("#ipms-splitTable").hide();
-            		return false;
-            	}else{
-            		getSubnetData(subnetIp,$split.getMaskBits(jsonObj.mask));
-            	}
-        	 }
+        	var subnetIp=$("#inputIp").val();
+         	subnetIp=subnetIp.substr(0, subnetIp.indexOf('/'));
+        	var jsonObj=$split.getObjByIpNum(subnetIp,$(this).val());
+        	getSubnetData(subnetIp,$("#ipCount").val(),$split.getMaskBits(jsonObj.mask));
         });
        // 拆分后子网段数据
-        function getSubnetData(ip,maskbits){
-            var jsonObj=$split.getSubnetJson(ip,maskbits),
+        function getSubnetData(subnetBeginIp, subnetIpCount,splitMaskBit){
+            var jsonObj=$split.getSplitSubnet(subnetBeginIp, subnetIpCount,splitMaskBit),
                $dataTable=$("#ipms-splitTable");
             if(!!jsonObj){
                var $data=[],
                    domCheckbox="<td align='center'><label class='aui-label'><input type='checkbox' class='aui-checkbox'></label></td>";
                    $.each(jsonObj,function(idx,obj){
-                	   splitMask=obj.netMask;
-                   $data.push("<tr>"+domCheckbox+"<td>"+obj.firstIp+"</td><td>"+obj.lastIp+"</td><td><a href='javascript:;'>规划</a></td></tr>");
+                	   splitMask=obj.maskIp;
+                   $data.push("<tr>"+domCheckbox+"<td>"+obj.beginIp+"</td><td>"+obj.endIp+"</td><td><a href='javascript:;'>规划</a></td></tr>");
                });
                $dataTable.find("tbody").html($data.join(""));
                tableEvent($dataTable);
                $dataTable.show();
+            }else{
+            	$dataTable.find("tbody").html("");
+            	$dataTable.hide();
             }
         }
         function tableEvent($dataTable){

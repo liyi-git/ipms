@@ -646,6 +646,19 @@
             }
 
         },
+        
+       /**
+        * 根据要拆分子网数量得到拆分掩码位数
+        */
+        getSplitMbitsBySubNum:function(){
+        	//1
+        },
+        /**
+         * 根据子网内IP数量得到拆分掩码位数
+         */
+        getSplitMbitsByIpNum:function(){
+        
+        },
 
         /**
          * getObjByHostNum 通过ip地址和每个网络的主机数来拆分IP
@@ -951,6 +964,34 @@
             }
 
 
+        },
+        getSplitSubnet:function(subnetBeginIp, subnetIpCount,splitMaskBit) {
+        	subnetIpCount=parseInt(subnetIpCount);
+        	splitmaskBits=parseInt(splitMaskBit);
+            if (splitMaskBit < 8 || splitMaskBit > 31) {
+                throw new Error("要拆分的子网掩码位数参数不正确！");
+            }
+            var subnetBeginIpDec = this.getIpDecimal(subnetBeginIp);
+            var usableInfo = this.getObjBymBits(subnetBeginIp, splitMaskBit);
+            var subnetHostNum = usableInfo.hostNum+2;
+            
+            
+            if (subnetHostNum > (subnetIpCount + 2)) {
+                throw new Error("将要拆分的子网主机数量不能大于当前子网的主机数量！");
+            }
+            var splitSubnetNum = (subnetIpCount + 2) / subnetHostNum;
+            var resultList = [];
+            for (var i = 0; i < splitSubnetNum; i++) {
+                var ipobj = {};
+                ipobj.netIp = this.decimalToAddr(subnetBeginIpDec);
+                ipobj.beginIp = this.decimalToAddr(subnetBeginIpDec + 1);
+                subnetBeginIpDec += subnetHostNum - 1;
+                ipobj.maskIp = this.decimalToAddr(subnetBeginIpDec);
+                ipobj.endIp = this.decimalToAddr(subnetBeginIpDec - 1);
+                subnetBeginIpDec++;
+                resultList.push(ipobj);
+            }
+            return resultList;
         },
 
         getAddrAry: function(ip) {

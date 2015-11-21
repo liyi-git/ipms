@@ -102,7 +102,7 @@
                             	isExistSubnet(inputIp,$("#inputNetMask").attr("val"));
                             	// 先提示是否是超网
                             	var mask = $split.decimalToAddr($split.getMaskDecimal(parseInt($("#inputNetMask").attr("val"))));
-                            	$split.isSupernetted(inputIp,mask);
+                            	//$split.isSupernetted(inputIp,mask);
                                 var ipObj = $split.getObjBymBits(inputIp,
                                 		$("#inputNetMask").attr("val"));
                                 $("#inputIp").val(ipObj.firstIp);
