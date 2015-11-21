@@ -7,6 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <link rel="stylesheet" type="text/css" href="static/common/css/main.css" media="all" />
+    <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="ipsplit.js"></script>
 </head>
 <body>
@@ -107,10 +108,50 @@
                 </div>
             </div>
             <!--MS物流注入 end-->
+            <div class="aui-panel">
+                <div class="aui-panel-heading">test</div>
+                <div class="aui-panel-body">
+                    <table class="aui-table aui-table-bordered" id="splitTable">
+                        <thead>
+                            <tr>
+                                <th>网络地址</th>
+                                <th>起始地址</th>
+                                <th>结束地址</th>
+                                <th>广播地址</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
-        var $IP=$ip("#page-header");
+     $(document).ready(function(){
+        var $split=$ip("#page-header");
+        
+        //11.2.3.4/12验证通过  A
+        //111.2.3.4/12 验证通过 A
+        //133.2.3.4/19 验证通过 B
+        //200.2.3.4/27 验证通过 C
+        var jsonObj=$split.getSubnetJson("110.198.0.0","19"),
+               $dataTable=$("#splitTable");
+        console.log(jsonObj);
+        if(!!jsonObj){
+           var $data=[];
+            $.each(jsonObj,function(idx,obj){
+
+               $data.push("<tr><td>"+obj.netIp+"</td><td>"+obj.firstIp+"</td><td>"+obj.lastIp+"</td><td>"+obj.brandIp+"</td></tr>");
+           });
+           $dataTable.find("tbody").html($data.join(""));
+        }
+
+       // var usableinfo=$split.getUsableAsObj("20.3.4.5","255.255.255.240");
+       // console.log(usableinfo.firstIp);
+       // console.log(usableinfo.lastIp);
+     });
         // // var declimaIp=$IP.getNetDecimal("192.168.0.103","255.0.0.0");
         // // var addr=$IP.decimalToAddr(declimaIp);
         // // var broadcastIp=$IP.getBroadcastDec("192.168.0.103","255.255.255.0");
@@ -124,7 +165,6 @@
         // // /console.log(test);
         //var test=$IP.getObjBymBits("192.168.0.103","10");
         //console.log(test);
-        console.log($IP.getSubnetJson("192.168.0.1","16"));
         /*require([ 'jquery','aui/confirm'], function($) {
 
             $("#test").click(function(){
@@ -148,6 +188,7 @@
                     });
             });
         });*/
+        
     </script>
 </body>
 </html>

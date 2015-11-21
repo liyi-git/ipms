@@ -1,6 +1,5 @@
 package com.langnatech.ipms.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.langnatech.ipms.dao.SubNetResDao;
 import com.langnatech.ipms.entity.SubNetResEntity;
+import com.langnatech.ipms.enums.SubNetUseStatusEnum;
 import com.langnatech.ipms.service.IPAssignService;
 import com.langnatech.ipms.webservice.bean.ApplyResultBean;
 
@@ -49,9 +49,19 @@ public class IPAssignServiceImpl implements IPAssignService {
 		SubNetResEntity subnetEntity = new SubNetResEntity();
 		if (-1 != targetIndex) {
 			subnetEntity = usableSubnets.get(targetIndex);
+			subnetEntity.setUseStatus(SubNetUseStatusEnum.RESERVE.getCode());
+			this.subNetResDao.updateSubnet(subnetEntity);
 		} else {
-			targetIndex=binSearchSimilarSubnet(usableSubnets, ipC);
+			targetIndex=binSearchSimilarSubnet(usableSubnets, ipC*2);
 			subnetEntity = usableSubnets.get(targetIndex);
+			int mbtis=subnetEntity.getMaskBits()+1;
+			
+//			if(mbits<30){
+//				subnetEntity.setUseStatus(SubNetUseStatusEnum.RESERVE.getCode());
+//			}else{
+//				//没网段了
+//			}
+			
 		}
 		// 4.如不存在，则找一个大地址段进行拆分，并设置使用状态为已预留
 		ApplyResultBean resultBean = new ApplyResultBean();

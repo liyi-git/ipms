@@ -119,6 +119,37 @@
         },
 
         /**
+         * isSupernetted 判断是否是超网
+         *
+         * @param {String} ip
+         * @param {String} mask
+         * @return {boolean}
+         *
+         */
+        isSupernetted: function(ip, mask) {
+            var defaultMask = this.getDefaultMask(this.getIpDecimal(ip));
+            var uIpNum = this.getUsableAsObj(ip, mask).uIpNum;
+            var flag = false;
+            if (defaultMask == "255.0.0.0") {
+                if (uIpNum > 16777216) {
+                    alert("IP: " + ip + " is Supernetted");
+                    flag = true;
+                }
+            } else if (defaultMask == "255.255.0.0") {
+                if (uIpNum > 65536) {
+                    alert("IP: " + ip + " is Supernetted");
+                    flag = true;
+                }
+            } else if (defaultMask == "255.255.255.0") {
+                if (uIpNum > 256) {
+                    alert("IP: " + ip + " is Supernetted");
+                    flag = true;
+                }
+            }
+            return flag;
+        },
+
+        /**
          * getNetDecimal 获取网络地址的十进制
          *
          * @param {String/String} ip mask
@@ -513,6 +544,7 @@
                     maskBitsDec = this.getMaskBits(mask),
                     hostNum = this._getHostNum(this.getMaskDecimal(maskBitsDec)) - 1;
                 uIpNum = hostNum;
+
                 firstIp = this.decimalToAddr(netIpDec + 1);
                 lastIp = this.decimalToAddr(this.getBroadcastDec(ip, mask) - 1);
 
@@ -748,7 +780,6 @@
          * 
          */
         getSubnetJson: function(ip, maskbits) {
-            console.log(maskbits);
             var mask = this.decimalToAddr(this.getMaskDecimal(parseInt(maskbits)));
             if (!this.isIP(ip) || !this.isMask(mask)) {
                 return true;
@@ -761,146 +792,159 @@
                     blockSize = 0;
                 var addrAry = this.getAddrAry(ip);
                 var nbits = 0;
-                // A类
+                if (this.isSupernetted(ip, mask)) {
+                    var netIp = this.decimalToAddr(this.getNetDecimal(ip, mask));
+                    var firstIp = this.decimalToAddr(this.getNetDecimal(ip, mask) + 1);
+                    var lastIp = this.decimalToAddr(this.getBroadcastDec(ip, mask) - 1);
+                    var brandIp = this.decimalToAddr(this.getBroadcastDec(ip, mask));
 
-                if (defaultMask == "255.0.0.0") {
-                    console.log(1111);
-                    for (var i = 8; i < 32; i++) {
-                        if (binaryMask[i] == 1) {
-                            nbits = nbits + 1;
+                    subnetList.push({
+                        "netIp": netIp,
+                        "firstIp": firstIp,
+                        "lastIp": lastIp,
+                        "brandIp": brandIp,
+                        "netMask": mask
+                    });
+                } else {
+                    if (defaultMask == "255.0.0.0") {
+                        console.log("A");
+                        for (var i = 8; i < 32; i++) {
+                            if (binaryMask[i] == 1) {
+                                nbits = nbits + 1;
+                            }
                         }
-                    }
-                    var subnetNum = Math.pow(2, nbits),
-                        count = 0,
-                        i4 = 0,
-                        i3 = 0,
-                        i2 = 0,
-                        j = 0
-                    topi4 = 0,
-                        topi3 = 0,
-                        topi2 = 0,
-                        topj = 0;
-                    blockSize = ((16777216 / subnetNum));
-                    for (var i = 0; i < 16777216; i = i + blockSize) {
-                        var jsonObj = [];
-                        count = count + 1;
-                        i4 = i & 255;
-                        i3 = (i / 256) & 255;
-                        i2 = (i / 65536) & 255;
-                        j = i4 + 1;
-                        topi4 = ((i + blockSize) - 1) & 255;
-                        topi3 = (((i + blockSize) - 1) / 256) & 255;
-                        topi2 = (((i + blockSize) - 1) / 65536) & 255;
-                        topj = topi4 - 1;
-                        if (subnetNum == 8388608) {
-                            j = i4;
-                            topi4 = (i + blockSize - 1) & 255;
-                            topj = topi4;
-                        }
-
-                        var netIp = addrAry[0] + "." + i2 + "." + i3 + "." + i4;
-                        var firstIp = addrAry[0] + "." + i2 + "." + i3 + "." + j;
-                        var lastIp = addrAry[0] + "." + topi2 + "." + topi3 + "." + topj;
-                        var brandIp = addrAry[0] + "." + topi2 + "." + topi3 + "." + topi4;
-                        
-                        subnetList.push({
-                            "netIp": netIp,
-                            "firstIp": firstIp,
-                            "lastIp": lastIp,
-                            "brandIp": brandIp,
-                            "netMask": mask
-                        });
-                        if ((count == 256) && (subnetNum > 512)) {
-                            i = 16777216 - (count * blockSize);
-                        }
-                    }
-                }
-                // B类
-
-                if (defaultMask == "255.255.0.0") {
-                    console.log(2222);
-                    for (var i = 16; i < 32; i++) {
-                        if (binaryMask[i] == 1) {
-                            nbits = nbits + 1;
-                        }
-                    }
-                    // 可划分子网的数量
-                    var subnetNum = Math.pow(2, nbits),
-                        count = 0,
-                        i4 = 0,
-                        i3 = 0,
-                        j = 0,
+                        var subnetNum = Math.pow(2, nbits),
+                            count = 0,
+                            i4 = 0,
+                            i3 = 0,
+                            i2 = 0,
+                            j = 0,
                         topi4 = 0,
-                        topi3 = 0,
-                        topj = 0;
-                    blockSize = ((65536 / subnetNum));
-                    for (var i = 0; i < 65536; i = i + blockSize) {
-                        var jsonObj = [];
-                        count = count + 1;
-                        i4 = i & 255;
-                        i3 = (i / 256) & 255;
-                        j = i4 + 1;
-                        topi4 = ((i + blockSize) - 1) & 255;
-                        topi3 = (((i + blockSize) - 1) / 256) & 255;
-                        topj = topi4 - 1;
-                        if (subnetNum == 32768) {
-                            j = i4;
-                            topi4 = (i + blockSize - 1) & 255;
-                            topj = topi4;
-                        }
-                        var netIp = addrAry[0] + "." + addrAry[1] + "." + i3 + "." + i4;
-                        var firstIp = addrAry[0] + "." + addrAry[1] + "." + i3 + "." + j;
-                        var lastIp = addrAry[0] + "." + addrAry[1] + "." + topi3 + "." + topj;
-                        var brandIp = addrAry[0] + "." + addrAry[1] + "." + topi3 + "." + topi4;
+                            topi3 = 0,
+                            topi2 = 0,
+                            topj = 0;
+                        blockSize = ((16777216 / subnetNum));
+                        for (var i = 0; i < 16777216; i = i + blockSize) {
+                            var jsonObj = [];
+                            count = count + 1;
+                            i4 = i & 255;
+                            i3 = (i / 256) & 255;
+                            i2 = (i / 65536) & 255;
+                            j = i4 + 1;
+                            topi4 = ((i + blockSize) - 1) & 255;
+                            topi3 = (((i + blockSize) - 1) / 256) & 255;
+                            topi2 = (((i + blockSize) - 1) / 65536) & 255;
+                            topj = topi4 - 1;
+                            if (subnetNum == 8388608) {
+                                j = i4;
+                                topi4 = (i + blockSize - 1) & 255;
+                                topj = topi4;
+                            }
 
-                        subnetList.push({
-                            "netIp": netIp,
-                            "firstIp": firstIp,
-                            "lastIp": lastIp,
-                            "brandIp": brandIp,
-                            "netMask": mask
-                        });
-                        if ((count == 256) && (subnetNum > 512)) {
-                            i = 65536 - (count * blockSize);
+                            var netIp = addrAry[0] + "." + i2 + "." + i3 + "." + i4;
+                            var firstIp = addrAry[0] + "." + i2 + "." + i3 + "." + j;
+                            var lastIp = addrAry[0] + "." + topi2 + "." + topi3 + "." + topj;
+                            var brandIp = addrAry[0] + "." + topi2 + "." + topi3 + "." + topi4;
+
+                            subnetList.push({
+                                "netIp": netIp,
+                                "firstIp": firstIp,
+                                "lastIp": lastIp,
+                                "brandIp": brandIp,
+                                "netMask": mask
+                            });
+                            if ((count == 256) && (subnetNum > 512)) {
+                                i = 16777216 - (count * blockSize);
+                            }
                         }
                     }
-                }
-                // C类
-                if (defaultMask == "255.255.255.0") {
-                    console.log(333333);
-                    for (var i = 24; i < 32; i++) {
-                        if (binaryMask[i] == 1) {
-                            nbits = nbits + 1;
+                    // B类
+
+                    if (defaultMask == "255.255.0.0") {
+                        console.log("B");
+                        for (var i = 16; i < 32; i++) {
+                            if (binaryMask[i] == 1) {
+                                nbits = nbits + 1;
+                            }
+                        }
+                        // 可划分子网的数量
+                        var subnetNum = Math.pow(2, nbits),
+                            count = 0,
+                            i4 = 0,
+                            i3 = 0,
+                            j = 0,
+                            topi4 = 0,
+                            topi3 = 0,
+                            topj = 0;
+                        blockSize = ((65536 / subnetNum));
+                        for (var i = 0; i < 65536; i = i + blockSize) {
+                            var jsonObj = [];
+                            count = count + 1;
+                            i4 = i & 255;
+                            i3 = (i / 256) & 255;
+                            j = i4 + 1;
+                            topi4 = ((i + blockSize) - 1) & 255;
+                            topi3 = (((i + blockSize) - 1) / 256) & 255;
+                            topj = topi4 - 1;
+                            if (subnetNum == 32768) {
+                                j = i4;
+                                topi4 = (i + blockSize - 1) & 255;
+                                topj = topi4;
+                            }
+                            var netIp = addrAry[0] + "." + addrAry[1] + "." + i3 + "." + i4;
+                            var firstIp = addrAry[0] + "." + addrAry[1] + "." + i3 + "." + j;
+                            var lastIp = addrAry[0] + "." + addrAry[1] + "." + topi3 + "." + topj;
+                            var brandIp = addrAry[0] + "." + addrAry[1] + "." + topi3 + "." + topi4;
+
+                            subnetList.push({
+                                "netIp": netIp,
+                                "firstIp": firstIp,
+                                "lastIp": lastIp,
+                                "brandIp": brandIp,
+                                "netMask": mask
+                            });
+                            if ((count == 256) && (subnetNum > 512)) {
+                                i = 65536 - (count * blockSize);
+                            }
                         }
                     }
-                    // 可划分子网的数量
-                    var subnetNum = Math.pow(2, nbits),
-                        brand = "", //topi
-                        last = "", //topj
-                        j = 0;
-                    blockSize = ((256 / subnetNum));
-                    for (var i = 0; i < 256; i = i + blockSize) {
-                        var jsonObj = [];
-                        j = i + 1;
-                        brand = (i + blockSize - 1) & 255;
-                        last = brand - 1;
-                        if (subnetNum == 128) {
-                            j = i;
+                    // C类
+                    if (defaultMask == "255.255.255.0") {
+                        console.log("C");
+                        for (var i = 24; i < 32; i++) {
+                            if (binaryMask[i] == 1) {
+                                nbits = nbits + 1;
+                            }
+                        }
+                        // 可划分子网的数量
+                        var subnetNum = Math.pow(2, nbits),
+                            brand = "", //topi
+                            last = "", //topj
+                            j = 0;
+                        blockSize = ((256 / subnetNum));
+                        for (var i = 0; i < 256; i = i + blockSize) {
+                            var jsonObj = [];
+                            j = i + 1;
                             brand = (i + blockSize - 1) & 255;
-                            last = brand;
-                        }
-                        var netIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + i;
-                        var firstIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + j;
-                        var lastIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + last;
-                        var brandIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + brand;
+                            last = brand - 1;
+                            if (subnetNum == 128) {
+                                j = i;
+                                brand = (i + blockSize - 1) & 255;
+                                last = brand;
+                            }
+                            var netIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + i;
+                            var firstIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + j;
+                            var lastIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + last;
+                            var brandIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + brand;
 
-                        subnetList.push({
-                            "netIp": netIp,
-                            "firstIp": firstIp,
-                            "lastIp": lastIp,
-                            "brandIp": brandIp,
-                            "netMask": mask
-                        });
+                            subnetList.push({
+                                "netIp": netIp,
+                                "firstIp": firstIp,
+                                "lastIp": lastIp,
+                                "brandIp": brandIp,
+                                "netMask": mask
+                            });
+                        }
                     }
                 }
                 return subnetList;

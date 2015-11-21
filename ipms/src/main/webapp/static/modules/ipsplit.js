@@ -787,8 +787,8 @@
             try {
                 var defaultMask = this.getDefaultMask(this.getIpDecimal(ip)),
                     binaryMask = this.decimalToBinary(this.getIpDecimal(mask)),
-                    subnetNum = 0 // 可划分子网数量
-                subnetList = [],
+                    subnetNum = 0, // 可划分子网数量
+                	subnetList = [],
                     blockSize = 0;
                 var addrAry = this.getAddrAry(ip);
                 var nbits = 0;
@@ -817,8 +817,8 @@
                             i4 = 0,
                             i3 = 0,
                             i2 = 0,
-                            j = 0
-                        topi4 = 0,
+                            j = 0,
+                        	topi4 = 0,
                             topi3 = 0,
                             topi2 = 0,
                             topj = 0;

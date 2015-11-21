@@ -122,8 +122,14 @@ public class SubNetResServiceImpl implements SubNetResService {
      * @param poolId
      */
     public boolean insertSubNet(String ip, int maskbits, String area, String poolId) {
+    	System.out.println(ip);
+    	System.out.println(maskbits);
+    	
          String beginIp = IpUtils.getFirstIp(ip, maskbits);
+         System.out.println(beginIp);
+       
          String endIp = IpUtils.getLastIp(ip, maskbits);
+         System.out.println(endIp);
          SubNetResEntity entity = new SubNetResEntity();
          entity.setSubnetId(IDGeneratorHolder.getId());
          entity.setSubnetDesc(ip + "/" + maskbits);
