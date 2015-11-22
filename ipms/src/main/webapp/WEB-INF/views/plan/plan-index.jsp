@@ -66,11 +66,11 @@
    	        { text: '分配地市', dataField: 'cityName',align: 'center', cellsAlign: 'center',width:"15%"},
    	        { text: '操作',align: 'center', cellsAlign: 'center',width:"15%",cellsRenderer: function (row, column, value, rowData) {
                   var status=rowData["planStatus"]||'',color;
-                  var d_plan="<a href='javascript:;'  val="+rowData['subnetId']+" class='func_plan'>规划</a>",
-                  	d_split="<a href='javascript:;' style='margin-left:10px;' val="+rowData['subnetId']+" class='func_split'>拆分</a>",
-                  	d_merge="<a href='javascript:;'  val="+rowData['subnetId']+" class='func_merge'>回收子网</a>",
-                  	d_delete="<a href='javascript:;' style='margin-left:10px;'  val="+rowData['subnetId']+" class='func_delete'>删除</a>",
-                  	d_updatePlan="<a href='javascript:;' val="+rowData['subnetId']+" class='func_updatePlan'>重新规划</a>";
+                  var d_plan="<a href='javascript:;'  val="+rowData['subnetId']+" evt-handler='func_plan'>规划</a>",
+                  	d_split="<a href='javascript:;' style='margin-left:10px;' val="+rowData['subnetId']+" evt-handler='func_split'>拆分</a>",
+                  	d_merge="<a href='javascript:;'  val="+rowData['subnetId']+" evt-handler='func_merge'>回收子网</a>",
+                  	d_delete="<a href='javascript:;' style='margin-left:10px;'  val="+rowData['subnetId']+" evt-handler='func_delete'>删除</a>",
+                  	d_updatePlan="<a href='javascript:;' val="+rowData['subnetId']+" evt-handler='func_updatePlan'>重新规划</a>";
                  
                   if(status==Enums.planStatus.WAIT_PLAN){
                 	if(rowData['subnetPid']!=-1){
@@ -100,6 +100,28 @@
                 });
 	        });   	 		
    		    initTreeGrid();
+   		    $('#queryTablePanel').delegate('a[evt-handler]', 'click', function() {
+				var $e = $(this);
+				var val = $e.attr('val');
+				var func = $e.attr('evt-handler');
+            	if(func=="func_plan"){
+                    popup.openFrame('规划地址段', _g_const.ctx+ '/subnet/plan/showPlanSubnet/'+val, {width:600,minHeight:450},function(){
+                    	reloadGrid();
+                    });
+                 }else if(func=="func_split"){
+                    popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+val, {width:800,minHeight:450},function(){
+                        reloadGrid();
+                    });
+                 }else if(func=="func_merge"){
+                    mergeSubnet(val);
+                 }else if(func=="func_updatePlan"){
+                    popup.openFrame('重新规划地址段', _g_const.ctx+ '/subnet/plan/showPlanSubnet/'+val, {width:600,minHeight:450},function(){
+                        reloadGrid();
+                    });
+                 }else if(func=="func_delete"){
+                    delSubnet(val);
+                 }				
+   		    });
    	 	});
 	    function reloadGrid(){
 	    	$("#subnet-table").jqxTreeGrid('destroy');
@@ -126,26 +148,6 @@
 	    	        	},
 	    	            loadComplete: function (a) {
     	            		done(dataAdapter.records);
-	    	            	$("#tablesubnet-table").delegate("tbody > tr > td >a", "click", function(event) {
-		    	            	if($(this).attr("class")=="func_plan"){
-	                                popup.openFrame('规划地址段', _g_const.ctx+ '/subnet/plan/showPlanSubnet/'+$(this).attr('val'), {width:600},function(){
-	                                	reloadGrid();
-	                                });
-	                             }else if($(this).attr("class")=="func_split"){
-	                                popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+$(this).attr('val'), {width:800,minHeight:450},function(){
-	                                    reloadGrid();
-	                                });
-	                             }else if($(this).attr("class")=="func_merge"){
-	                                mergeSubnet($(this).attr("val"));
-	                             }else if($(this).attr("class")=="func_updatePlan"){
-	                                popup.openFrame('重新规划地址段', _g_const.ctx+ '/subnet/plan/showPlanSubnet/'+$(this).attr('val'), {width:600},function(){
-	                                    reloadGrid();
-	                                });
-	                             }else if($(this).attr("class")=="func_delete"){
-	                                delSubnet($(this).attr('val'));
-	                             }
-    	                    });
-	    	            	
 	    	            },
 	                    loadError: function (xhr, status, error) {
 	                        done(false);
