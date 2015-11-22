@@ -250,8 +250,8 @@ public class SubNetResServiceImpl implements SubNetResService {
    */
   public boolean splitSubnet(SubNetResEntity[] entitys) {
     List<SubNetResEntity> subnetList = new ArrayList<SubNetResEntity>();
-    String subnetId = "";
-    
+    String subnetPid = entitys[0].getSubnetPid();
+    SubNetResEntity pEntity = this.selectSubnetById(subnetPid);
     for (int i = 0; i < entitys.length; i++) {
       IPPoolConfEntity poolEntity =
           this.ipPoolConfDao.selectPoolConfByPoolId(entitys[i].getPoolId());
@@ -261,8 +261,6 @@ public class SubNetResServiceImpl implements SubNetResService {
       String beginIp = entitys[i].getBeginIp();
       String netMask = entitys[i].getNetmask();
       String endIp = entitys[i].getEndIp();
-      String subnetPid = entitys[i].getSubnetPid();
-      subnetId = subnetPid;
       int maskbits = IpUtils.getMaskBits(netMask);
       entity.setSubnetId(IDGeneratorHolder.getId());
       entity
@@ -300,7 +298,13 @@ public class SubNetResServiceImpl implements SubNetResService {
         entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
         entity.setCityId(cityId);
       }
-      entity.setPoolId(poolId);
+      if(pEntity.getPlanStatus()==SubNetPlanStatusEnum.PLANNED.getCode()){
+          entity.setPoolId(pEntity.getPoolId());
+          entity.setCityId(pEntity.getCityId());
+          entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+      }
+      entity.setPoolId(pEntity.getPoolId());
+      entity.setCityId(cityId);
       entity.setBeginIp(beginIp);
       entity.setBeginIpDecimal(IpUtils.getDecByIp(beginIp));
       entity.setEndIp(endIp);
@@ -316,7 +320,7 @@ public class SubNetResServiceImpl implements SubNetResService {
       entity.setOperateTime(DateTime.now().toDate());
       subnetList.add(entity);
     }
-    SubNetResEntity pEntity = this.selectSubnetById(subnetId);
+    
     // 拆分子网后更新父网段信息
     pEntity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
     pEntity.setUseStatus(Integer.valueOf("-1"));

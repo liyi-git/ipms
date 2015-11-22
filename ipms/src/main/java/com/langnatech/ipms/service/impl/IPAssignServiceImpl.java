@@ -3,9 +3,6 @@ package com.langnatech.ipms.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +23,6 @@ public class IPAssignServiceImpl implements IPAssignService {
 
 	@Autowired
 	private SubNetResDao subNetResDao;
-
-	@Autowired
-	private SqlSessionFactory sqlSessionFactory;
 
 	// TODO 可用IP查询
 	public ApplyResultBean availableQuery(String poolId, String cityId, Integer ipCount) {
