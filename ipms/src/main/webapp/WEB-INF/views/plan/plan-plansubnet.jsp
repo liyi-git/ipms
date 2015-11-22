@@ -122,6 +122,8 @@
 	                success:function(data){
 	                    if(data){
 	                        $(".fancybox-overlay",parent.document).trigger("click");
+	                    }else{
+	                    	alert("网段已经使用或者处于预留不能重新规划!");
 	                    }
 	                }
 	           });
