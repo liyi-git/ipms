@@ -45,7 +45,7 @@
 		</div>
 		<div class="aui-panel-body" id="subnet-overview-panel">
 			<ul class="ip-stat-chart" >
-			<c:set var="colorAry" value="${fn:split('0195FF,b73ce4,f9cc01,f78c00,83d95c',',')}" />
+			<c:set var="colorAry" value="${fn:split('0195FF,b73ce4,f9cc01,f78c00,83d95c,0395FF,b71fe4,f6cd01,f18c30,43d35c,d73fe4,e6cd31,b11c10,62de5c,b78e00,a3f95c',',')}" />
 			<c:set var="idField" value="${param.idField}_ID"/>
 			<c:set var="nameField" value="${param.idField}_NAME"/>
 			<c:if test="${param.idField=='SUBNET'}">

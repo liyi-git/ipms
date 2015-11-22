@@ -171,7 +171,7 @@ legend {
 <div class="aui-panel" id="queryResult-tab" val="tab-subnet">
 	<ul class="aui-tab-panel  fn-hide">
 		<li val="tab-subnet" target="query-Table">IP地址段</li>
-		<li val="tab-iplist" target="query-Table">IP地址</li>
+		<!-- <li val="tab-iplist" target="query-Table">IP地址</li> -->
 	</ul>
 	<div class="aui-panel-body" id="queryTablePanel">
 		<div id="query-Table"></div>
