@@ -10,7 +10,7 @@ require([ 'jquery','aui/popup','underscore','enums','treegrid','aui/confirm'], f
         dataType: "json",
         type:'POST',
         <c:if test="${POOL_ID==null}">
-		url: _g_const.ctx+"pool/getAssignSubnet",
+		url: _g_const.ctx+"/pool/getAssignSubnet",
 		</c:if>
 		<c:if test="${POOL_ID!=null}">
 		url: _g_const.ctx+"/pool/P_${POOL_ID}/getAssignSubnet",
