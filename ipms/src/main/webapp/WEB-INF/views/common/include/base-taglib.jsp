@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="aitag" %>
 <%@ taglib uri="/WEB-INF/tags/basefunc.prop.tld" prefix="exfn" %>  
 <c:set var="_SERVER_NAME" value="${pageContext.request.serverName}"/>
 <c:set var="_SERVER_PORT" value="${pageContext.request.serverPort}"/>

@@ -8,7 +8,7 @@
 		<div class="ipms-error-type _power"></div>
 		<h1>很抱歉，当前您没有访问权限！</h1>	
 		<dl>
-			<dt><a href='mailto:admin@chinamobile.com?subject=${aifunc:prop("portal.linkman.email.subject")}'>请联系管理员</a></dt>
+			<dt><a href='mailto:admin@chinamobile.com?subject=${exfn:prop("portal.linkman.email.subject")}'>请联系管理员</a></dt>
 			<dd>
 			</dd>
 		</dl>
