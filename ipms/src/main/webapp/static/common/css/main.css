@@ -1186,14 +1186,16 @@ fieldset[disabled] .aui-input-control
     right: 2px;
     float: right;
     width: 30px;
-    height: 40px;
-    line-height: 40px;
+    height: 30px;
+    line-height: 30px;
     cursor: pointer;
     text-align: center;
+    background: url(images/aui-popup-close.png);
 }
 a.aui-popup-close:hover
 {
     text-decoration: none;
+    background: url(images/aui-popup-close.png) 0 -30px;
 }
 a.aui-popup-close
 {

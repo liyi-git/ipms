@@ -51,8 +51,8 @@ require([ 'jquery','module/main','echart-chart/pie','table'], function($,main,ec
             	s+='<div style="font-size:12px;padding:2px 0 2px 3px;">0%</>'
             }
             return s+"</div>";
-        } },
-        { text: '操作',align: 'center', cellsAlign: 'center',width:120,cellsRenderer: function (row, column, value, rowData) {
+        } }
+        ,{ text: '操作',align: 'center',dataField: 'view', cellsAlign: 'center',width:120,cellsRenderer: function (row, column, value, rowData) {
         	return "<a href='javascript:;'>查看</a>"
         }}
     ];
@@ -74,7 +74,7 @@ require([ 'jquery','module/main','echart-chart/pie','table'], function($,main,ec
         });	
 		$statTable.on('rowClick',function(event){
    		    var args = event.args;
-   		    if(args.dataField==='CITY_ID'){
+   		    if(args.dataField==='CITY_ID'||args.dataField=='view'){
 				var cityId=args.row['CITY_ID'];
 				var poolId=args.row['POOL_ID'];
 				main.loadPage( _g_const.ctx+ '/pool/PC_${POOL_ID}-'+cityId+"/show",{},"CLOSEST",$(this));

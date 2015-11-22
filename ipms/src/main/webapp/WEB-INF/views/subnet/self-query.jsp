@@ -351,7 +351,7 @@ legend {
 				var desc = $e.attr('desc');
 				var func = $e.attr('evt-handler');
 				if (func === 'view') {
-					popup.openAjax('查看子网信息 [ ' + desc + ' ] ', _g_const.ctx + '/subnet/' + val + "/show", {});
+					popup.openFrame('查看子网信息 [ ' + desc + ' ] ', _g_const.ctx + '/subnet/' + val + "/show", {minWidth:800,minHeight:500});
 				}
 			});
 		}

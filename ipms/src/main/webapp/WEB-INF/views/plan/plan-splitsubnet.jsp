@@ -34,7 +34,7 @@
 							<input type="radio" class="aui-radio" value="subnetnum" name="splitmode">按子网数量
 						</div>
 						<div class="form-control" style="width:22%;">
-							<input type="radio" class="aui-radio" value="ipnum" name="splitmode">按子网内IP数量
+							<input type="radio" class="aui-radio" value="ipnum" name="splitmode">按子网IP数量
 						</div>
 					</div>
 

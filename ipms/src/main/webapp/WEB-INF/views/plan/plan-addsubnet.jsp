@@ -25,24 +25,6 @@
                     </div>
                 </div>
                 <div class="aui-form-item">
-                    <label class="aui-label">IP结束地址</label>
-                    <div class="form-control">
-                        <input type="text" class="aui-input" disabled="disabled" id="lastedIp">
-                    </div>
-                </div>
-                <div class="aui-form-item">
-                    <label class="aui-label">可用IP数量</label>
-                    <div class="form-control">
-                        <input type="text" class="aui-input" disabled="disabled" id="usableIp">
-                    </div>
-                </div>
-                <div class="aui-form-item">
-                    <label class="aui-label">主机数量</label>
-                    <div class="form-control">
-                        <input type="text" class="aui-input" disabled="disabled" id="hostNum">
-                    </div>
-                </div>
-                <div class="aui-form-item">
                     <label class="aui-label">地址池</label>
                     <div class="form-control">
                         <div class="aui-dimsel" val="-9" width="250" id="inputPool">
@@ -65,6 +47,24 @@
                                 </c:forEach>
                             </ul>
                         </div>
+                    </div>
+                </div>                
+                <div class="aui-form-item">
+                    <label class="aui-label">IP结束地址</label>
+                    <div class="form-control">
+                        <input type="text" class="aui-input" disabled="disabled" id="lastedIp">
+                    </div>
+                </div>
+                <div class="aui-form-item">
+                    <label class="aui-label">可用IP数量</label>
+                    <div class="form-control">
+                        <input type="text" class="aui-input" disabled="disabled" id="usableIp">
+                    </div>
+                </div>
+                <div class="aui-form-item">
+                    <label class="aui-label">主机数量</label>
+                    <div class="form-control">
+                        <input type="text" class="aui-input" disabled="disabled" id="hostNum">
                     </div>
                 </div>
             </div>

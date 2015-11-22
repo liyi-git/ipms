@@ -156,7 +156,7 @@
   	         dataType: "json",
   	         type:'POST',
    	      	<c:if test="${SHOW_TYPE=='SUBNET'}">
- 	  	         url: _g_const.ctx+"/subnet/"+${SUBNET.subnetId}+"/listsubnet",
+ 	  	         url: _g_const.ctx+"/subnet/${SUBNET.subnetId}/listsubnet",
 		         dataFields: [
 				     { name: 'subnetId', type: 'string' },
 				     { name: 'subnetDesc', type: 'string' },
@@ -170,7 +170,7 @@
 		         ],
 	         </c:if>
 	   	     <c:if test="${SHOW_TYPE=='IPLIST_1'}">
-	  	         url: _g_const.ctx+"/subnet/"+${SUBNET.subnetId}+"/listip",
+	  	         url: _g_const.ctx+"/subnet/${SUBNET.subnetId}/listip",
 		   	     dataFields: [
 				     { name: 'addressId', type: 'string' },
 				     { name: 'addressIp', type: 'string' },
@@ -183,7 +183,7 @@
 		         ],
 		     </c:if>
 		   	     <c:if test="${SHOW_TYPE=='IPLIST_2'}">
-	  	         url: _g_const.ctx+"/subnet/"+${SUBNET.subnetId}+"/listip",
+	  	         url: _g_const.ctx+"/subnet/${SUBNET.subnetId}/listip",
 		   	     dataFields: [
 				     { name: 'addressId', type: 'string' },
 				     { name: 'addressIp', type: 'string' },
@@ -330,10 +330,10 @@
 				var desc = $e.attr('desc');
 				var func = $e.attr('evt-handler');
 				if (func === 'register') {
-					popup.openAjax('IP地址使用注册 [ ' + desc + ' ] ', _g_const.ctx + '/address/' + val + "/register", {width:500,minWidth:500});
+					popup.openAjax('IP地址使用注册 [ ' + desc + ' ] ', _g_const.ctx + '/address/' + val + "/register", {minWidth:800});
 				}
 				if (func === 'change') {
-					popup.openAjax('IP地址注册信息修改 [ ' + desc + ' ] ', _g_const.ctx + '/address/' + val + "/change", {});
+					popup.openAjax('IP地址注册信息修改 [ ' + desc + ' ] ', _g_const.ctx + '/address/' + val + "/change", {minWidth:800});
 				}
 			});	
 		}

@@ -95,7 +95,7 @@
    				reloadGrid();
    			});
    			$("#showAddSubnet").click(function() {
-                popup.openFrame('注入IP地址段', _g_const.ctx+ '/subnet/plan/showAddSubnet', {width:600},function(){
+                popup.openFrame('注入IP地址段', _g_const.ctx+ '/subnet/plan/showAddSubnet', {width:500,height:650},function(){
                 	reloadGrid();
                 });
 	        });   	 		
@@ -132,7 +132,7 @@
 	                                	reloadGrid();
 	                                });
 	                             }else if($(this).attr("class")=="func_split"){
-	                                popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+$(this).attr('val'), {width:800,height:800},function(){
+	                                popup.openFrame('拆分地址段', _g_const.ctx+ '/subnet/plan/showSplitSubnet/'+$(this).attr('val'), {width:800,minHeight:450},function(){
 	                                    reloadGrid();
 	                                });
 	                             }else if($(this).attr("class")=="func_merge"){
