@@ -251,6 +251,7 @@ public class SubNetResServiceImpl implements SubNetResService {
   public boolean splitSubnet(SubNetResEntity[] entitys) {
     List<SubNetResEntity> subnetList = new ArrayList<SubNetResEntity>();
     String subnetId = "";
+    
     for (int i = 0; i < entitys.length; i++) {
       IPPoolConfEntity poolEntity =
           this.ipPoolConfDao.selectPoolConfByPoolId(entitys[i].getPoolId());
@@ -315,8 +316,8 @@ public class SubNetResServiceImpl implements SubNetResService {
       entity.setOperateTime(DateTime.now().toDate());
       subnetList.add(entity);
     }
-    // 拆分子网后更新父网段信息
     SubNetResEntity pEntity = this.selectSubnetById(subnetId);
+    // 拆分子网后更新父网段信息
     pEntity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
     pEntity.setUseStatus(Integer.valueOf("-1"));
     pEntity.setOperator(SecurityContextHolder.getLoginName());

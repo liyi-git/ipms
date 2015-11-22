@@ -304,7 +304,7 @@
 				RGT = #{rgt,jdbcType=INTEGER},
 			</if>
 		</set>
-		WHERE SUBNET_ID = #{subnetId,jdbcType=VARCHAR}
+		WHERE SUBNET_ID = #{subnetId,jdbcType=VARCHAR} AND (USE_STATUS='-1' OR USE_STATUS='1')
 	</update>
 	
 	<select id="selectSubNetsBySelfQuery" resultType="java.util.Map">
@@ -404,14 +404,20 @@
 		</if>
 	</select>
 	
-	<!-- 根据poolId和cityId查询可用网段数据 -->
-	<select id="selectUsableSubnets" resultMap="subNetResultMap" parameterType="java.lang.String">
+	<!-- 查询可用网段数据 -->
+	<select id="selectUsableSubnets" resultType="java.lang.String" parameterType="java.lang.String">
 		<![CDATA[
 			SELECT 
-			  *
+			  v.SUBNET_ID 
 			FROM
-			  ${SCHEMA_BASE}.IP_SUBNET_RES 
-			WHERE POOL_ID=#{poolId} AND CITY_ID=#{cityId} AND (USE_STATUS='-1' OR USE_STATUS='1') ORDER BY IP_COUNT
+			  ${SCHEMA_BASE}.VW_SUBNET_STAT v 
+			WHERE v.IP_COUNT >= #{ipCount}
+			  AND v.SUBNET_COUNT = 0 
+			  AND v.CITY_ID=#{cityId} 
+			  AND v.POOL_ID=#{poolId} 
+			  AND (v.USE_STATUS='-1' OR v.USE_STATUS='1')
+			ORDER BY v.IP_COUNT
+			LIMIT 1 ;
 		]]>
 	</select>
 	

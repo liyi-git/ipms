@@ -1,9 +1,7 @@
 package com.langnatech.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +24,6 @@ public class IpUtils {
     // System.out.println(getIpByDec(getFirstIp("20.2.3.4",28)));
     // System.out.println(getIpByDec(352453380));
     // System.out.println(getBroadcastIp("20.2.3.4", 28));
-    System.out.println(1%1000);
     System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
   }
 
@@ -286,7 +283,6 @@ public class IpUtils {
 
   }
 
-  // TODO 扩展（js中是返回的对象，实际上底层都是算出子网掩码去进行计算）
 
   /**
    * @Title: getMask
@@ -365,137 +361,6 @@ public class IpUtils {
     int maskbits = (32 - expval);
 
     return maskbits;
-  }
-
-  /**
-   * 获取拆分网段列表key是起始地址，value是结束地址
-   * 
-   * @param ip
-   * @param mbits
-   * @return
-   */
-  public static Map<String, String> getSubnetJson(String ip, int mbits) {
-
-    String defaultMask = getDefaultMask(getDecByIp(ip));
-    String binaryMask = getMaskBinByMbits(mbits);
-
-    Map<String, String> subnetMap = new HashMap<String, String>();
-    int blockSize = 0;
-    String[] addrAry = getAddrAry(ip);
-    int nbits = 0;
-    if (defaultMask == "255.0.0.0") {
-      for (int i = 8; i < 32; i++) {
-        if (Integer.valueOf(binaryMask.charAt(i)) == 1) {
-          nbits = nbits + 1;
-        }
-      }
-      int subnetNum = (int) Math.pow(2, nbits);
-      int count = 0;
-      int i4 = 0;
-      int i3 = 0;
-      int i2 = 0;
-      int j = 0;
-      int topi4 = 0;
-      int topi3 = 0;
-      int topi2 = 0;
-      int topj = 0;
-      blockSize = ((16777216 / subnetNum));
-      for (int i = 0; i < 16777216; i = i + blockSize) {
-
-        count = count + 1;
-        i4 = i & 255;
-        i3 = (i / 256) & 255;
-        i2 = (i / 65536) & 255;
-        j = i4 + 1;
-        topi4 = ((i + blockSize) - 1) & 255;
-        topi3 = (((i + blockSize) - 1) / 256) & 255;
-        topi2 = (((i + blockSize) - 1) / 65536) & 255;
-        topj = topi4 - 1;
-        if (subnetNum == 8388608) {
-          j = i4;
-          topi4 = (i + blockSize - 1) & 255;
-          topj = topi4;
-        }
-
-        String firstIp = addrAry[0] + "." + i2 + "." + i3 + "." + j;
-        String lastIp = addrAry[0] + "." + topi2 + "." + topi3 + "." + topj;
-        subnetMap.put(firstIp, lastIp);
-
-        if ((count == 256) && (subnetNum > 512)) {
-          i = 16777216 - (count * blockSize);
-        }
-      }
-    } else if (defaultMask == "255.255.0.0") {
-
-      for (int i = 16; i < 32; i++) {
-        if (Integer.valueOf(binaryMask.charAt(i)) == 1) {
-          nbits = nbits + 1;
-        }
-      }
-
-      int subnetNum = (int) Math.pow(2, nbits);
-      int count = 0;
-      int i4 = 0;
-      int i3 = 0;
-      int j = 0;
-      int topi4 = 0;
-      int topi3 = 0;
-      int topj = 0;
-      blockSize = ((65536 / subnetNum));
-      for (int i = 0; i < 65536; i = i + blockSize) {
-
-        count = count + 1;
-        i4 = i & 255;
-        i3 = (i / 256) & 255;
-        j = i4 + 1;
-        topi4 = ((i + blockSize) - 1) & 255;
-        topi3 = (((i + blockSize) - 1) / 256) & 255;
-        topj = topi4 - 1;
-        if (subnetNum == 32768) {
-          j = i4;
-          topi4 = (i + blockSize - 1) & 255;
-          topj = topi4;
-        }
-
-        String firstIp = addrAry[0] + "." + addrAry[1] + "." + i3 + "." + j;
-        String lastIp = addrAry[0] + "." + addrAry[1] + "." + topi3 + "." + topj;
-        subnetMap.put(firstIp, lastIp);
-        if ((count == 256) && (subnetNum > 512)) {
-          i = 65536 - (count * blockSize);
-        }
-      }
-
-    } else if (defaultMask == "255.255.255.0") {
-
-      for (int i = 24; i < 32; i++) {
-        if (Integer.valueOf(binaryMask.charAt(i)) == 1) {
-          nbits = nbits + 1;
-        }
-      }
-      // 可划分子网的数量
-      int subnetNum = (int) Math.pow(2, nbits);
-      int brand = 0; // topi
-      int last = 0; // topj
-      int j = 0;
-      blockSize = ((256 / subnetNum));
-      for (int i = 0; i < 256; i = i + blockSize) {
-
-        j = i + 1;
-        brand = (i + blockSize - 1) & 255;
-        last = brand - 1;
-        if (subnetNum == 128) {
-          j = i;
-          brand = (i + blockSize - 1) & 255;
-          last = brand;
-        }
-
-        String firstIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + j;
-        String lastIp = addrAry[0] + "." + addrAry[1] + "." + addrAry[2] + "." + last;
-        subnetMap.put(firstIp, lastIp);
-      }
-    }
-    return subnetMap;
-
   }
 
   /**

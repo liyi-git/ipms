@@ -42,6 +42,6 @@ public interface SubNetResDao {
     public List<String> isExistSubnet(@Param(value = "desc") String desc);
 
   
-    public List<SubNetResEntity> selectUsableSubnets(@Param(value = "poolId") String poolId,@Param(value = "cityId") String cityId);
+    public String selectUsableSubnets(@Param(value = "ipCount") Integer ipCount,@Param(value = "poolId") String poolId,@Param(value = "cityId") String cityId);
 
 }
