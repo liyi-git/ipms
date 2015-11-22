@@ -252,15 +252,15 @@
 	        { text: '子网掩码', dataField: 'netmask',align: 'center', cellsAlign: 'left',width:"150"},
    	        { text: '规划状态', dataField: 'planStatus',align: 'center', cellsAlign: 'center',width:"80",cellsRenderer: function (row, column, value, rowData) {
    	        	var status=rowData[column]||'',_style;
-   	        	if(status==Enums.planStatus.WAIT_PLAN){
+   	        	if(status==enums.planStatus.WAIT_PLAN){
    	        		_style="label-wait";
-   	        	}else if(status==Enums.planStatus.PLANNING){
+   	        	}else if(status==enums.planStatus.PLANNING){
    	        		_style="label-planning";
-   	        	}else if(status==Enums.planStatus.PLANNED){
+   	        	}else if(status==enums.planStatus.PLANNED){
    	        		_style="label-planned";
    	        	}
    	        	if(_style){
- 	        			return "<span class='label "+_style+"'>"+Enums.planStatus.toDesc(status)+"</span>";
+ 	        			return "<span class='label "+_style+"'>"+enums.planStatus.toDesc(status)+"</span>";
    	        	}
    	        	return "";
    	        }},

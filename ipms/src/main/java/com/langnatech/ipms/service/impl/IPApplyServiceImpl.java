@@ -33,6 +33,7 @@ public class IPApplyServiceImpl implements IPApplyService {
   @Autowired
   private DimCityService cityService;
 
+  @Autowired
   private SubNetResService subnetService;
 
   @Override
@@ -64,6 +65,7 @@ public class IPApplyServiceImpl implements IPApplyService {
     // 4.如分配子网成功，保存备案信息；如无可用IP，返回异常信息
     if (resultBean != null && CollectionUtils.isNotEmpty(resultBean.getIplist())) {
       IPArchiveInfoEntity archiveInfo = fillArchiveInfo(applyInfo, resultBean);
+      archiveInfo.setSubnetId(resultBean.getSubnetId());
       try {
         archiveInfoService.saveArchiveInfo(archiveInfo);
       } catch (Exception e) {

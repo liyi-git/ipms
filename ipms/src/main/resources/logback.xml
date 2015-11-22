@@ -22,7 +22,7 @@
 	</appender>
 
 	<logger name="logback" />
-	<logger name="com.langnatech" level="ERROR" additivity="false">
+	<logger name="com.langnatech" level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>

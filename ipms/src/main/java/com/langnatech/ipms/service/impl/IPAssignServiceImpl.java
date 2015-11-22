@@ -53,6 +53,7 @@ public class IPAssignServiceImpl implements IPAssignService {
 				resultBean.setEndIP(subnetEntity.getEndIp());
 				resultBean.setNetmask(subnetEntity.getNetmask());
 				resultBean.setIpCount(ipC);
+				resultBean.setSubnetId(subnetEntity.getSubnetId());
 				List<String> ipList = new ArrayList<String>();
 				Long startIpDec = subnetEntity.getBeginIpDecimal();
 				while (startIpDec <= subnetEntity.getEndIpDecimal()) {
@@ -91,6 +92,7 @@ public class IPAssignServiceImpl implements IPAssignService {
 						entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
 					}
 					entity.setSubnetId(IDGeneratorHolder.getId());
+					resultBean.setSubnetId(entity.getSubnetId());
 					entity.setSubnetDesc(IpUtils.getNetWorkIp(beginAddr, splitMbits) + "/" + splitMbits);
 					entity.setSubnetPid(subnetId);
 					entity.setBeginIp(beginAddr);
@@ -98,7 +100,7 @@ public class IPAssignServiceImpl implements IPAssignService {
 					entity.setBeginIpDecimal(beginDec);
 					entity.setEndIpDecimal(endDec);
 					entity.setCityId(subnetEntity.getCityId());
-					entity.setPlanStatus(subnetEntity.getPlanStatus());
+					entity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
 					entity.setPoolId(subnetEntity.getPoolId());
 					entity.setIpCount(ipC-2);
 					entity.setIsIpv6(Short.valueOf("-1"));
@@ -109,8 +111,7 @@ public class IPAssignServiceImpl implements IPAssignService {
 					entity.setOperateTime(DateTime.now().toDate());
 					subnetList.add(entity);
 				}
-				subnetEntity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
-				
+//				subnetEntity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
 				subnetEntity.setOperator(SecurityContextHolder.getLoginName());
 				subnetEntity.setOperateTime(DateTime.now().toDate());
 				this.subNetResDao.updateSubnet(subnetEntity);
