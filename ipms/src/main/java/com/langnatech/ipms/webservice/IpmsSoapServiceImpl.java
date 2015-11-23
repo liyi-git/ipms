@@ -27,15 +27,14 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
   public CallResultBean call(@WebParam(name = "authenticator") Authenticator authenticator,
       @WebParam(name = "serviceCode") String serviceCode,
       @WebParam(name = "arguments") String arguments) {
-    Assert.notNull(serviceCode);
-    String interfaceCode = serviceCode.toUpperCase();
     CallResultBean callResultBean = new CallResultBean(IPApplyServRespCode.Success.getCode(),
         IPApplyServRespCode.Success.getDesc());
-    // TODO 接口调用鉴权
     String resultJSON = "{}";
-    ApplyInfoBean applyInfo =
-        JsonConvertUtil.nonDefaultMapper().fromJson(arguments, ApplyInfoBean.class);
     try {
+      String interfaceCode = serviceCode.toUpperCase();
+      // TODO 接口调用鉴权
+      ApplyInfoBean applyInfo =
+          JsonConvertUtil.nonDefaultMapper().fromJson(arguments, ApplyInfoBean.class);
       if (interfaceCode.equals("IP_APPLY_ADD")) {// 申请IP地址段
         logger.debug(
             "::: Webservice Invoke ::: Apply ip subnet , Apply city：[{}] Business type：[{}] Apply ip count：[{}]",
@@ -70,6 +69,12 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
     } catch (IPApplyException e) {
       callResultBean.setCode(e.getErrCode());
       callResultBean.setMsg(e.getErrDesc());
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println(e.getMessage());
+      callResultBean.setCode(IPApplyServRespCode.Invoke_Error.getCode());
+      callResultBean
+          .setMsg(IPApplyServRespCode.Invoke_Error.getDesc() + " ,异常信息:" + e.getMessage());
     }
     callResultBean.setResultJSON(resultJSON);
     Object[] params =

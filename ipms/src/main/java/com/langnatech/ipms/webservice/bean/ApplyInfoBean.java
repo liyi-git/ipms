@@ -15,6 +15,10 @@ public class ApplyInfoBean implements Serializable {
 
   private String applyDesc;
 
+  public ApplyInfoBean() {
+    super();
+  }
+
   private String applyCity;
 
   private String operator;
