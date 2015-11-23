@@ -81,12 +81,21 @@ public class IpmsSoapTest extends TestCase {
     applyInfo.setExpiredDate(
         DateTime.parse("2016-12-31", DateTimeFormat.forPattern("yyyy-MM-dd")).toDate());
     applyInfo.setGatewayLocation("测试");
-    applyInfo.setIpCount(8);
+    applyInfo.setIpCount(1);
     applyInfo.setOperator("admin");
     applyInfo.setUseWay("动态分配");
+    
+    
+//    ApplyInfoBean applyInfo2 = JsonConvertUtil.nonDefaultMapper().fromJson("{OperateTime:\"2015-11-23\",contractTel:\"123455445\",contact:\"test\",applyDesc:\".....\",applyCode:\"XJ-IPO-151123-00006\",applyCity:\"991\",operator:\"sysAdmin\",contactEmail:\"2234@sdf.ckd\",busiType:\"1\",expiredDate:\"2015-11-26\",ipCount:\"1\"}", ApplyInfoBean.class);
+    
     CallResultBean callResult =
-        service.call(null, "IP_APPLY_ADD", JsonConvertUtil.nonEmptyMapper().toJson(applyInfo));
-    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+        service.call(null, "IP_APPLY_ADD", "{OperateTime:\"2015-11-23\",\"contractTel\":\"123455445\",\"contact\":\"test\",\"applyDesc\":\".....\",\"applyCode\":\"XJ-IPO-151123-00006\",\"applyCity\":\"991\",\"operator\":\"sysAdmin\",\"contactEmail\":\"2234@sdf.ckd\",\"busiType\":\"1\",\"expiredDate\":\"2015-11-26\",\"ipCount\":\"1\"}");
+    try {
+      System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 //  @Test
@@ -97,12 +106,12 @@ public class IpmsSoapTest extends TestCase {
 //  }
 //
 //
-  @Test
-  public void testUse() {
-    CallResultBean callResult =
-        service.call(null, "IP_APPLY_USE", "{\"applyCode\":\"11111\",\"operator\":\"ADMIN\"}");
-    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-  }
+//  @Test
+//  public void testUse() {
+//    CallResultBean callResult =
+//        service.call(null, "IP_APPLY_USE", "{\"applyCode\":\"11111\",\"operator\":\"ADMIN\"}");
+//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+//  }
 ////
 //  @Test
 //  public void testRecycle() {
