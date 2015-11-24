@@ -1,14 +1,10 @@
 package com.langnatech.test;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.junit.Assert;
 import org.junit.Test;
 
-import com.langnatech.ipms.webservice.Authenticator;
-import com.langnatech.ipms.webservice.IPApplyServRespCode;
 import com.langnatech.ipms.webservice.IpmsSoapService;
 import com.langnatech.ipms.webservice.bean.ApplyInfoBean;
 import com.langnatech.ipms.webservice.bean.CallResultBean;
