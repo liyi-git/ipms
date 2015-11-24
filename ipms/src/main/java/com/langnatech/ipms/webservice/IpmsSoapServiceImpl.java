@@ -6,7 +6,6 @@ import javax.jws.WebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
 import com.langnatech.ipms.exception.IPApplyException;
 import com.langnatech.ipms.service.IPApplyService;

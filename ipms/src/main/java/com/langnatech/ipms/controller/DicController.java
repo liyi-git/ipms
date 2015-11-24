@@ -27,7 +27,7 @@ public class DicController
      */
     @RequestMapping("/archivecity")
     @ResponseBody
-    public String archivecity()
+    public String archivecity() throws Exception
     {
         return "define(function( ) {return " + JsonConvertUtil.nonDefaultMapper().toJson(IPArchiveDicHolder.INSTANCE.getAllCity()) + ";});";
     }

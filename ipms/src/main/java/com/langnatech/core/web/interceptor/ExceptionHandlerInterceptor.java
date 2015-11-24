@@ -1,6 +1,5 @@
 package com.langnatech.core.web.interceptor;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
@@ -110,7 +109,7 @@ public class ExceptionHandlerInterceptor extends SimpleMappingExceptionResolver 
 							writer.close();
 						}
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					logger.error(
 							"ExceptionHandlerInterceptor class (doResolveException method) PrintWriter返回异步json数据时发生IO异常",
 							e);

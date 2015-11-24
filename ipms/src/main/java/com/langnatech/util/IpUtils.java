@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-import com.langnatech.util.convert.JsonConvertUtil;
-
 public class IpUtils {
 
   public static void main(String[] args) {
@@ -24,7 +22,7 @@ public class IpUtils {
     // System.out.println(getIpByDec(getFirstIp("20.2.3.4",28)));
     // System.out.println(getIpByDec(352453380));
     // System.out.println(getBroadcastIp("20.2.3.4", 28));
-    System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
+    //System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
   }
 
   private final static int ipbits = 32;

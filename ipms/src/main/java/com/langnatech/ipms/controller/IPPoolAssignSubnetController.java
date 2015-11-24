@@ -38,7 +38,7 @@ public class IPPoolAssignSubnetController
 
     @RequestMapping("/getAssignSubnet")
     @ResponseBody
-    public PageList<SubNetResBean> getAssignSubnet(PageQuery pageQuery)
+    public PageList<SubNetResBean> getAssignSubnet(PageQuery pageQuery) throws Exception
     {
         PageList<SubNetResBean> list = this.subNetResService.getAssignSubnetByPoolId(null, pageQuery);
         JsonConvertUtil.nonDefaultMapper().toJson(list);
