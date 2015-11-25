@@ -22,36 +22,37 @@ public class IpmsSoapTest extends TestCase {
     service = (IpmsSoapService) factory.create();
   }
 
-//  @Test
-//  public void testAuthc() {
-//    String username = "ipms";
-//    String password = DigestUtils.md5Hex("ipms$@#PWD");
-//    String timestamp = DateTime.now().toString("yyyyMMddHHmmssSSS");
-//    String auth = DigestUtils.md5Hex(username + timestamp + password);
-//    Authenticator authenticator = new Authenticator(username, timestamp, auth);
-//    service.call(authenticator, "test", "{\"name\":\"ipms\"}");
-//  }
+  // @Test
+  // public void testAuthc() {
+  // String username = "ipms";
+  // String password = DigestUtils.md5Hex("ipms$@#PWD");
+  // String timestamp = DateTime.now().toString("yyyyMMddHHmmssSSS");
+  // String auth = DigestUtils.md5Hex(username + timestamp + password);
+  // Authenticator authenticator = new Authenticator(username, timestamp, auth);
+  // service.call(authenticator, "test", "{\"name\":\"ipms\"}");
+  // }
 
-//  @Test
-//  public void testQuery() {
-//    // 申请业务类型参数不正确
-//    CallResultBean callResult = service.call(null, "IP_AVAILABLE_QUERY",
-//        "{\"applyCity\":\"101\",\"ipCount\":\"8\",\"busiType\":\"111\"}");
-//    Assert.assertSame("可用IP查询接口，接口调用传入申请业务类型参数不正确", IPApplyServRespCode.Parameter_Error.getCode(),
-//        callResult.getCode());
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//    // 申请地市不存在
-//    callResult = service.call(null, "IP_AVAILABLE_QUERY",
-//        "{\"applyCity\":\"2222\",\"ipCount\":\"8\",\"busiType\":\"1\"}");
-//    Assert.assertSame("可用IP查询接口，接口调用传入申请业务类型参数不正确", IPApplyServRespCode.Parameter_Error.getCode(),
-//        callResult.getCode());
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//    // 成功调用
-//    callResult = service.call(null, "IP_AVAILABLE_QUERY",
-//        "{\"applyCity\":\"101\",\"ipCount\":\"8\",\"busiType\":\"1\"}");
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//    Assert.assertSame("可用IP查询接口，成功调用", IPApplyServRespCode.Success.getCode(), callResult.getCode());
-//  }
+  // @Test
+  // public void testQuery() {
+  // // 申请业务类型参数不正确
+  // CallResultBean callResult = service.call(null, "IP_AVAILABLE_QUERY",
+  // "{\"applyCity\":\"101\",\"ipCount\":\"8\",\"busiType\":\"111\"}");
+  // Assert.assertSame("可用IP查询接口，接口调用传入申请业务类型参数不正确", IPApplyServRespCode.Parameter_Error.getCode(),
+  // callResult.getCode());
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // // 申请地市不存在
+  // callResult = service.call(null, "IP_AVAILABLE_QUERY",
+  // "{\"applyCity\":\"2222\",\"ipCount\":\"8\",\"busiType\":\"1\"}");
+  // Assert.assertSame("可用IP查询接口，接口调用传入申请业务类型参数不正确", IPApplyServRespCode.Parameter_Error.getCode(),
+  // callResult.getCode());
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // // 成功调用
+  // callResult = service.call(null, "IP_AVAILABLE_QUERY",
+  // "{\"applyCity\":\"101\",\"ipCount\":\"8\",\"busiType\":\"1\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // Assert.assertSame("可用IP查询接口，成功调用", IPApplyServRespCode.Success.getCode(),
+  // callResult.getCode());
+  // }
 
   @Test
   public void testAdd() {
@@ -80,12 +81,18 @@ public class IpmsSoapTest extends TestCase {
     applyInfo.setIpCount(1);
     applyInfo.setOperator("admin");
     applyInfo.setUseWay("动态分配");
-    
-    
-//    ApplyInfoBean applyInfo2 = JsonConvertUtil.nonDefaultMapper().fromJson("{OperateTime:\"2015-11-23\",contractTel:\"123455445\",contact:\"test\",applyDesc:\".....\",applyCode:\"XJ-IPO-151123-00006\",applyCity:\"991\",operator:\"sysAdmin\",contactEmail:\"2234@sdf.ckd\",busiType:\"1\",expiredDate:\"2015-11-26\",ipCount:\"1\"}", ApplyInfoBean.class);
-    
-    CallResultBean callResult =
-        service.call(null, "IP_APPLY_ADD", "{OperateTime:\"2015-11-23\",\"contractTel\":\"123455445\",\"contact\":\"test\",\"applyDesc\":\".....\",\"applyCode\":\"XJ-IPO-151123-00006\",\"applyCity\":\"991\",\"operator\":\"sysAdmin\",\"contactEmail\":\"2234@sdf.ckd\",\"busiType\":\"1\",\"expiredDate\":\"2015-11-26\",\"ipCount\":\"1\"}");
+
+
+    // ApplyInfoBean applyInfo2 =
+    // JsonConvertUtil.nonDefaultMapper().fromJson("{OperateTime:\"2015-11-23\",contractTel:\"123455445\",contact:\"test\",applyDesc:\".....\",applyCode:\"XJ-IPO-151123-00006\",applyCity:\"991\",operator:\"sysAdmin\",contactEmail:\"2234@sdf.ckd\",busiType:\"1\",expiredDate:\"2015-11-26\",ipCount:\"1\"}",
+    // ApplyInfoBean.class);
+
+    // CallResultBean callResult =
+    // service.call(null, "IP_APPLY_ADD",
+    // "{\"applyCode\":\"315112317453100029741\",\"busiType\":\"1\",\"ipCount\":\"4\",\"applyDesc\":\"集团专线申请IP\",\"applyCity\":\"991\",\"operator\":\"SUPERUSR\",\"expiredDate\":\"2050-12-31\",\"coName\":\"石0英新疆\",\"coClassify\":\"其他\",\"coLicense\":\"\",\"coNature\":\"1\",\"coProvince\":\"650000\",\"coCity\":\"650100\",\"coAddress\":\"123456\",\"contact\":\"冯国平\",\"contactTel\":\"13999158003\",\"contactEmail\":\"qita\",\"useWay\":\"静态\"}");
+    CallResultBean callResult = service.call(null, "IP_APPLY_ADD",
+        "{\"OperateTime\":\"2015-11-24\",\"contactTel\":\"323\",\"contact\":\"we\",\"applyDesc\":\"eewwrre\",\"applyCode\":\"XJ-IPO-151124-00001\",\"applyCity\":\"991\",\"operator\":\"sysAdmin\",\"contactEmail\":\"wewe\",\"busiType\":\"1\",\"expiredDate\":\"2015-11-27\",\"ipCount\":\"2\"}");
+
     try {
       System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
     } catch (Exception e) {
@@ -94,25 +101,25 @@ public class IpmsSoapTest extends TestCase {
     }
   }
 
-//  @Test
-//  public void testCancel() {
-//    CallResultBean callResult =
-//        service.call(null, "IP_APPLY_CANCEL", "{\"applyCode\":\"111\",\"operator\":\"ADMIN\"}");
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//  }
-//
-//
-//  @Test
-//  public void testUse() {
-//    CallResultBean callResult =
-//        service.call(null, "IP_APPLY_USE", "{\"applyCode\":\"11111\",\"operator\":\"ADMIN\"}");
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//  }
-////
-//  @Test
-//  public void testRecycle() {
-//    CallResultBean callResult =
-//        service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"111\",\"operator\":\"ADMIN\"}");
-//    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//  }
+  // @Test
+  // public void testCancel() {
+  // CallResultBean callResult =
+  // service.call(null, "IP_APPLY_CANCEL", "{\"applyCode\":\"111\",\"operator\":\"ADMIN\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // }
+  //
+  //
+  // @Test
+  // public void testUse() {
+  // CallResultBean callResult =
+  // service.call(null, "IP_APPLY_USE", "{\"applyCode\":\"11111\",\"operator\":\"ADMIN\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // }
+  ////
+  // @Test
+  // public void testRecycle() {
+  // CallResultBean callResult =
+  // service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"111\",\"operator\":\"ADMIN\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // }
 }

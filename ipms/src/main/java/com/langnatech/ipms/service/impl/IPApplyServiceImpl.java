@@ -52,6 +52,7 @@ public class IPApplyServiceImpl implements IPApplyService {
     try {
       archiveInfoService.validateArchiveInfo(applyInfo);
     } catch (Exception e) {
+      e.printStackTrace();
       throw new IPApplyException(IPApplyServRespCode.Validate_Error.getCode(), e.getMessage());
     }
     // 3.分配子网，标记网段为预留状态
@@ -59,6 +60,7 @@ public class IPApplyServiceImpl implements IPApplyService {
       resultBean =
           assignService.assignIpSubnet(poolId, applyInfo.getApplyCity(), applyInfo.getIpCount());
     } catch (Exception e) {
+      e.printStackTrace();
       throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
           "分配网段出错！" + e.getMessage());
     }
