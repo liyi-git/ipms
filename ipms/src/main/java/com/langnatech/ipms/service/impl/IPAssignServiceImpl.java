@@ -117,8 +117,9 @@ public class IPAssignServiceImpl implements IPAssignService {
 				this.subNetResDao.updateSubnet(subnetEntity);
 				this.insertBatchSubnet(subnetList);
 			}
+		}else{
+		  return null;
 		}
-
 		return resultBean;
 	}
 
