@@ -78,7 +78,7 @@ public class IpmsSoapTest extends TestCase {
     applyInfo.setExpiredDate(
         DateTime.parse("2016-12-31", DateTimeFormat.forPattern("yyyy-MM-dd")).toDate());
     applyInfo.setGatewayLocation("测试");
-    applyInfo.setIpCount(1);
+    applyInfo.setIpCount(18);
     applyInfo.setOperator("admin");
     applyInfo.setUseWay("动态分配");
 
@@ -90,10 +90,9 @@ public class IpmsSoapTest extends TestCase {
     // CallResultBean callResult =
     // service.call(null, "IP_APPLY_ADD",
     // "{\"applyCode\":\"315112317453100029741\",\"busiType\":\"1\",\"ipCount\":\"4\",\"applyDesc\":\"集团专线申请IP\",\"applyCity\":\"991\",\"operator\":\"SUPERUSR\",\"expiredDate\":\"2050-12-31\",\"coName\":\"石0英新疆\",\"coClassify\":\"其他\",\"coLicense\":\"\",\"coNature\":\"1\",\"coProvince\":\"650000\",\"coCity\":\"650100\",\"coAddress\":\"123456\",\"contact\":\"冯国平\",\"contactTel\":\"13999158003\",\"contactEmail\":\"qita\",\"useWay\":\"静态\"}");
-    CallResultBean callResult = service.call(null, "IP_APPLY_ADD",
-        "{\"OperateTime\":\"2015-11-24\",\"contactTel\":\"323\",\"contact\":\"we\",\"applyDesc\":\"eewwrre\",\"applyCode\":\"XJ-IPO-151124-00001\",\"applyCity\":\"991\",\"operator\":\"sysAdmin\",\"contactEmail\":\"wewe\",\"busiType\":\"1\",\"expiredDate\":\"2015-11-27\",\"ipCount\":\"2\"}");
-
     try {
+      CallResultBean callResult = service.call(null, "IP_APPLY_ADD",JsonConvertUtil.toJSON(applyInfo));
+
       System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
     } catch (Exception e) {
       // TODO Auto-generated catch block
