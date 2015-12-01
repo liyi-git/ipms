@@ -22,7 +22,8 @@ public class IpUtils {
     // System.out.println(getIpByDec(getFirstIp("20.2.3.4",28)));
     // System.out.println(getIpByDec(352453380));
     // System.out.println(getBroadcastIp("20.2.3.4", 28));
-    //System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
+    // System.out.println(JsonConvertUtil.toJSON(getSplitSubnet("110.198.0.0", 8190, 24)));
+    // System.out.println(getmBitsByHostNum(6));
   }
 
   private final static int ipbits = 32;
@@ -325,7 +326,7 @@ public class IpUtils {
    * @param hostnum
    * @return
    */
-  public static int getmBitsByHostNum(String ip, int hostnum) {
+  public static int getmBitsByHostNum(int hostnum) {
 
     String binHostNum = Integer.toBinaryString(hostnum);
     int hlen = binHostNum.length();
@@ -423,9 +424,9 @@ public class IpUtils {
     List<String[]> resultList = new ArrayList<String[]>();
     for (int i = 0; i < splitSubnetNum; i++) {
       String[] splitSubnetAry = new String[2];
-      splitSubnetAry[0] = IpUtils.getIpByDec(subnetBeginIpDec+1);
+      splitSubnetAry[0] = IpUtils.getIpByDec(subnetBeginIpDec + 1);
       subnetBeginIpDec += subnetHostNum - 1;
-      splitSubnetAry[1] = IpUtils.getIpByDec(subnetBeginIpDec-1);
+      splitSubnetAry[1] = IpUtils.getIpByDec(subnetBeginIpDec - 1);
       subnetBeginIpDec++;
       resultList.add(splitSubnetAry);
     }
@@ -444,7 +445,7 @@ public class IpUtils {
       int splitMaskBit) {
     if (subnetMaskBit < 8 || subnetMaskBit > 31) {
       throw new RuntimeException("要拆分的子网掩码位数参数不正确！");
-    }    
+    }
     int subnetIpCount = IpUtils.getHostNum(subnetMaskBit);
     return getSplitSubnet2(subnetBeginIp, subnetIpCount, splitMaskBit);
   }

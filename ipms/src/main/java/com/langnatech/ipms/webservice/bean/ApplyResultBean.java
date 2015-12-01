@@ -12,6 +12,16 @@ public class ApplyResultBean implements Serializable {
   private String startIP;
   private String endIP;
   private Integer ipCount;
+  private Integer applyCount;
+
+  public Integer getApplyCount() {
+    return applyCount;
+  }
+
+  public void setApplyCount(Integer applyCount) {
+    this.applyCount = applyCount;
+  }
+
   private String netmask;
   @JsonIgnore
   private String subnetId;

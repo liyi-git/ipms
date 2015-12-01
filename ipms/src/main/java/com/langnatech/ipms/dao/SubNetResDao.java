@@ -2,7 +2,9 @@ package com.langnatech.ipms.dao;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.langnatech.core.web.page.PageList;
 import com.langnatech.core.web.page.PageQuery;
 import com.langnatech.ipms.bean.SubNetResBean;
@@ -42,6 +44,6 @@ public interface SubNetResDao {
     public List<String> isExistSubnet(@Param(value = "desc") String desc);
 
   
-    public String selectUsableSubnets(@Param(value = "ipCount") Integer ipCount,@Param(value = "poolId") String poolId,@Param(value = "cityId") String cityId);
+    public SubNetResEntity selectUsableSubnets(@Param(value = "ipCount") Integer ipCount,@Param(value = "poolId") String poolId,@Param(value = "cityId") String cityId);
 
 }

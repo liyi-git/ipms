@@ -34,6 +34,12 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
       // TODO 接口调用鉴权
       ApplyInfoBean applyInfo =
           JsonConvertUtil.nonDefaultMapper().fromJson(arguments, ApplyInfoBean.class);
+      if(interfaceCode.endsWith("_EMOS")){
+        applyInfo.setBusiType(20+applyInfo.getBusiType());
+        interfaceCode=interfaceCode.substring(0,interfaceCode.indexOf("_EMOS"));
+      }else{
+        applyInfo.setBusiType(10+applyInfo.getBusiType());
+      }
       if (interfaceCode.equals("IP_APPLY_ADD")) {// 申请IP地址段
         logger.debug(
             "::: Webservice Invoke ::: Apply ip subnet , Apply city：[{}] Business type：[{}] Apply ip count：[{}]",
@@ -64,6 +70,9 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
         logger.debug("::: WSInvoke ::: Recycle ip apply ,Apply code:[{}]",
             applyInfo.getApplyCode());
         ipApplyService.applyRecycle(applyInfo.getApplyCode(), applyInfo.getOperator());
+      } else {
+        throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+            "参数[serviceCode]传值不正确!");
       }
     } catch (IPApplyException e) {
       callResultBean.setCode(e.getErrCode());

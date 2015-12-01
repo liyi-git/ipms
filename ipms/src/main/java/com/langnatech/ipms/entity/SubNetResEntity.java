@@ -200,4 +200,5 @@ public class SubNetResEntity implements IEntity {
     public void setRgt(Integer rgt) {
         this.rgt = rgt;
     }
+    
 }

@@ -405,10 +405,22 @@
 	</select>
 	
 	<!-- 查询可用网段数据 -->
-	<select id="selectUsableSubnets" resultType="java.lang.String" parameterType="java.lang.String">
+	<select id="selectUsableSubnets" resultMap="subNetResultBean">
 		<![CDATA[
 			SELECT 
-			  v.SUBNET_ID 
+			  v.SUBNET_ID,
+			  v.SUBNET_DESC,
+			  v.BEGIN_IP,
+			  v.BEGIN_IP_DECIMAL,
+			  v.END_IP,
+			  v.END_IP_DECIMAL,
+			  v.MASK_BITS,
+			  v.NETMASK,
+			  v.PLAN_STATUS,
+			  v.USE_STATUS,
+			  v.IP_COUNT,
+			  v.CITY_ID,
+			  v.POOL_ID
 			FROM
 			  ${SCHEMA_BASE}.VW_SUBNET_STAT v 
 			WHERE v.IP_COUNT >= #{ipCount}
@@ -500,7 +512,7 @@
     </delete>
     
     <!--验证新添加网段是否存在-->
-    <select id="isExistSubnet" resultMap="subNetResultMap" parameterType="java.lang.String">
+    <select id="isExistSubnet" resultType="SubNetResEntity" parameterType="java.lang.String">
        SELECT SUBNET_ID FROM ${SCHEMA_BASE}.IP_SUBNET_RES WHERE SUBNET_DESC=#{desc}
     </select>
     

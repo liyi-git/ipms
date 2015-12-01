@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.langnatech.core.holder.IDGeneratorHolder;
 import com.langnatech.core.holder.PropertiesHolder;
+import com.langnatech.ipms.IPConstant;
 import com.langnatech.ipms.entity.DimCityEntity;
 import com.langnatech.ipms.entity.IPArchiveInfoEntity;
 import com.langnatech.ipms.enums.SubNetUseStatusEnum;
@@ -40,7 +41,11 @@ public class IPApplyServiceImpl implements IPApplyService {
   public ApplyResultBean availableQuery(String applyCity, Integer busiType, Integer ipCount)
       throws IPApplyException {
     String poolId = paramValidate(applyCity, busiType);
-    return assignService.availableQuery(poolId, applyCity, ipCount);
+    ApplyResultBean resultBean = assignService.availableQuery(poolId, applyCity, ipCount - 2);
+    if (resultBean == null || CollectionUtils.isEmpty(resultBean.getIplist())) {
+      throw new IPApplyException(IPApplyServRespCode.No_Available_IP);
+    }
+    return resultBean;
   }
 
   @Override
@@ -57,8 +62,12 @@ public class IPApplyServiceImpl implements IPApplyService {
     }
     // 3.分配子网，标记网段为预留状态
     try {
+      if (IPConstant.APPLY_CONTAIN_NET_ADDRESS) {
+        applyInfo.setIpCount(applyInfo.getIpCount() - 2);
+      }
       resultBean =
           assignService.assignIpSubnet(poolId, applyInfo.getApplyCity(), applyInfo.getIpCount());
+
     } catch (Exception e) {
       e.printStackTrace();
       throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
@@ -66,7 +75,7 @@ public class IPApplyServiceImpl implements IPApplyService {
     }
     // 4.如分配子网成功，保存备案信息；如无可用IP，返回异常信息
     if (resultBean != null && CollectionUtils.isNotEmpty(resultBean.getIplist())) {
-      IPArchiveInfoEntity archiveInfo = fillArchiveInfo(applyInfo, resultBean);
+      IPArchiveInfoEntity archiveInfo = fillArchiveInfo(poolId, applyInfo, resultBean);
       archiveInfo.setSubnetId(resultBean.getSubnetId());
       try {
         archiveInfoService.saveArchiveInfo(archiveInfo);
@@ -121,7 +130,8 @@ public class IPApplyServiceImpl implements IPApplyService {
     archiveInfoService.delArchiveInfo(applyCode);
   }
 
-  private IPArchiveInfoEntity fillArchiveInfo(ApplyInfoBean applyInfo, ApplyResultBean resultBean) {
+  private IPArchiveInfoEntity fillArchiveInfo(String poolId, ApplyInfoBean applyInfo,
+      ApplyResultBean resultBean) {
     IPArchiveInfoEntity archiveInfo = new IPArchiveInfoEntity();
     archiveInfo.setApplicant(applyInfo.getOperator());
     archiveInfo.setApplyId(applyInfo.getApplyCode());
@@ -147,12 +157,7 @@ public class IPApplyServiceImpl implements IPApplyService {
     archiveInfo.setOrgProvId(applyInfo.getCoProvince());
     archiveInfo.setOrgTrade(applyInfo.getCoIndustry());
     archiveInfo.setOrgType(applyInfo.getCoClassify());
-    if (applyInfo.getBusiType() == 1) {
-      archiveInfo.setPoolId(PropertiesHolder.getProperty("POOL_ID_SPECIAL"));
-    }
-    if (applyInfo.getBusiType() == 2) {
-      archiveInfo.setPoolId(PropertiesHolder.getProperty("POOL_ID_IDC"));
-    }
+    archiveInfo.setPoolId(poolId);
     archiveInfo.setSubnetId(resultBean.getSubnetId());
     archiveInfo.setUseDate(null);
     archiveInfo.setUseType(applyInfo.getUseWay());
@@ -168,20 +173,23 @@ public class IPApplyServiceImpl implements IPApplyService {
    */
   private String paramValidate(String applyCity, Integer busiType) throws IPApplyException {
     String poolId = null;
-    if (busiType == 1) {// 专线地址
+    if (busiType == 11) {
       poolId = PropertiesHolder.getProperty("POOL_ID_SPECIAL");
-    }
-    if (busiType == 2) {// IDC地址
+    } else if (busiType == 12) {
       poolId = PropertiesHolder.getProperty("POOL_ID_IDC");
+    } else if (busiType == 21) {
+      poolId = PropertiesHolder.getProperty("POOL_ID_HOME");
+    } else if (busiType == 22) {
+      poolId = PropertiesHolder.getProperty("POOL_ID_WLAN");
     }
     if (StringUtils.isEmpty(poolId)) {
       throw new IPApplyException(IPApplyServRespCode.Parameter_Error.getCode(),
-          "接口调用传参不正确 , 申请业务类型参数不正确！[busiType="+busiType+"] ]");
+          "接口调用传参不正确 , 申请业务类型参数不正确！[busiType=" + busiType + "] ]");
     }
     DimCityEntity cityBean = cityService.getCityByCityId(applyCity);
     if (cityBean == null) {
       throw new IPApplyException(IPApplyServRespCode.Parameter_Error.getCode(),
-          "接口调用传参不正确 ， 申请地市不存在！[applyCity="+applyCity+"] ]");
+          "接口调用传参不正确 ， 申请地市不存在！[applyCity=" + applyCity + "] ]");
     }
     return poolId;
   }
