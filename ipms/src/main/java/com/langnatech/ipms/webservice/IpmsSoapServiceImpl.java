@@ -35,10 +35,14 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
       ApplyInfoBean applyInfo =
           JsonConvertUtil.nonDefaultMapper().fromJson(arguments, ApplyInfoBean.class);
       if(interfaceCode.endsWith("_EMOS")){
-        applyInfo.setBusiType(20+applyInfo.getBusiType());
+        if(applyInfo.getBusiType()!=null){
+          applyInfo.setBusiType(20+applyInfo.getBusiType());
+        }
         interfaceCode=interfaceCode.substring(0,interfaceCode.indexOf("_EMOS"));
       }else{
-        applyInfo.setBusiType(10+applyInfo.getBusiType());
+        if(applyInfo.getBusiType()!=null){
+          applyInfo.setBusiType(10+applyInfo.getBusiType());
+        }
       }
       if (interfaceCode.equals("IP_APPLY_ADD")) {// 申请IP地址段
         logger.debug(
