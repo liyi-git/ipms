@@ -88,7 +88,7 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
         logger.debug("::: WSInvoke ::: Use ip apply ,Apply code:[{}]", applyInfo.getApplyCode());
         ApplyResultBean applyResult =
             ipApplyService.applyUse(applyInfo.getApplyCode(), applyInfo.getOperator());
-        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.CANCEL_RESERVE,
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.REGISTER_ADDRESS,
             applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
             applyResult.getCityId(), "申请开通地址数量：" + applyResult.getIpCount(), invokeWay);
       } else if (interfaceCode.equals("IP_APPLY_RECYCLE")) {// IP回收
@@ -96,7 +96,7 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
             applyInfo.getApplyCode());
         ApplyResultBean applyResult =
             ipApplyService.applyRecycle(applyInfo.getApplyCode(), applyInfo.getOperator());
-        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.CANCEL_RESERVE,
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.RECYCLE_SUBNET,
             applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
             applyResult.getCityId(), "申请回收地址数量：" + applyResult.getIpCount(), invokeWay);
       } else {

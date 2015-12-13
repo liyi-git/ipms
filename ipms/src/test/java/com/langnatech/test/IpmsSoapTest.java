@@ -108,17 +108,17 @@ public class IpmsSoapTest extends TestCase {
 //   }
   
 //  
-   @Test
-   public void testUse() throws Exception{
-   CallResultBean callResult =
-   service.call(null, "IP_APPLY_USE_EMOS", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
-   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-   }
-//  
 //   @Test
-//   public void testRecycle() throws Exception {
+//   public void testUse() throws Exception{
 //   CallResultBean callResult =
-//   service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
+//   service.call(null, "IP_APPLY_USE_EMOS", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
 //   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
 //   }
+//  
+   @Test
+   public void testRecycle() throws Exception {
+   CallResultBean callResult =
+   service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
+   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+   }
 }

@@ -67,7 +67,14 @@ public class WebVisitEventPublish implements ApplicationEventPublisherAware {
     operateLogEntity.setObjType(ObjType.getCode());
     operateLogEntity.setOperateObj(operateObj);
     if (StringUtils.isNotBlank(operateCont)) {
-      operateLogEntity.setOperateCont(operateCont);
+      String pre="";
+      if(operateWay.getCode().equals(OperateWayEnum.ESOP_INVOKE.getCode())){
+        pre="ESOP调用：";
+      }
+      if(operateWay.getCode().equals(OperateWayEnum.EMOS_INVOKE.getCode())){
+        pre="EMOS调用：";
+      }
+      operateLogEntity.setOperateCont(pre+operateCont);
     }
     operateLogEntity.setOperateType(operateCode.getCode());
     operateLogEntity.setPoolId(poolId);
