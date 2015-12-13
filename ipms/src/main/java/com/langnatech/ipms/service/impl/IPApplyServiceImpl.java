@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.langnatech.core.holder.IDGeneratorHolder;
 import com.langnatech.core.holder.PropertiesHolder;
 import com.langnatech.ipms.IPConstant;
+import com.langnatech.ipms.bean.SubNetResBean;
 import com.langnatech.ipms.entity.DimCityEntity;
 import com.langnatech.ipms.entity.IPArchiveInfoEntity;
 import com.langnatech.ipms.enums.SubNetUseStatusEnum;
@@ -91,43 +92,91 @@ public class IPApplyServiceImpl implements IPApplyService {
   }
 
   @Override
-  public void applyCancel(String applyCode, String operator) throws IPApplyException {
+  public ApplyResultBean applyCancel(String applyCode, String operator) throws IPApplyException {
+    ApplyResultBean resultBean = null;
     // 查询申请单号是否存在
     IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
     if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
     }
+    SubNetResBean subnet = subnetService.selectSubnetById(archiveInfo.getSubnetId());
+    if (subnet == null) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "申请取消的网段在ip系统中不存在，网段编码：" + archiveInfo.getSubnetId());
+    }
+    // ip状态为预留时，才可取消申请单
+    if (subnet.getUseStatus().intValue() != SubNetUseStatusEnum.RESERVE.getCode().intValue()) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "已经申请预留的地址段，才可以申请取消！网段状态：" + SubNetUseStatusEnum.getNameByValue(subnet.getUseStatus()));
+    }
     // 标记网段状态为空闲
     subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
         SubNetUseStatusEnum.AVAILABLE.getCode());
+    resultBean = new ApplyResultBean();
+    resultBean.setIpCount(subnet.getIpCount());
+    resultBean.setPoolId(subnet.getPoolId());
+    resultBean.setCityId(subnet.getCityId());
+    resultBean.setSubnetDesc(subnet.getSubnetDesc());
+    resultBean.setSubnetId(subnet.getSubnetId());
     // 备案信息标记为删除
     archiveInfoService.delArchiveInfo(applyCode);
+    return resultBean;
   }
 
   @Override
-  public void applyUse(String applyCode, String operator) throws IPApplyException {
+  public ApplyResultBean applyUse(String applyCode, String operator) throws IPApplyException {
+    ApplyResultBean resultBean = null;
     // 查询申请单号是否存在
     IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
     if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
+    }
+    SubNetResBean subnet = subnetService.selectSubnetById(archiveInfo.getSubnetId());
+    if (subnet == null) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "申请开通的网段在ip系统中不存在，网段编码：" + archiveInfo.getSubnetId());
     }
     // 标记网段状态为已使用
     subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
         SubNetUseStatusEnum.USED.getCode());
+    resultBean = new ApplyResultBean();
+    resultBean.setIpCount(subnet.getIpCount());
+    resultBean.setPoolId(subnet.getPoolId());
+    resultBean.setCityId(subnet.getCityId());
+    resultBean.setSubnetDesc(subnet.getSubnetDesc());
+    resultBean.setSubnetId(subnet.getSubnetId());
+    return resultBean;
   }
 
   @Override
-  public void applyRecycle(String applyCode, String operator) throws IPApplyException {
+  public ApplyResultBean applyRecycle(String applyCode, String operator) throws IPApplyException {
+    ApplyResultBean resultBean = null;
     // 查询申请单号是否存在
     IPArchiveInfoEntity archiveInfo = archiveInfoService.getArchiveInfoByApplyCode(applyCode);
     if (archiveInfo == null) {
       throw new IPApplyException(IPApplyServRespCode.ApplyCode_Not_Exist);
+    }
+    SubNetResBean subnet = subnetService.selectSubnetById(archiveInfo.getSubnetId());
+    if (subnet == null) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "申请开通的网段在ip系统中不存在，网段编码：" + archiveInfo.getSubnetId());
+    }
+    if (subnet.getUseStatus().intValue() != SubNetUseStatusEnum.USED.getCode().intValue()) {
+      throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
+          "已经开通使用的地址段，才可以被回收！网段状态：" + SubNetUseStatusEnum.getNameByValue(subnet.getUseStatus()));
     }
     // 标记网段状态为空闲
     subnetService.updateSubnetUseStatus(archiveInfo.getSubnetId(),
         SubNetUseStatusEnum.AVAILABLE.getCode());
     // 备案信息标记为删除
     archiveInfoService.delArchiveInfo(applyCode);
+    resultBean = new ApplyResultBean();
+    resultBean.setIpCount(subnet.getIpCount());
+    resultBean.setPoolId(subnet.getPoolId());
+    resultBean.setCityId(subnet.getCityId());
+    resultBean.setSubnetDesc(subnet.getSubnetDesc());
+    resultBean.setSubnetId(subnet.getSubnetId());
+    return resultBean;
   }
 
   private IPArchiveInfoEntity fillArchiveInfo(String poolId, ApplyInfoBean applyInfo,
@@ -193,4 +242,14 @@ public class IPApplyServiceImpl implements IPApplyService {
     }
     return poolId;
   }
+
+  @Override
+  public void validateApplyHasExist(String applyCode) throws IPApplyException{
+    IPArchiveInfoEntity archiveInfo = this.archiveInfoService.getArchiveInfoByApplyCode(applyCode);
+    if (archiveInfo != null) {
+      throw new IPApplyException(IPApplyServRespCode.ApplyCode_Duplicate.getCode(),
+          "申请单号["+applyCode+"]已存在，不允许重复申请！");
+    }      
+  }
+
 }

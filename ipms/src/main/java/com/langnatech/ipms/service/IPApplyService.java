@@ -31,7 +31,7 @@ public interface IPApplyService {
    * @param applyCode
    * @param operator
    */
-  public void applyCancel(String applyCode, String operator) throws IPApplyException;
+  public ApplyResultBean applyCancel(String applyCode, String operator) throws IPApplyException;
 
   /**
    * IP地址申请单申请开通
@@ -39,7 +39,7 @@ public interface IPApplyService {
    * @param applyCode
    * @param operator
    */
-  public void applyUse(String applyCode, String operator) throws IPApplyException;
+  public ApplyResultBean applyUse(String applyCode, String operator) throws IPApplyException;
 
   /**
    * IP地址申请单申请取消
@@ -47,5 +47,7 @@ public interface IPApplyService {
    * @param applyCode
    * @param operator
    */
-  public void applyRecycle(String applyCode, String operator) throws IPApplyException;
+  public ApplyResultBean applyRecycle(String applyCode, String operator) throws IPApplyException;
+
+  public void validateApplyHasExist(String applyCode) throws IPApplyException;
 }

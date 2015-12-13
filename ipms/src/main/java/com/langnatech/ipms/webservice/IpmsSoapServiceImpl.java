@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.langnatech.core.web.event.WebVisitEventPublish;
+import com.langnatech.ipms.enums.OperateObjTypeEnum;
+import com.langnatech.ipms.enums.OperateTypeEnum;
+import com.langnatech.ipms.enums.OperateWayEnum;
 import com.langnatech.ipms.exception.IPApplyException;
 import com.langnatech.ipms.service.IPApplyService;
 import com.langnatech.ipms.webservice.bean.ApplyInfoBean;
@@ -29,28 +33,37 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
     CallResultBean callResultBean = new CallResultBean(IPApplyServRespCode.Success.getCode(),
         IPApplyServRespCode.Success.getDesc());
     String resultJSON = "{}";
+    OperateWayEnum invokeWay = null;
     try {
       String interfaceCode = serviceCode.toUpperCase();
       // TODO 接口调用鉴权
       ApplyInfoBean applyInfo =
           JsonConvertUtil.nonDefaultMapper().fromJson(arguments, ApplyInfoBean.class);
-      if(interfaceCode.endsWith("_EMOS")){
-        if(applyInfo.getBusiType()!=null){
-          applyInfo.setBusiType(20+applyInfo.getBusiType());
+      if (interfaceCode.endsWith("_EMOS")) {
+        if (applyInfo.getBusiType() != null) {
+          applyInfo.setBusiType(20 + applyInfo.getBusiType());
         }
-        interfaceCode=interfaceCode.substring(0,interfaceCode.indexOf("_EMOS"));
-      }else{
-        if(applyInfo.getBusiType()!=null){
-          applyInfo.setBusiType(10+applyInfo.getBusiType());
+        invokeWay = OperateWayEnum.EMOS_INVOKE;
+        interfaceCode = interfaceCode.substring(0, interfaceCode.indexOf("_EMOS"));
+      } else {
+        if (applyInfo.getBusiType() != null) {
+          applyInfo.setBusiType(10 + applyInfo.getBusiType());
         }
+        invokeWay = OperateWayEnum.ESOP_INVOKE;
       }
       if (interfaceCode.equals("IP_APPLY_ADD")) {// 申请IP地址段
         logger.debug(
             "::: Webservice Invoke ::: Apply ip subnet , Apply city：[{}] Business type：[{}] Apply ip count：[{}]",
             new Object[] {applyInfo.getApplyCity(), applyInfo.getBusiType(),
                 applyInfo.getIpCount()});
+        ipApplyService.validateApplyHasExist(applyInfo.getApplyCode());
         ApplyResultBean applyResult = ipApplyService.applyReserveIP(applyInfo);
         resultJSON = JsonConvertUtil.nonEmptyMapper().toJson(applyResult);
+        String content =
+            "申请地址数量：" + applyInfo.getIpCount() + ",实际分配地址数量：" + applyResult.getIpCount();
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.RESERVE_ADDRESS,
+            applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
+            applyResult.getCityId(), content, invokeWay);
       } else if (interfaceCode.equals("IP_AVAILABLE_QUERY")) {// 可用IP查询
         logger.debug(
             "::: WSInvoke ::: Query available ip , Apply city：[{}] Business type：[{}] Apply ip count：[{}]",
@@ -66,14 +79,26 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
         }
       } else if (interfaceCode.equals("IP_APPLY_CANCEL")) {// 取消IP申请
         logger.debug("::: WSInvoke ::: Cancel ip apply ,Apply code:[{}]", applyInfo.getApplyCode());
-        ipApplyService.applyCancel(applyInfo.getApplyCode(), applyInfo.getOperator());
+        ApplyResultBean applyResult =
+            ipApplyService.applyCancel(applyInfo.getApplyCode(), applyInfo.getOperator());
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.CANCEL_RESERVE,
+            applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
+            applyResult.getCityId(), "取消预留地址数量：" + applyResult.getIpCount(), invokeWay);
       } else if (interfaceCode.equals("IP_APPLY_USE")) {// IP申请开通
         logger.debug("::: WSInvoke ::: Use ip apply ,Apply code:[{}]", applyInfo.getApplyCode());
-        ipApplyService.applyUse(applyInfo.getApplyCode(), applyInfo.getOperator());
+        ApplyResultBean applyResult =
+            ipApplyService.applyUse(applyInfo.getApplyCode(), applyInfo.getOperator());
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.CANCEL_RESERVE,
+            applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
+            applyResult.getCityId(), "申请开通地址数量：" + applyResult.getIpCount(), invokeWay);
       } else if (interfaceCode.equals("IP_APPLY_RECYCLE")) {// IP回收
         logger.debug("::: WSInvoke ::: Recycle ip apply ,Apply code:[{}]",
             applyInfo.getApplyCode());
-        ipApplyService.applyRecycle(applyInfo.getApplyCode(), applyInfo.getOperator());
+        ApplyResultBean applyResult =
+            ipApplyService.applyRecycle(applyInfo.getApplyCode(), applyInfo.getOperator());
+        WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.CANCEL_RESERVE,
+            applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
+            applyResult.getCityId(), "申请回收地址数量：" + applyResult.getIpCount(), invokeWay);
       } else {
         throw new IPApplyException(IPApplyServRespCode.Invoke_Error.getCode(),
             "参数[serviceCode]传值不正确!");

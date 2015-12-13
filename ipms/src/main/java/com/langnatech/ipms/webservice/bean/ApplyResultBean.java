@@ -8,33 +8,58 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ApplyResultBean implements Serializable {
 
   private static final long serialVersionUID = 2582451466668647562L;
+
   private List<String> iplist;
+
   private String startIP;
+
   private String endIP;
+
   private Integer ipCount;
+
   private Integer applyCount;
+
+  private String netmask;
+
+  @JsonIgnore
+  private String subnetId;
+
+  @JsonIgnore
+  private String subnetDesc;
+
+  @JsonIgnore
+  private String gatewayIp;
+
+  @JsonIgnore
+  private String poolId;
+
+  @JsonIgnore
+  private String cityId;
+
+  @JsonIgnore
+  public String getPoolId() {
+    return poolId;
+  }
+
+  public void setPoolId(String poolId) {
+    this.poolId = poolId;
+  }
+
+  @JsonIgnore
+  public String getCityId() {
+    return cityId;
+  }
+
+  public void setCityId(String cityId) {
+    this.cityId = cityId;
+  }
 
   public Integer getApplyCount() {
     return applyCount;
   }
 
-  public void setApplyCount(Integer applyCount) {
-    this.applyCount = applyCount;
-  }
-
-  private String netmask;
-  @JsonIgnore
-  private String subnetId;
-  @JsonIgnore
-  private String gatewayIp;
-
-  @JsonIgnore
-  public String getSubnetId() {
-    return subnetId;
-  }
-
-  public void setSubnetId(String subnetId) {
-    this.subnetId = subnetId;
+  public String getEndIP() {
+    return endIP;
   }
 
   @JsonIgnore
@@ -42,50 +67,66 @@ public class ApplyResultBean implements Serializable {
     return gatewayIp;
   }
 
-  public void setGatewayIp(String gatewayIp) {
-    this.gatewayIp = gatewayIp;
+  public Integer getIpCount() {
+    return ipCount;
   }
 
   public List<String> getIplist() {
     return iplist;
   }
 
-  public void setIplist(List<String> iplist) {
-    this.iplist = iplist;
+  public String getNetmask() {
+    return netmask;
   }
 
   public String getStartIP() {
     return startIP;
   }
 
-  public void setStartIP(String startIP) {
-    this.startIP = startIP;
+  @JsonIgnore
+  public String getSubnetDesc() {
+    return subnetDesc;
   }
 
-  public String getEndIP() {
-    return endIP;
+  @JsonIgnore
+  public String getSubnetId() {
+    return subnetId;
+  }
+
+  public void setApplyCount(Integer applyCount) {
+    this.applyCount = applyCount;
   }
 
   public void setEndIP(String endIP) {
     this.endIP = endIP;
   }
 
-  public Integer getIpCount() {
-    return ipCount;
+  public void setGatewayIp(String gatewayIp) {
+    this.gatewayIp = gatewayIp;
   }
 
   public void setIpCount(Integer ipCount) {
     this.ipCount = ipCount;
   }
 
-  public String getNetmask() {
-    return netmask;
+  public void setIplist(List<String> iplist) {
+    this.iplist = iplist;
   }
 
   public void setNetmask(String netmask) {
     this.netmask = netmask;
   }
 
+  public void setStartIP(String startIP) {
+    this.startIP = startIP;
+  }
 
+  public void setSubnetDesc(String subnetDesc) {
+    this.subnetDesc = subnetDesc;
+  }
+
+  public void setSubnetId(String subnetId) {
+    this.subnetId = subnetId;
+  }
 
 }

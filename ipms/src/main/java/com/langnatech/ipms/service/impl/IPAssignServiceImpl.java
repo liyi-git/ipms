@@ -113,6 +113,10 @@ public class IPAssignServiceImpl implements IPAssignService {
     ApplyResultBean resultBean = new ApplyResultBean();
     resultBean.setNetmask(subnetEntity.getNetmask());
     resultBean.setSubnetId(subnetEntity.getSubnetId());
+    resultBean.setSubnetDesc(subnetEntity.getSubnetDesc());
+    resultBean.setPoolId(subnetEntity.getCityId());
+    resultBean.setCityId(subnetEntity.getPoolId());
+    resultBean.setSubnetId(subnetEntity.getSubnetId());
     Long beginIp;
     int ipCount;
     if (IPConstant.APPLY_CONTAIN_NET_ADDRESS) {

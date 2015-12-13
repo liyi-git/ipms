@@ -4,7 +4,7 @@ import com.langnatech.core.enums.BaseEnum;
 
 public enum OperateWayEnum implements BaseEnum<String>
 {
-    INNER_INVOKE("INNER_INVOKE", "内部系统调用"), ESOP_INVOKE("ESOP_INVOKE", "ESOP系统外部服务调用");
+    INNER_INVOKE("1", "内部系统调用"), ESOP_INVOKE("11", "ESOP系统调用"),EMOS_INVOKE("12", "EMOS系统调用");
     private String code;
 
     private String desc;
