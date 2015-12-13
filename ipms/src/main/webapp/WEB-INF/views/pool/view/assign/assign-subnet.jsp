@@ -26,11 +26,9 @@ require([ 'jquery','aui/popup','underscore','enums','treegrid','aui/confirm'], f
 			{ name: 'poolId', type: 'string' },
 			{ name: 'operateTime', type: 'string' }
 		],
-        hierarchy:{
-           keyDataField: { name: 'subnetId' },
-           parentDataField: { name: 'subnetPid' }
-        },
-        id:'subnetId'		
+        id:'subnetId',
+	    pagesize: 10,
+        root: 'data'        
     };	
 	var columns=[
     	{ text: '网段', dataField: 'subnetId',displayField:'subnetDesc',align: 'center', cellsAlign: 'left',width:"130"},
@@ -42,6 +40,16 @@ require([ 'jquery','aui/popup','underscore','enums','treegrid','aui/confirm'], f
         	return "";
         }}
 	];
+	var dataAdapter=new $.jqx.dataAdapter(source,{
+    	formatData: function (data) {
+    		return data;
+    	},
+    	downloadComplete: function (data, status, xhr) {
+            if (!source.totalRecords) {
+            	source.totalRecords = parseInt(data["totalCount"]);
+            }
+        }        	
+     });	
  	$(document).ready(function(){	 		
 	    initGrid();
  	});
@@ -55,36 +63,15 @@ require([ 'jquery','aui/popup','underscore','enums','treegrid','aui/confirm'], f
     	if(!$table.length){
     		$table=$('<div id="subnet-table"/>').appendTo('#queryTablePanel');
     	}			
-    	$("#subnet-table").jqxTreeGrid({
-    		virtualModeCreateRecords: function(expandedRecord, done){
-    	        var dataAdapter = new $.jqx.dataAdapter(source, {
-    	            loadComplete: function (a) {
-    	            	var result=dataAdapter.records;
-    	            	if(_.isArray(result)){
-	            			var idAry=_.pluck(result,'subnetPid');
-	            			$.each(result,function(idx,obj){
-	            				if(_.indexOf(idAry,obj.subnetId)!=-1){
-	            					obj.leaf=false;
-	            				}else{
-	            					obj.leaf=true;
-	            				}
-	            			});
-    	            	}
-	            		done(result);
-    	            },
-                    loadError: function (xhr, status, error) {
-                        done(false);
-                        throw new Error(error.toString());
-                    }
-    	        });
-    	       dataAdapter.dataBind();
-    	    },
-	    	virtualModeRecordCreating: function(record){
-    	    },
+    	$("#subnet-table").jqxDataTable({
+    		source: dataAdapter,
     	    localization:{emptyDataString:"查询无数据"},
     	    columns:columns,
             width: '100%',
-            pageable: false,
+            pageable: true,
+            pagerButtonsCount: 10,
+            altRows: true,
+            serverProcessing: true,            
             columnsResize: false    
     	});
     }
