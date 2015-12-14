@@ -2359,7 +2359,16 @@ position:absolute;top:15px; right:0px;
 }
 /**css 定制化 end**/
 
-
+.icon-subnet{
+	background-image: url("images/icon-subnet.png");
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+.icon-folder{
+	background-image: url("images/icon-folder.png");
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
 
 
 

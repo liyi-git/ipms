@@ -72,11 +72,11 @@
    	        	}
    	        	return "";
    	        }},
-   	        { text: '待规划子网', dataField: 'waitCount',align: 'center', cellsAlign: 'right',width:"10%"},
-   	        { text: '规划中子网', dataField: 'planningCount',align: 'center', cellsAlign: 'right',width:"10%"},
+   	        { text: '待规划', dataField: 'waitCount',align: 'center', cellsAlign: 'right',width:"10%"},
+   	        { text: '规划中', dataField: 'planningCount',align: 'center', cellsAlign: 'right',width:"10%"},
    	        { text: 'IP总数量', dataField: 'ipCount',align: 'center', cellsAlign: 'right',width:"10%"},
-   	        { text: '分配地址池', dataField: 'poolName',align: 'center', cellsAlign: 'center',width:"10%"},
-   	        { text: '分配地市', dataField: 'cityName',align: 'center', cellsAlign: 'center',width:"15%"},
+   	        { text: '地址池', dataField: 'poolName',align: 'center', cellsAlign: 'center',width:"10%"},
+   	        { text: '地市', dataField: 'cityName',align: 'center', cellsAlign: 'center',width:"15%"},
    	        { text: '操作',align: 'center', cellsAlign: 'center',width:"15%",cellsRenderer: function (row, column, value, rowData) {
                   var status=rowData["planStatus"]||'',color;
                   var d_plan="<a href='javascript:;'  val="+rowData['subnetId']+" evt-handler='func_plan'>规划</a>",

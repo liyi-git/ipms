@@ -1,6 +1,5 @@
 package com.langnatech.ipms.service.impl;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +36,11 @@ public class IPPoolServiceImpl implements IPPoolService
             resultMap=new HashMap<String,Object>(1);
             int ipCount=0,keepCount=0,useCount=0,waitCount=0;
             for(Map<String,Object> map:list){
-                ipCount+=((BigDecimal)map.get("IP_COUNT")).intValue();
-                keepCount+=((BigDecimal)map.get("KEEP_COUNT")).intValue();
-                useCount+=((BigDecimal)map.get("USE_COUNT")).intValue();
+                ipCount+=((Number)map.get("IP_COUNT")).intValue();
+                keepCount+=((Number)map.get("KEEP_COUNT")).intValue();
+                useCount+=((Number)map.get("USE_COUNT")).intValue();
                 if(map.get(idField.toUpperCase()).toString().startsWith("-")){
-                    waitCount+=((BigDecimal)map.get("IP_COUNT")).intValue();
+                    waitCount+=((Number)map.get("IP_COUNT")).intValue();
                 }
             }
             resultMap.put("IP_COUNT", ipCount);

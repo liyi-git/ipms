@@ -26,6 +26,7 @@
 	padding: 5px 5px;
 	overflow: hidden;
 }
+
 </style>
 <fmt:formatNumber value="${SUBNET.ipUseCount+SUBNET.ipFreeCount+SUBNET.ipKeepCount}" var="ipTotalCount" pattern="#0.00"></fmt:formatNumber>
 <fmt:formatNumber value="${(SUBNET.ipFreeCount)/ipTotalCount*100}" var="freePercent" pattern="#0.00"></fmt:formatNumber>
@@ -142,7 +143,7 @@
 <div class="aui-grid-12" style="margin-top: 10px;">
 	<div class="aui-panel" style="margin: 0;">
 		<div class="aui-panel-heading">
-			<h3 class="aui-panel-title">IP地址列表</h3>
+			<h3 class="aui-panel-title">网段/IP地址列表</h3>
 		</div>
 		<div class="aui-panel-body">
 			<div id="iplist-Table"></div>
@@ -250,8 +251,9 @@
 		  	{ text:'编号',align: 'center', cellsAlign: 'center',width:'50',pinned: true,cellsRenderer: function (row, column, value, rowData){
 			  	return row+1;
 	  		}},	    
-	        { text: '网段名称', dataField: 'subnetId',displayField:'subnetDesc',align: 'center', cellsAlign: 'left',width:"150",pinned: true,cellsRenderer: function (row, column, value, rowData){
-        		return '<a href="javascript:;" evt-handler="showSubnet" val="'+rowData['subnetId']+'">'+rowData['subnetDesc']+'</a>'; 
+	        { text: '子网名称', dataField: 'subnetId',displayField:'subnetDesc',align: 'center', cellsAlign: 'left',width:"180",pinned: true,cellsRenderer: function (row, column, value, rowData){
+	        	var cls=(rowData['subnetCount']>0)?"icon-folder":"icon-subnet";
+        		return '<span class="'+cls+'"><a href="javascript:;" evt-handler="showSubnet" val="'+rowData['subnetId']+'">'+rowData['subnetDesc']+'</a></span>'; 
 	        }},
 	        { text: '子网掩码', dataField: 'netmask',align: 'center', cellsAlign: 'left',width:"150"},
    	        { text: '子网状态', dataField: 'planStatus',align: 'center', cellsAlign: 'center',width:"80",cellsRenderer: function (row, column, value, rowData) {
@@ -283,6 +285,9 @@
 	        { text: '已预留', dataField: 'ipKeepCount',align: 'center', cellsAlign: 'right',width:"80"},
    	        { text: '归属池', dataField: 'poolName',align: 'center', cellsAlign: 'center',width:"150"},
 	        { text: '归属地市', dataField: 'cityName',align: 'center', cellsAlign: 'center',width:"150"}
+	        ,{ text: '操作',align: 'center',dataField: 'view', cellsAlign: 'center',width:120,cellsRenderer: function (row, column, value, rowData) {
+	        	return "<a href='javascript:;' evt-handler='showSubnet' val='"+rowData['subnetId']+"'>查看</a>"
+	        }}
 	    </c:if>
 	    ];
 		$(document).ready(function(){
@@ -338,7 +343,7 @@
                 serverProcessing: true,
 	            columns: columns,
 	            localization:{emptyDataString:"查询无数据"}
-	        });	
+	        });				
 			$grid.delegate('a[evt-handler]', 'click', function() {
 				var $e = $(this);
 				var val = $e.attr('val');

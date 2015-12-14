@@ -9,7 +9,7 @@
 				<li val="City" target="panel-tree">按地市查看</li>
 			</ul>
 			<div class="aui-panel-body">
-				<div id="panel-tree" class="fn-hide" style="height:500px;">
+				<div id="panel-tree" class="fn-hide" style="height:800px;">
 					<ul id="poolTree" class="ztree"></ul>
 				</div>
 			</div>

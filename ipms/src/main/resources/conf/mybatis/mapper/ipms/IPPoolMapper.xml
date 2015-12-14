@@ -197,44 +197,44 @@
 	</select>
 	<!--查询IP地址池概况信息（地址池下展示子网）-->
 	<select id="selectSubnetStatByPool" parameterType="java.lang.String" resultType="map">
-	<![CDATA[	
-		SELECT 
-		  A.SUBNET_ID,
-		  A.SUBNET_DESC,
-		  A.NETMASK,
-		  A.BEGIN_IP,
-		  A.END_IP,
-		  IFNULL(SUM(B.IP_COUNT),0) AS IP_COUNT,
-		  IFNULL(SUM(
-		    CASE
-		      WHEN B.USE_STATUS = 3 
-		      THEN B.IP_COUNT 
-		      ELSE 0 
-		    END
-		  ),0) AS KEEP_COUNT,
-		  IFNULL(SUM(
-		    CASE
-		      WHEN B.USE_STATUS = 2 
-		      THEN B.IP_COUNT 
-		      ELSE 0 
-		    END
-		  ),0) AS USE_COUNT 
-		FROM
-		  ${SCHEMA_BASE}.IP_SUBNET_RES AS A 
-		  INNER JOIN ${SCHEMA_BASE}.IP_SUBNET_RES AS B 
-		    ON A.BEGIN_IP_DECIMAL <= B.BEGIN_IP_DECIMAL 
-		    AND A.END_IP_DECIMAL >= B.END_IP_DECIMAL 
-		WHERE A.PLAN_STATUS > 1 
-		  AND A.POOL_ID = #{poolId}
-	]]>	
-		  <if test="cityId!=null">
-		  	AND A.CITY_ID = #{cityId}
-		  </if>
+		<![CDATA[
+		SELECT A.SUBNET_ID,
+		       A.SUBNET_DESC,
+		       A.NETMASK,
+		       A.BEGIN_IP,
+		       A.END_IP,
+		       A.IP_COUNT,
+		       A.SUBNET_COUNT,
+		       A.IP_KEEP_COUNT AS KEEP_COUNT,
+		       A.IP_USE_COUNT AS USE_COUNT
+		FROM ${SCHEMA_BASE}.vw_subnet_stat A
+		WHERE A.POOL_ID = #{poolId} 
+		]]>
+		<if test="cityId!=null">
+		  AND A.CITY_ID = #{cityId}
+		</if>
+		<![CDATA[
+		  AND A.PLAN_STATUS > 1
+		  AND NOT EXISTS
+		    (SELECT B.SUBNET_ID
+		     FROM ${SCHEMA_BASE}.ip_subnet_res B
+		     WHERE B.POOL_ID = #{poolId}
+		]]>
+		<if test="cityId!=null">
+		    AND A.CITY_ID = #{cityId}
+		</if>
+		<![CDATA[
+		       AND B.PLAN_STATUS > 1
+		       AND A.SUBNET_PID=B.SUBNET_ID)
 		GROUP BY A.SUBNET_ID,
-		  A.SUBNET_DESC,
-		  A.NETMASK,
-		  A.BEGIN_IP,
-		  A.END_IP 
+		         A.SUBNET_DESC,
+		         A.NETMASK,
+		         A.BEGIN_IP,
+		         A.END_IP,
+		         A.IP_COUNT,
+		         A.IP_KEEP_COUNT,
+		         A.IP_USE_COUNT
+		]]>
 	</select>
 	
 	<select id="selectPoolStatByCity" parameterType="java.lang.String" resultType="map">
