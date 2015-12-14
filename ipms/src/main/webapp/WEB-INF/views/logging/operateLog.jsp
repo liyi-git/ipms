@@ -18,7 +18,7 @@
 	</div>
 	<div class="aui-dimpanel-item">
 		<label>地址池：</label>
-		<div class="aui-dimsel" width="200" name="poolId" id="poolId" showAll="true"s>
+		<div class="aui-dimsel" width="200" name="poolId" id="poolId" showall="true"s>
 			<ul>
 				<li val='-9'>IP地址资源池</li>
 				<c:forEach items="${exfn:getIPPool()}" var="it">
@@ -29,7 +29,7 @@
 	</div>
 	<div class="aui-dimpanel-item">
 		<label>地域：</label>
-		<div class="aui-dimsel" name="cityId" showAll="true" id="cityId">
+		<div class="aui-dimsel" name="cityId" showall="true" id="cityId">
 			<ul>
 				<c:forEach items="${exfn:getCity()}" var="it">
 					<li val="${it.cityId}">${it.cityName}</li>

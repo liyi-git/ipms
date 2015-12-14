@@ -66,7 +66,7 @@ legend {
 			</div>
 			<div class="aui-grid-6 query-item">
 				<label>归属地域：</label>
-				<div class="aui-dimsel" name="subnet.cityId" showAll="true">
+				<div class="aui-dimsel" name="subnet.cityId" showall="true">
 					<ul>
 						<c:forEach items="${exfn:getCity()}" var="it">
 							<li val="${it.cityId}">${it.cityName}</li>
@@ -76,7 +76,7 @@ legend {
 			</div>
 			<div class="aui-grid-6 query-item">
 				<label>规划状态：</label>
-				<div class="aui-dimsel" showAll="true" name="subnet.planStatus">
+				<div class="aui-dimsel" showall="true" name="subnet.planStatus">
 					<ul>
 						<c:set value="${exfn:getEnumValues('SubNetPlanStatusEnum')}" var="planStatus"></c:set>
 						<c:forEach items="${planStatus}" var="status">
@@ -87,7 +87,7 @@ legend {
 			</div>
 			<div class="aui-grid-6 query-item">
 				<label>使用状态：</label>
-				<div class="aui-dimsel" showAll="true" name="subnet.useStatus">
+				<div class="aui-dimsel" showall="true" name="subnet.useStatus">
 					<ul>
 						<c:set value="${exfn:getEnumValues('SubNetUseStatusEnum')}" var="useStatus"></c:set>
 						<c:forEach items="${useStatus}" var="status">
@@ -105,7 +105,7 @@ legend {
 		<div class="aui-grid">
 			<div class="aui-grid-4 query-item">
 				<label>使用方式：</label>
-				<div class="aui-dimsel" showAll="true" name="archive.useType">
+				<div class="aui-dimsel" showall="true" name="archive.useType">
 					<ul>
 						<c:forEach items="${exfn:getArchiveDic('USE_TYPE')}" var="it">
 							<li val="${it.key}">${it.value}</li>
@@ -115,7 +115,7 @@ legend {
 			</div>
 			<div class="aui-grid-4 query-item">
 				<label>单位所属分类：</label>
-				<div class="aui-dimsel" showAll="true" name="archive.orgType">
+				<div class="aui-dimsel" showall="true" name="archive.orgType">
 					<ul>
 						<c:forEach items="${exfn:getArchiveDic('ORG_TYPE')}" var="it">
 							<li val="${it.key}">${it.value}</li>
@@ -125,7 +125,7 @@ legend {
 			</div>
 			<div class="aui-grid-4 query-item">
 				<label>单位行政级别：</label>
-				<div class="aui-dimsel" showAll="true" name="archive.orgLevel">
+				<div class="aui-dimsel" showall="true" name="archive.orgLevel">
 					<ul>
 						<c:forEach items="${exfn:getArchiveDic('ORG_LEVEL')}" var="it">
 							<li val="${it.key}">${it.value}</li>
@@ -135,7 +135,7 @@ legend {
 			</div>
 			<div class="aui-grid-4 query-item">
 				<label>单位性质：</label>
-				<div class="aui-dimsel" showAll="true" name="archive.orgNature">
+				<div class="aui-dimsel" showall="true" name="archive.orgNature">
 					<ul>
 						<c:forEach items="${exfn:getArchiveDic('ORG_NATURE')}" var="it">
 							<li val="${it.key}">${it.value}</li>
@@ -145,7 +145,7 @@ legend {
 			</div>
 			<div class="aui-grid-8 query-item">
 				<label>所属行业分类：</label>
-				<div class="aui-dimsel" showAll="true" name="archive.orgTrade">
+				<div class="aui-dimsel" showall="true" name="archive.orgTrade">
 					<ul>
 						<c:forEach items="${exfn:getArchiveDic('ORG_TRADE')}" var="it">
 							<li val="${it.key}">${it.value}</li>
@@ -156,13 +156,13 @@ legend {
 			<div class="aui-grid-12 query-item">
 				<div class="aui-dimpanel-item">
 					<label>单位所在地区：</label>
-					<div class="aui-dimsel" showAll="true" id="org_prov" name="archive.orgProvId"></div>
+					<div class="aui-dimsel" showall="true" id="org_prov" name="archive.orgProvId"></div>
 				</div>
 				<div class="aui-dimpanel-item">
-					<div class="aui-dimsel" showAll="true" id="org_city" name="archive.orgCityId" placeholder="请选择地市"></div>
+					<div class="aui-dimsel" showall="true" id="org_city" name="archive.orgCityId" placeholder="请选择地市"></div>
 				</div>
 				<div class="aui-dimpanel-item">
-					<div class="aui-dimsel" showAll="true" id="org_county" name="archive.orgCountyId" placeholder="请选择区县"></div>
+					<div class="aui-dimsel" showall="true" id="org_county" name="archive.orgCountyId" placeholder="请选择区县"></div>
 				</div>
 			</div>
 		</div>

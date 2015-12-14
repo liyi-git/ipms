@@ -401,7 +401,7 @@
 			AND T4.ORG_TRADE = #{archive.orgTrade}  
 		</if>		
 		<if test="archive.useType!=null and archive.useType!=-1">
-			AND T4.USETYPE = #{archive.useType}  
+			AND T4.USE_TYPE = #{archive.useType}  
 		</if>
 	</select>
 	
