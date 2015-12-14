@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +14,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.langnatech.core.exception.BaseRuntimeException;
 import com.langnatech.core.holder.IDGeneratorHolder;
 import com.langnatech.core.holder.SecurityContextHolder;
 import com.langnatech.core.web.event.WebVisitEventPublish;
@@ -19,7 +22,6 @@ import com.langnatech.core.web.page.PageList;
 import com.langnatech.core.web.page.PageQuery;
 import com.langnatech.ipms.bean.SubNetResBean;
 import com.langnatech.ipms.dao.IPAddressResDao;
-import com.langnatech.ipms.dao.IPPoolConfDao;
 import com.langnatech.ipms.dao.SubNetResDao;
 import com.langnatech.ipms.entity.IPAddressResEntity;
 import com.langnatech.ipms.entity.IPArchiveInfoEntity;
@@ -29,6 +31,7 @@ import com.langnatech.ipms.enums.OperateObjTypeEnum;
 import com.langnatech.ipms.enums.OperateTypeEnum;
 import com.langnatech.ipms.enums.SubNetPlanStatusEnum;
 import com.langnatech.ipms.enums.SubNetUseStatusEnum;
+import com.langnatech.ipms.service.IPPoolConfService;
 import com.langnatech.ipms.service.SubNetResService;
 import com.langnatech.util.IpUtils;
 
@@ -39,7 +42,7 @@ public class SubNetResServiceImpl implements SubNetResService {
   private SubNetResDao subNetResDao;
 
   @Autowired
-  private IPPoolConfDao ipPoolConfDao;
+  private IPPoolConfService poolService;
 
   @Autowired
   private IPAddressResDao ipAddressResDao;
@@ -95,17 +98,22 @@ public class SubNetResServiceImpl implements SubNetResService {
   }
 
   public boolean mergeSubnetById(String subnetId) {
-    List<String> planChildList = this.subNetResDao.selectPlanedOrPlaningByPid(subnetId);
-    if (planChildList.size() > 0) {
-      return false;
-    } else {
-      SubNetResEntity entity = this.subNetResDao.selectSubnetById(subnetId);
-      entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
-      entity.setCityId("-1");
-      entity.setUseStatus(Integer.valueOf("-1"));
-      this.subNetResDao.deleteChildByPid(subnetId);
-      return this.subNetResDao.updateSubnet(entity);
+    SubNetResBean subnet = this.subNetResDao.selectSubnetById(subnetId);
+    if (subnet == null) {
+      throw new BaseRuntimeException("子网段不存在，子网编码:" + subnetId);
     }
+    if (subnet.getPlannedCount() > 0 || subnet.getIpKeepCount() > 0 || subnet.getIpUseCount() > 0) {
+      return false;
+    }
+    if (subnet.getPoolId().equals("-1") || subnet.getPoolId().equals("-9")) {
+      subnet.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
+    } else {
+      subnet.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+    }
+    subnet.setCityId("-1");
+    subnet.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+    this.subNetResDao.deleteChildByPid(subnetId);
+    return this.subNetResDao.updateSubnet(subnet);
   }
 
   public boolean isExistSubnet(String desc) {
@@ -125,53 +133,49 @@ public class SubNetResServiceImpl implements SubNetResService {
    * @param area
    * @param poolId
    */
-  public boolean insertSubNet(String ip, int maskbits, String area, String poolId) {
-    System.out.println(ip);
-    System.out.println(maskbits);
-
+  public boolean insertSubNet(String ip, int maskbits, String area, final String poolId) {
     String beginIp = IpUtils.getFirstIp(ip, maskbits);
-    System.out.println(beginIp);
-
     String endIp = IpUtils.getLastIp(ip, maskbits);
-    System.out.println(endIp);
     SubNetResEntity entity = new SubNetResEntity();
     entity.setSubnetId(IDGeneratorHolder.getId());
     entity.setSubnetDesc(IpUtils.getNetWorkIp(ip, maskbits) + "/" + maskbits);
 
-    // 设置地址段状态(如果地址段不处于-9地址池向下判断，如果处于-9地址池则规划状态为待规划状态)
-    if (!POOL_ROOT_ID.equals(poolId)) {
-      IPPoolConfEntity poolEntity = this.ipPoolConfDao.selectPoolConfByPoolId(poolId);
-      // 更改设备、IDC、业务三个地址池的状态
-      if (poolEntity.getPoolPid().equals(POOL_ROOT_ID)) {
-        // 设备或者IDC地址池的状态设置(无需分配到地市，状态为已规划)
-        if (poolEntity.getIsPlanCity() == IS_PLAN_CITY) {
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
-          entity.setCityId("-1");
-        } else {
-          // 业务地址池(无需分配到地市，状态为规划中)
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-          entity.setCityId("-1");
-        }
+    if (poolId.equals(POOL_ROOT_ID)) {
+      entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
+      entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+    } else {
+      IPPoolConfEntity poolConf = this.poolService.getIPPoolConfByPoolId(poolId);
+      // 是否有子地址池
+      boolean isExistSubPool =
+          CollectionUtils.exists(this.poolService.getAllIPPoolConf(), new Predicate() {
+            public boolean evaluate(Object object) {
+              return ((IPPoolConfEntity) object).getPoolPid().equals(poolId);
+            }
+          });
+      if (isExistSubPool) {// 存在子地址池，则子网状态为规划中
+        entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+        entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
       } else {
-        // 更改业务地址池的下子地址池状态设置(已经规划到地市的为已规划，未规划到地市的为未规划)
-        if ("-1".equals(area)) {
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-        } else {
+        if (poolConf.getIsPlanCity() == IS_PLAN_CITY) {// 如果地址池不按地市分配
           entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+          entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+          entity.setCityId("-1");
+        } else {// 如果地址池按地市分配
+          if (area.equals("-1")) {
+            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+            entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+            entity.setCityId("-1");
+          } else {
+            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+            entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+            entity.setCityId(area);
+          }
         }
-        entity.setCityId(area);
       }
-
       // 如果是手动分配IP的地址池则添加IP地址
-      if (poolEntity.getAssignType() == ASSIGN_TYPE) {
+      if (poolConf.getAssignType() == ASSIGN_TYPE) {
         this.insertBatchIp(beginIp, endIp, entity.getSubnetId());
       }
-
-
-    } else {
-      // 未规划到任何地址池状态为待规划
-      entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
-      entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());;
     }
     entity.setPoolId(poolId);
     entity.setBeginIp(beginIp);
@@ -199,42 +203,45 @@ public class SubNetResServiceImpl implements SubNetResService {
    * 
    */
   public boolean planSubnet(SubNetResEntity entity) {
-    String poolId = entity.getPoolId();
+    final String poolId = entity.getPoolId();
     // 先删除之前插入的IP地址
     this.ipAddressResDao.deleteIpBySubnetId(entity.getSubnetId());
-    if (!POOL_ROOT_ID.equals(poolId)) {
-      IPPoolConfEntity poolEntity = this.ipPoolConfDao.selectPoolConfByPoolId(poolId);
-      // 更改设备、IDC、业务三个地址池的状态
-      if (poolEntity.getPoolPid().equals(POOL_ROOT_ID)) {
-        // 设备或者IDC地址池的状态设置(无需分配到地市，状态为已规划)
-        if (poolEntity.getIsPlanCity() == IS_PLAN_CITY) {
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
-          entity.setCityId("-1");
-        } else {
-          // 业务地址池(无需分配到地市，状态为规划中)
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-          entity.setCityId("-1");
-        }
+    if (poolId.equals(POOL_ROOT_ID)) {
+      entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
+      entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+    } else {
+      IPPoolConfEntity poolConf = this.poolService.getIPPoolConfByPoolId(poolId);
+      // 是否有子地址池
+      boolean isExistSubPool =
+          CollectionUtils.exists(this.poolService.getAllIPPoolConf(), new Predicate() {
+            public boolean evaluate(Object object) {
+              return ((IPPoolConfEntity) object).getPoolPid().equals(poolId);
+            }
+          });
+      if (isExistSubPool) {// 存在子地址池，则子网状态为规划中
+        entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+        entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
       } else {
-        // 更改业务地址池的下子地址池状态设置(已经规划到地市的为已规划，未规划到地市的为未规划)
-        if ("-1".equals(entity.getCityId())) {
-          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-        } else {
+        if (poolConf.getIsPlanCity() == IS_PLAN_CITY) {// 如果地址池不按地市分配
           entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+          entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+          entity.setCityId("-1");
+        } else {// 如果地址池按地市分配
+          if (entity.getCityId().equals("-1")) {
+            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+            entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+            entity.setCityId("-1");
+          } else {
+            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+            entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+          }
         }
       }
-
       // 如果是手动分配IP的地址池则添加IP地址
-      if (poolEntity.getAssignType() == ASSIGN_TYPE) {
+      if (poolConf.getAssignType() == ASSIGN_TYPE) {
         this.insertBatchIp(entity.getBeginIp(), entity.getEndIp(), entity.getSubnetId());
       }
-    } else {
-      entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
-      entity.setCityId("-1");
-      entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
     }
-    entity.setOperator(SecurityContextHolder.getLoginName());
-    entity.setOperateTime(DateTime.now().toDate());
     WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.ASSIGN_SUBNET,
         entity.getSubnetDesc(), OperateObjTypeEnum.SUBNET, entity.getPoolId(), entity.getCityId());
     return this.subNetResDao.updateSubnet(entity);
@@ -253,11 +260,11 @@ public class SubNetResServiceImpl implements SubNetResService {
     String subnetPid = entitys[0].getSubnetPid();
     SubNetResEntity pEntity = this.selectSubnetById(subnetPid);
     for (int i = 0; i < entitys.length; i++) {
-      IPPoolConfEntity poolEntity =
-          this.ipPoolConfDao.selectPoolConfByPoolId(entitys[i].getPoolId());
+      final String poolId =
+          entitys[i].getPoolId() == null ? pEntity.getPoolId() : entitys[i].getPoolId();
+      IPPoolConfEntity poolConf = this.poolService.getIPPoolConfByPoolId(poolId);
+      String cityId = entitys[i].getCityId() == null ? pEntity.getCityId() : entitys[i].getCityId();
       SubNetResEntity entity = new SubNetResEntity();
-      String poolId = entitys[i].getPoolId();
-      String cityId = entitys[i].getCityId();
       String beginIp = entitys[i].getBeginIp();
       String netMask = entitys[i].getNetmask();
       String endIp = entitys[i].getEndIp();
@@ -265,43 +272,40 @@ public class SubNetResServiceImpl implements SubNetResService {
       entity.setSubnetId(IDGeneratorHolder.getId());
       entity
           .setSubnetDesc(IpUtils.getNetWorkIp(entitys[i].getBeginIp(), maskbits) + "/" + maskbits);
-
-      if (!POOL_ROOT_ID.equals(poolId)) {
-        // 更改设备、IDC、业务三个地址池的状态
-        if (poolEntity.getPoolPid().equals(POOL_ROOT_ID)) {
-          // 设备或者IDC地址池的状态设置(无需分配到地市，状态为已规划)
-          if (poolEntity.getIsPlanCity() == IS_PLAN_CITY) {
-            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
-            entity.setCityId("-1");
-          } else {
-            // 业务地址池(无需分配到地市，状态为规划中)
-            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-            entity.setCityId("-1");
-          }
-        } else {
-          // 更改业务地址池的下子地址池状态设置(已经规划到地市的为已规划，未规划到地市的为未规划)
-          if ("-1".equals(cityId)) {
-            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
-          } else {
-            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
-          }
-          entity.setCityId(cityId);
-        }
-
-        // 如果是手动分配IP的地址池则添加IP地址
-        if (poolEntity.getAssignType() == ASSIGN_TYPE) {
-          this.insertBatchIp(beginIp, endIp, entity.getSubnetId());
-        }
-
-      } else {
+      if (poolId.equals(POOL_ROOT_ID)) {
         entity.setPlanStatus(SubNetPlanStatusEnum.WAIT_PLAN.getCode());
         entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
-        entity.setCityId(cityId);
-      }
-      if(pEntity.getPlanStatus()==SubNetPlanStatusEnum.PLANNED.getCode()){
-          entity.setPoolId(pEntity.getPoolId());
-          entity.setCityId(pEntity.getCityId());
-          entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+      } else {
+        // 是否有子地址池
+        boolean isExistSubPool =
+            CollectionUtils.exists(this.poolService.getAllIPPoolConf(), new Predicate() {
+              public boolean evaluate(Object object) {
+                return ((IPPoolConfEntity) object).getPoolPid().equals(poolId);
+              }
+            });
+        if (isExistSubPool) {// 存在子地址池，则子网状态为规划中
+          entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+          entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+        } else {
+          if (poolConf.getIsPlanCity() == IS_PLAN_CITY) {// 如果地址池不按地市分配
+            entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+            entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+            entity.setCityId("-1");
+          } else {// 如果地址池按地市分配
+            if (cityId == null || cityId.equals("-1")) {
+              entity.setPlanStatus(SubNetPlanStatusEnum.PLANNING.getCode());
+              entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+              entity.setCityId("-1");
+            } else {
+              entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+              entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
+            }
+          }
+        }
+        // 如果是手动分配IP的地址池则添加IP地址
+        if (poolConf.getAssignType() == ASSIGN_TYPE) {
+          this.insertBatchIp(beginIp, endIp, entity.getSubnetId());
+        }
       }
       entity.setPoolId(pEntity.getPoolId());
       entity.setCityId(cityId);
@@ -320,10 +324,10 @@ public class SubNetResServiceImpl implements SubNetResService {
       entity.setOperateTime(DateTime.now().toDate());
       subnetList.add(entity);
     }
-    
     // 拆分子网后更新父网段信息
     pEntity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
-    pEntity.setUseStatus(Integer.valueOf("-1"));
+    pEntity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+    pEntity.setPoolId("-9");
     pEntity.setOperator(SecurityContextHolder.getLoginName());
     pEntity.setOperateTime(DateTime.now().toDate());
     this.splitSubnet(pEntity);

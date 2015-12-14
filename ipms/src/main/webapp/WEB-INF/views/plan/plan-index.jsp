@@ -31,7 +31,10 @@
   			     { name: 'waitCount', type: 'number' },
   			     { name: 'planningCount', type: 'number' },
   			     { name: 'planStatus', type: 'string' },
+	  			 { name: 'planStatusAll', type: 'string' },
   	             { name: 'ipCount', type: 'number'},
+  	           	 { name: 'ipKeepCount', type: 'number'},
+	  	         { name: 'ipUseCount', type: 'number'},
   	             { name: 'poolName', type: 'string' },
   	             { name: 'cityName', type: 'string' },
   	             { name: 'poolId', type: 'string' },
@@ -55,7 +58,17 @@
    	        		_style="label-planned";
    	        	}
    	        	if(_style){
- 	        			return "<span class='label "+_style+"'>"+Enums.planStatus.toDesc(status)+"</span>";
+   	        		var txt="";
+   	        		if(rowData['subnetCount']==0&&rowData['ipKeepCount']>0){
+   	        			txt="已预留";
+   	        			_style="label-keep";
+   	        		}else if(rowData['subnetCount']==0&&rowData['ipUseCount']>0){
+   	        			txt="已使用";
+   	        			_style="label-use";
+   	        		}else{
+   	        			txt=Enums.planStatus.toDesc(status);
+   	        		}
+ 	        		return "<span class='label "+_style+"'>"+txt+"</span>";
    	        	}
    	        	return "";
    	        }},
@@ -71,8 +84,9 @@
                   	d_merge="<a href='javascript:;'  val="+rowData['subnetId']+" evt-handler='func_merge'>回收子网</a>",
                   	d_delete="<a href='javascript:;' style='margin-left:10px;'  val="+rowData['subnetId']+" evt-handler='func_delete'>删除</a>",
                   	d_updatePlan="<a href='javascript:;' val="+rowData['subnetId']+" evt-handler='func_updatePlan'>重新规划</a>";
-                 
-                  if(status==Enums.planStatus.WAIT_PLAN){
+                  if(rowData['subnetCount']>0){
+                  	  return d_merge;
+                  }else if(status==Enums.planStatus.WAIT_PLAN){
                 	if(rowData['subnetPid']!=-1){
                   		return d_plan+d_split;
                 	}else{
@@ -80,10 +94,8 @@
                 	}
                   }else if(status==Enums.planStatus.PLANNING){
                       return d_updatePlan+d_split;
-                  }else if(status==Enums.planStatus.PLANNED){
+                  }else if(status==Enums.planStatus.PLANNED&&rowData['ipKeepCount']==0&&rowData['ipUseCount']==0){
                       return d_updatePlan;
-                  }else{
-                  	return d_merge;
                   }
                   
               }}
@@ -175,7 +187,7 @@
 	    function mergeSubnet(subnetId){
 	    	$.confirm({
 	    		'title'     : '回收子网',
-	               'message'   : '确定要回收子网吗？',
+	               'message'   : '回收子网将删除所有规划中或已拆分的子网段，确定要回收吗？',
 	               'confirm':function(){
 	               	var url = _g_const.ctx + '/subnet/plan/mergeSubnet/'+subnetId,
 	                   params={};
@@ -197,7 +209,7 @@
 	                             }else{
 	                            	 $.confirm({
 	                            		 'title'     : '回收子网',
-	                                     'message'   : '子网段中存在已规划或规划中的网段，不能回收！',
+	                                     'message'   : '该网段的子网段中存在已规划的地址段，不允许被回收！',
 	                                     'confirm':function(){} 
 	                            	 });
 	                             }

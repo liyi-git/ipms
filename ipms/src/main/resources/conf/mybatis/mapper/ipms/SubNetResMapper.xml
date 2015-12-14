@@ -28,6 +28,7 @@
 		extends="subNetResultMap">
 		<result property="poolName" column="POOL_NAME" jdbcType="VARCHAR" />
 		<result property="cityName" column="CITY_NAME" jdbcType="VARCHAR" />
+		<result property="planStatusAll" column="PLAN_STATUS_ALL" jdbcType="SMALLINT" />
 		<result property="subnetCount" column="SUBNET_COUNT" jdbcType="INTEGER" />
 		<result property="subnetAllCount" column="SUBNET_ALL_COUNT"
 			jdbcType="INTEGER" />
@@ -69,7 +70,7 @@
 		<if test="planStatus != null and planStatus == 3">
 			AND (A.PLAN_STATUS=#{planStatus} OR A.PLANNED_COUNT > 0)
 		</if>
-		ORDER BY A.SUBNET_COUNT desc,A.BEGIN_IP
+		ORDER BY A.BEGIN_IP
 	</select>
 
 	<insert id="insertSubNet" parameterType="SubNetResEntity">

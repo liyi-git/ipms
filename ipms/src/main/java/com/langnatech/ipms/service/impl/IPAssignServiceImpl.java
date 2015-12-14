@@ -89,7 +89,7 @@ public class IPAssignServiceImpl implements IPAssignService {
     for (int j = 0; j < splitSubnets.size(); j++) {
       String[] subnet = splitSubnets.get(j);
       SubNetResEntity entity = new SubNetResEntity();
-      entity.setUseStatus(SubNetUseStatusEnum.ILLEGAL.getCode());
+      entity.setUseStatus(SubNetUseStatusEnum.AVAILABLE.getCode());
       entity.setSubnetDesc(IpUtils.getNetWorkIp(subnet[0], splitMbits) + "/" + splitMbits);
       entity.setSubnetPid(subnetEntity.getSubnetId());
       entity.setBeginIp(subnet[0]);
@@ -97,7 +97,7 @@ public class IPAssignServiceImpl implements IPAssignService {
       entity.setBeginIpDecimal(IpUtils.getDecByIp(subnet[0]));
       entity.setEndIpDecimal(IpUtils.getDecByIp(subnet[1]));
       entity.setCityId(subnetEntity.getCityId());
-      entity.setPlanStatus(SubNetPlanStatusEnum.ILLEGAL.getCode());
+      entity.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
       entity.setPoolId(subnetEntity.getPoolId());
       entity.setIpCount(ipC - 2);
       entity.setIsIpv6(Short.valueOf("-1"));
@@ -114,8 +114,8 @@ public class IPAssignServiceImpl implements IPAssignService {
     resultBean.setNetmask(subnetEntity.getNetmask());
     resultBean.setSubnetId(subnetEntity.getSubnetId());
     resultBean.setSubnetDesc(subnetEntity.getSubnetDesc());
-    resultBean.setPoolId(subnetEntity.getCityId());
-    resultBean.setCityId(subnetEntity.getPoolId());
+    resultBean.setCityId(subnetEntity.getCityId());
+    resultBean.setPoolId(subnetEntity.getPoolId());
     resultBean.setSubnetId(subnetEntity.getSubnetId());
     Long beginIp;
     int ipCount;

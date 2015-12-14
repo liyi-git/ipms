@@ -59,7 +59,7 @@ public class IpmsSoapTest extends TestCase {
     ApplyInfoBean applyInfo = new ApplyInfoBean();
     applyInfo.setApplyCity("991");
     applyInfo.setBusiType(1);
-    applyInfo.setApplyCode("222245222");
+    applyInfo.setApplyCode("222222");
     applyInfo.setApplyDesc("申请测试");
     applyInfo.setCoAddress("地址测试");
     applyInfo.setCoCity("650100");
@@ -78,7 +78,7 @@ public class IpmsSoapTest extends TestCase {
     applyInfo.setExpiredDate(
         DateTime.parse("2016-12-31", DateTimeFormat.forPattern("yyyy-MM-dd")).toDate());
     applyInfo.setGatewayLocation("测试");
-    applyInfo.setIpCount(18);
+    applyInfo.setIpCount(8);
     applyInfo.setOperator("admin");
     applyInfo.setUseWay("动态分配");
 
@@ -90,35 +90,35 @@ public class IpmsSoapTest extends TestCase {
     // CallResultBean callResult =
     // service.call(null, "IP_APPLY_ADD",
     // "{\"applyCode\":\"315112317453100029741\",\"busiType\":\"1\",\"ipCount\":\"4\",\"applyDesc\":\"集团专线申请IP\",\"applyCity\":\"991\",\"operator\":\"SUPERUSR\",\"expiredDate\":\"2050-12-31\",\"coName\":\"石0英新疆\",\"coClassify\":\"其他\",\"coLicense\":\"\",\"coNature\":\"1\",\"coProvince\":\"650000\",\"coCity\":\"650100\",\"coAddress\":\"123456\",\"contact\":\"冯国平\",\"contactTel\":\"13999158003\",\"contactEmail\":\"qita\",\"useWay\":\"静态\"}");
-//     try {
-//     CallResultBean callResult =
-//     service.call(null, "IP_APPLY_ADD", JsonConvertUtil.toJSON(applyInfo));
-//    
-//     System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//     } catch (Exception e) {
-//     e.printStackTrace();
-//     }
+    // try {
+    // CallResultBean callResult =
+    // service.call(null, "IP_APPLY_ADD", JsonConvertUtil.toJSON(applyInfo));
+    //
+    // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
   }
 
-//   @Test
-//   public void testCancel() throws Exception {
-//   CallResultBean callResult =
-//   service.call(null, "IP_APPLY_CANCEL", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
-//   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//   }
-  
-//  
-//   @Test
-//   public void testUse() throws Exception{
-//   CallResultBean callResult =
-//   service.call(null, "IP_APPLY_USE_EMOS", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
-//   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-//   }
-//  
-   @Test
-   public void testRecycle() throws Exception {
-   CallResultBean callResult =
-   service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
-   System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
-   }
+  // @Test
+  // public void testCancel() throws Exception {
+  // CallResultBean callResult =
+  // service.call(null, "IP_APPLY_CANCEL", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // }
+
+  //
+  @Test
+  public void testUse() throws Exception {
+    CallResultBean callResult = service.call(null, "IP_APPLY_USE_EMOS",
+        "{\"applyCode\":\"222222\",\"operator\":\"ADMIN\"}");
+    System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  }
+  //
+  // @Test
+  // public void testRecycle() throws Exception {
+  // CallResultBean callResult =
+  // service.call(null, "IP_APPLY_RECYCLE", "{\"applyCode\":\"22222\",\"operator\":\"ADMIN\"}");
+  // System.out.println(JsonConvertUtil.nonEmptyMapper().toJson(callResult));
+  // }
 }

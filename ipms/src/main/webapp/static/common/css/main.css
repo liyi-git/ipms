@@ -2351,6 +2351,12 @@ position:absolute;top:15px; right:0px;
 .label-planned{
     background-color: #f0ad4e;
 }
+.label-keep{
+    background-color: #FF3300;
+}
+.label-use{
+    background-color: #FF3300;
+}
 /**css 定制化 end**/
 
 

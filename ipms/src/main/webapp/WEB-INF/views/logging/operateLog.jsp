@@ -124,13 +124,19 @@
 			dataField : 'poolName',
 			align : 'center',
 			cellsAlign : 'left',
-			width : "150"
+			width : "150",
+			cellsRenderer: function (row, column, value, rowData) {
+				if(!rowData[column]){
+					return "IP地址资源池";
+				}
+				return rowData[column];
+			}
 		}, {
 			text : '地域',
 			dataField : 'cityName',
 			align : 'center',
 			cellsAlign : 'left',
-			width : "150"
+			width : "150"			
 		}, {
 			text : '操作人',
 			dataField : 'operator',

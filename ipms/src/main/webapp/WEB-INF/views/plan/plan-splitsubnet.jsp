@@ -89,7 +89,7 @@
 						</label></th>
 						<th>起始IP</th>
 						<th>结束IP</th>
-						<th>操作</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -121,6 +121,7 @@
 		<div class="aui-form-item">
 			<div class="aui-dimsel" val="-1" width="180" class="s_selArea" id="s_areaItem">
 				<ul>
+					<li val="-1">暂不分配</li>
 					<c:forEach items="${exfn:getCity()}" var="it">
 						<li val="${it.cityId}">${it.cityName}</li>
 					</c:forEach>
@@ -239,7 +240,8 @@
                    domCheckbox="<td align='center'><label class='aui-label'><input type='checkbox' class='aui-checkbox'></label></td>";
                    $.each(jsonObj,function(idx,obj){
                 	   splitMask=obj.maskIp;
-                   $data.push("<tr>"+domCheckbox+"<td>"+obj.beginIp+"</td><td>"+obj.endIp+"</td><td><a href='javascript:;'>规划</a></td></tr>");
+                   //$data.push("<tr>"+domCheckbox+"<td>"+obj.beginIp+"</td><td>"+obj.endIp+"</td><td><a href='javascript:;'>规划</a></td></tr>");
+                   $data.push("<tr>"+domCheckbox+"<td>"+obj.beginIp+"</td><td>"+obj.endIp+"</td><td></td></tr>");
                });
                $dataTable.find("tbody").html($data.join(""));
                tableEvent($dataTable);
@@ -286,11 +288,11 @@
         	}else{
         		$.each($dataTablebody.find("input[type='checkbox']"),function(idx,obj){
         			var $tdList=$(this).parents("tr").children('td'),
-        			    $spanList=$tdList.eq(3).find("span"),poolId="-9",cityId="-1";
+        			    $spanList=$tdList.eq(3).find("span"),poolId=null,cityId=null;
         			
         			if($spanList.length>0){
-        				poolId=$($spanList[0]).attr("val")||"-9";
-        				cityId=$($spanList[1]).attr("val")||"-1";
+        				poolId=$($spanList[0]).attr("val");
+        				cityId=$($spanList[1]).attr("val");
         			}
         			//TODO 待增加网段合并功能
         			/* if($(this).prop("checked")){

@@ -42,6 +42,7 @@
                         <div class="form-control">
                             <div class="aui-dimsel" val="${entity.cityId}" id="selArea">
                                 <ul>
+                                	<li val="-1">暂不分配</li>
                                     <c:forEach items="${exfn:getCity()}" var="it">
                                         <li val="${it.cityId}">${it.cityName}</li>
                                     </c:forEach>

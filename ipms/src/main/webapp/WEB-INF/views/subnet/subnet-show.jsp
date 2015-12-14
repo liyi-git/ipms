@@ -27,9 +27,10 @@
 	overflow: hidden;
 }
 </style>
-<fmt:formatNumber value="${(SUBNET.ipCount-SUBNET.ipUseCount)/SUBNET.ipCount*100}" var="freePercent" pattern="#0.00"></fmt:formatNumber>
-<fmt:formatNumber value="${SUBNET.ipUseCount/SUBNET.ipCount*100}" var="usePercent" pattern="#0.00"></fmt:formatNumber>
-<fmt:formatNumber value="${SUBNET.ipKeepCount/SUBNET.ipCount*100}" var="keepPercent" pattern="#0.00"></fmt:formatNumber>
+<fmt:formatNumber value="${SUBNET.ipUseCount+SUBNET.ipFreeCount+SUBNET.ipKeepCount}" var="ipTotalCount" pattern="#0.00"></fmt:formatNumber>
+<fmt:formatNumber value="${(SUBNET.ipFreeCount)/ipTotalCount*100}" var="freePercent" pattern="#0.00"></fmt:formatNumber>
+<fmt:formatNumber value="${SUBNET.ipUseCount/ipTotalCount*100}" var="usePercent" pattern="#0.00"></fmt:formatNumber>
+<fmt:formatNumber value="${SUBNET.ipKeepCount/ipTotalCount*100}" var="keepPercent" pattern="#0.00"></fmt:formatNumber>
 <ol class="aui-breadcrumb" id="pool-breadcrumb" style="border-bottom: 5px solid #d7dce4; margin: 0;">
 	<c:forEach items="${HIERARCHY_CRUMB}" var="it" varStatus="s">
 		<li><a href="javascript:;" val="${it.key}">${it.value}</a></li>
@@ -81,8 +82,7 @@
 					<tr>
 						<th>子网状态：</th>
 						<td><c:if test="${SUBNET.planStatus==3}">
-								<span class="label label-planned">已规划</span>
-							已使用：<span class="indi">${SUBNET.ipUseCount}</span> | 空闲：<span class="indi">${SUBNET.ipCount-SUBNET.ipUseCount}</span></td>
+								<span class="label label-planned">已规划</span>  已使用：<span class="indi">${SUBNET.ipUseCount}</span> | 已预留：<span class="indi">${SUBNET.ipKeepCount}</span></td>
 						</c:if>
 						<c:if test="${SUBNET.planStatus==2}">
 							<span class="label label-planning">规划中</span>
@@ -164,9 +164,11 @@
 				     { name: 'useStatus', type: 'int' },
 				     { name: 'netmask', type: 'string' },
 				     { name: 'ipCount', type: 'int' },
-				     { name: 'ipUseCount', type: 'int' },
 				     { name: 'poolName', type: 'string' },
-				     { name: 'cityName', type: 'string' }
+				     { name: 'cityName', type: 'string' },
+				     { name: 'subnetCount', type: 'number' },
+	  	           	 { name: 'ipKeepCount', type: 'number'},
+		  	         { name: 'ipUseCount', type: 'number'}
 		         ],
 	         </c:if>
 	   	     <c:if test="${SHOW_TYPE=='IPLIST_1'}">
@@ -248,9 +250,11 @@
 		  	{ text:'编号',align: 'center', cellsAlign: 'center',width:'50',pinned: true,cellsRenderer: function (row, column, value, rowData){
 			  	return row+1;
 	  		}},	    
-	        { text: '网段名称', dataField: 'subnetId',displayField:'subnetDesc',align: 'center', cellsAlign: 'left',width:"150",pinned: true},
+	        { text: '网段名称', dataField: 'subnetId',displayField:'subnetDesc',align: 'center', cellsAlign: 'left',width:"150",pinned: true,cellsRenderer: function (row, column, value, rowData){
+        		return '<a href="javascript:;" evt-handler="showSubnet" val="'+rowData['subnetId']+'">'+rowData['subnetDesc']+'</a>'; 
+	        }},
 	        { text: '子网掩码', dataField: 'netmask',align: 'center', cellsAlign: 'left',width:"150"},
-   	        { text: '规划状态', dataField: 'planStatus',align: 'center', cellsAlign: 'center',width:"80",cellsRenderer: function (row, column, value, rowData) {
+   	        { text: '子网状态', dataField: 'planStatus',align: 'center', cellsAlign: 'center',width:"80",cellsRenderer: function (row, column, value, rowData) {
    	        	var status=rowData[column]||'',_style;
    	        	if(status==enums.planStatus.WAIT_PLAN){
    	        		_style="label-wait";
@@ -260,12 +264,23 @@
    	        		_style="label-planned";
    	        	}
    	        	if(_style){
- 	        			return "<span class='label "+_style+"'>"+enums.planStatus.toDesc(status)+"</span>";
+   	        		var txt="";
+   	        		if(rowData['subnetCount']==0&&rowData['ipKeepCount']>0){
+   	        			txt="已预留";
+   	        			_style="label-keep";
+   	        		}else if(rowData['subnetCount']==0&&rowData['ipUseCount']>0){
+   	        			txt="已使用";
+   	        			_style="label-use";
+   	        		}else{
+   	        			txt=enums.planStatus.toDesc(status);
+   	        		}
+ 	        		return "<span class='label "+_style+"'>"+txt+"</span>";
    	        	}
    	        	return "";
    	        }},
 	        { text: 'IP数量', dataField: 'ipCount',align: 'center', cellsAlign: 'right',width:"80"},
 	        { text: '已使用', dataField: 'ipUseCount',align: 'center', cellsAlign: 'right',width:"80"},
+	        { text: '已预留', dataField: 'ipKeepCount',align: 'center', cellsAlign: 'right',width:"80"},
    	        { text: '归属池', dataField: 'poolName',align: 'center', cellsAlign: 'center',width:"150"},
 	        { text: '归属地市', dataField: 'cityName',align: 'center', cellsAlign: 'center',width:"150"}
 	    </c:if>
@@ -334,6 +349,9 @@
 				}
 				if (func === 'change') {
 					popup.openAjax('IP地址注册信息修改 [ ' + desc + ' ] ', _g_const.ctx + '/address/' + val + "/change", {minWidth:800});
+				}
+				if(func==='showSubnet'){
+					main.loadPage( _g_const.ctx+ '/subnet/'+val+"/show",{},"CLOSEST",$e);
 				}
 			});	
 		}

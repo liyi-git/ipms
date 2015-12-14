@@ -10,6 +10,16 @@ public class SubNetResBean extends SubNetResEntity {
     private String poolName;
 
     private String cityName;
+    
+    private Short planStatusAll;
+
+    public Short getPlanStatusAll() {
+      return planStatusAll;
+    }
+
+    public void setPlanStatusAll(Short planStatusAll) {
+      this.planStatusAll = planStatusAll;
+    }
 
     private Integer subnetCount; // 子网数量（直接子网）
 
