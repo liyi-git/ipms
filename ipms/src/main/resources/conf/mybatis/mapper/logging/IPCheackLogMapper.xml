@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.langnatech.logging.dao.IPCheckLogDao">
+	<resultMap id="BaseResultMap" type="IPCheckLogEntity">
+		<!--<id column="LOG_ID" property="logId" jdbcType="VARCHAR" />-->
+		<result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+		<result column="SUBNET_ID" property="subnetId" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+		<result column="POOL_ID" property="poolId" jdbcType="VARCHAR" />
+		<result column="IP_STATUS" property="ipStatus" jdbcType="SMALLINT" />
+		<result column="WARN_TYPE" property="warnType" jdbcType="SMALLINT" />
+		<result column="CHECK_CITY" property="checkCity" jdbcType="VARCHAR" />
+		<result column="CHECK_DEV" property="checkDev" jdbcType="VARCHAR" />
+		<result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectLogsByCond" parameterType="IPCheckLogEntity"
+		resultMap="BaseResultMap">
+		select T1.*,T2.POOL_NAME,T3.CITY_NAME from ip_check_log T1
+		left outer
+		join ip_pool_conf T2
+		on T1.POOL_ID=T2.POOL_ID
+		left outer join
+		ip_dim_city T3
+		on T1.CITY_ID=T3.CITY_ID
+		where 1=1
+		<if test="ipCheckLog.warnType!=null and ipCheckLog.warnType!='-1'">
+			AND T1.WARN_TYPE=#{ipCheckLog.warnType}
+		</if>
+		<if
+			test="ipCheckLog.cityId!=null and ipCheckLog.cityId!='' and ipCheckLog.cityId!='-1'">
+			AND T1.CITY_ID=#{ipCheckLog.cityId}
+		</if>
+		<if
+			test="ipCheckLog.poolId!=null and ipCheckLog.poolId!='' and ipCheckLog.poolId!='-1'">
+			AND T1.POOL_ID=#{ipCheckLog.poolId}
+		</if>
+		order by T1.CHECK_TIME desc
+	</select>
+	
+	<insert id="insert" parameterType="IPCheckLogEntity">
+		INSERT INTO IP_OPERATE_LOG
+		(IP_ADDRESS,SUBNET_ID,CITY_ID,POOL_ID,IP_STATUS,WARN_TYPE,CHECK_CITY,CHECK_DEV,CHECK_TIME)
+		values
+		(#{ipAddress,jdbcType=VARCHAR},
+		#{subnetId,jdbcType=VARCHAR},
+        #{cityId,jdbcType=VARCHAR},
+        #{poolId,jdbcType=VARCHAR},
+        #{ipStatus,jdbcType=SMALLINT},
+        #{warnType,jdbcType=SMALLINT},
+		#{checkCity,jdbcType=VARCHAR},
+		#{checkDev,jdbcType=VARCHAR},
+		#{checkTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO IP_OPERATE_LOG
+		(IP_ADDRESS,SUBNET_ID,CITY_ID,POOL_ID,IP_STATUS,WARN_TYPE,CHECK_CITY,CHECK_DEV,CHECK_TIME) values
+		<foreach collection="loglist" item="item" index="index" separator=",">
+			(#{item.ipAddress,jdbcType=VARCHAR},
+			#{item.subnetId,jdbcType=VARCHAR},
+	        #{item.cityId,jdbcType=VARCHAR},
+	        #{item.poolId,jdbcType=VARCHAR},
+	        #{item.ipStatus,jdbcType=SMALLINT},
+	        #{item.warnType,jdbcType=SMALLINT},
+			#{item.checkCity,jdbcType=VARCHAR},
+			#{item.checkDev,jdbcType=VARCHAR},
+			#{item.checkTime,jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+	
+</mapper>

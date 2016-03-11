@@ -2370,5 +2370,25 @@ position:absolute;top:15px; right:0px;
 	padding-left: 20px;
 }
 
-
+.aui-center{
+    text-align: center;
+}
+.box-info{
+    color: #626262;
+    padding: 20px 0px;
+    box-shadow: 0 0 3px rgba(0,0,0,.1);
+    border-radius: 2px;
+}
+.size-h2{
+    font-size: 30px;
+}
+.size-h4{
+    font-size: 18px;
+}
+.text-muted{
+    color: #777;
+}
+.box-info .text-muted{
+    margin-top: 10px;
+}
 
