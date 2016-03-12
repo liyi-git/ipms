@@ -23,41 +23,31 @@
 		<button type="button" class="aui-btn aui-btn-sm" id="query-button">查询</button>
 	</div>
 </div> --%>
-<div class="aui-grid-12">
-   	<div class="aui-grid-3">
+<div class="aui-grid-12" style="padding: 15px 10px 0px 10px;" id="warnTypeArea" val="">
+   	<div class="aui-grid-4" _id="noexist">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">10
-   					<span class="size-h4">个</span>
-   				</p>
-   				<p class="text-muted">全部预警</p>
-   			</div>
-   		</div>
-   	</div>
-   	<div class="aui-grid-3">
-   		<div class="aui-panel aui-nomargin aui-center">
-   			<div class="box-info">
-   				<p class="size-h2">10
+   				<p class="size-h2">${noexist}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">地址池中不存在</p>
    			</div>
    		</div>
    	</div>
-   	<div class="aui-grid-3">
+   	<div class="aui-grid-4" _id="mismatching">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">10
+   				<p class="size-h2">${mismatching}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">配置信息不匹配</p>
    			</div>
    		</div>
    	</div>
-   	<div class="aui-grid-3">
+   	<div class="aui-grid-4" _id="nodetected">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">10
+   				<p class="size-h2">${nodetected}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">已使用，但未检测到</p>
@@ -65,7 +55,7 @@
    		</div>
    	</div>
 </div>
-
+<div class="aui-clear"></div>
 <div class="aui-panel">
 	<div class="aui-panel-body" id="queryTablePanel">
 		<div id="query-Table"></div>
@@ -77,30 +67,31 @@
 		var source = {
 			dataType : "json",
 			type : 'POST',
-			url : _g_const.ctx + "/logging/operate/getData",
+			url : _g_const.ctx + "/logging/ipCheck/getData",
 			dataFields : [ {
-				name : 'operator',
+				name : 'ipAddress',
 				type : 'string'
 			}, {
-				name : 'operateTime',
+				name : 'subnetName',
 				type : 'string'
-			}, {
-				name : 'operateType',
-				type : 'string'
-			}, {
+			},{
 				name : 'cityName',
 				type : 'string'
 			}, {
 				name : 'poolName',
 				type : 'string'
 			}, {
-				name : 'operateObj',
+				name : 'warnType',
 				type : 'string'
 			}, {
-				name : 'operateCont',
+				name : 'checkCityName',
 				type : 'string'
 			}, {
-				name : 'objType',
+				name : 'checkDevName',
+				type : 'string'
+			},
+			, {
+				name : 'checkTime',
 				type : 'string'
 			} ],
 			pagesize : 10,
@@ -128,17 +119,17 @@
 				return row + 1;
 			}
 		}, {
-			text : '操作类型',
-			dataField : 'operateType',
+			text : 'ip地址',
+			dataField : 'ipAddress',
 			align : 'center',
 			cellsAlign : 'center',
 			width : "150",
 			cellsRenderer : function(row, column, value, rowData) {
-				return Enums.opertype.toDesc(rowData[column]);
+				return rowData[column];
 			}
 		}, {
-			text : '操作对象',
-			dataField : 'operateObj',
+			text : '所属网段',
+			dataField : 'subnetName',
 			align : 'center',
 			cellsAlign : 'left',
 			width : "150"
@@ -161,28 +152,43 @@
 			cellsAlign : 'left',
 			width : "150"			
 		}, {
-			text : '操作人',
-			dataField : 'operator',
+			text : '检测类型',
+			dataField : 'warnType',
 			align : 'center',
 			cellsAlign : 'left',
 			width : "120"
 		}, {
-			text : '操作时间',
-			dataField : 'operateTime',
+			text : '检测所在地市',
+			dataField : 'checkCityName',
 			align : 'center',
 			cellsAlign : 'left',
 			width : "150"
 		}, {
-			text : '操作内容',
-			dataField : 'operateCont',
+			text : '采集设备名称',
+			dataField : 'checkDevName',
 			align : 'left',
 			cellsAlign : 'left',
-			width : "400"
-		} ];
+			width : "150"
+		} , {
+			text : '采集时间',
+			dataField : 'checkTime',
+			align : 'left',
+			cellsAlign : 'left',
+			width : "150"
+		}];
 
 		$(document).ready(function() {
-			$('#operateType,#operateObj,#poolId,#cityId').dimsel();
 			$('#query-button').click(function() {
+				reloadGrid();
+			});
+			$("#warnTypeArea").delegate(".aui-grid-4","click",function(event){
+				if($(this).attr("_id")==="noexist"){
+					$("#warnTypeArea").attr("val",3);
+				}else if($(this).attr("_id")==="mismatching"){
+					$("#warnTypeArea").attr("val",1);
+				}else{
+					$("#warnTypeArea").attr("val",2);
+				}
 				reloadGrid();
 			});
 			initGrid();
@@ -211,17 +217,10 @@
 				}
 			});
 		}
+		
 		function getQueryParm() {
 			var parmObj = {};
-			$('.aui-dimsel').each(function(idx, it) {
-				var name = $(it).attr('name');
-				if (name) {
-					parmObj[name] = $(it).attr('val');
-				}
-			});
-			$(':text').each(function(idx, it) {
-				parmObj[$(it).attr('name')] = $(it).val();
-			});
+			parmObj["warnType"]=$("#warnTypeArea").attr("val");
 			return parmObj;
 		}
 	});

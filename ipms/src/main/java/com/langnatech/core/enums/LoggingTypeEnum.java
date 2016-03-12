@@ -14,7 +14,10 @@ public enum LoggingTypeEnum implements BaseEnum<String>{
     SERVICE_INVOKE_LOG("SERVICE_INVOKE_LOG", "外部服务接口调用日志"), // serInvokeLogServiceImpl
 
     // 消息推送日志
-    MSG_PUSH_LOG("MSG_PUSH_LOG", "消息推送日志");
+    MSG_PUSH_LOG("MSG_PUSH_LOG", "消息推送日志"),
+    
+    // 动态监测日志
+    IP_CHECK_LOG("MSG_PUSH_LOG", "消息推送日志");
 
     private String code;
 

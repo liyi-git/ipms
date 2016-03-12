@@ -12,17 +12,38 @@
 		<result column="CHECK_CITY" property="checkCity" jdbcType="VARCHAR" />
 		<result column="CHECK_DEV" property="checkDev" jdbcType="VARCHAR" />
 		<result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+		<result column="POOL_NAME" property="poolName" jdbcType="VARCHAR" />
+		<result column="SUBNET_NAME" property="subnetName" jdbcType="VARCHAR" />
+		<result column="CHECK_CITY_NAME" property="checkCityName" jdbcType="VARCHAR" />
+		<result column="CHECK_DEV_NAME" property="checkDevName" jdbcType="VARCHAR" />
 	</resultMap>
+	
+	
+	<select id="selectCountData" resultType="java.util.Map">
+		SELECT WARN_TYPE,COUNT(1) AS NUM FROM ip_check_log GROUP BY WARN_TYPE ORDER BY	WARN_TYPE
+	</select>
 	
 	<select id="selectLogsByCond" parameterType="IPCheckLogEntity"
 		resultMap="BaseResultMap">
-		select T1.*,T2.POOL_NAME,T3.CITY_NAME from ip_check_log T1
+		select T1.*,T2.POOL_NAME,T3.CITY_NAME,T4.SUBNET_DESC AS SUBNET_NAME,
+		T5.CITY_NAME AS CHECK_CITY_NAME,T6.DEVICE_TYPE_NAME AS CHECK_DEV_NAME 
+		from ip_check_log T1
 		left outer
 		join ip_pool_conf T2
 		on T1.POOL_ID=T2.POOL_ID
 		left outer join
 		ip_dim_city T3
 		on T1.CITY_ID=T3.CITY_ID
+		left outer join
+		ip_subnet_res T4
+		on T1.SUBNET_ID=T4.SUBNET_ID
+		left outer join
+		ip_dim_city T5
+		on T1.CHECK_CITY=T5.CITY_ID
+		left outer join
+		ip_dim_device_type T6
+		on T1.CHECK_DEV=T6.DEVICE_TYPE_ID
 		where 1=1
 		<if test="ipCheckLog.warnType!=null and ipCheckLog.warnType!='-1'">
 			AND T1.WARN_TYPE=#{ipCheckLog.warnType}
