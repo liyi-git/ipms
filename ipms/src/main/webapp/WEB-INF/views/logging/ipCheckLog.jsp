@@ -1,28 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/common/include/base-taglib.jsp"%>
 <%@include file="/WEB-INF/views/common/include/base-header.jsp"%>
-<%-- <div class="aui-dimpanel">
-	<div class="aui-dimpanel-item">
-		<label>预警结果：</label>
-		<!--1:地址池中不存在 -->
-		<!--2:配置信息不匹配  -->
-		<!--3:地址已使用，但未监测到  -->
-		<c:set value="${exfn:getEnumValues('MonitorTypeEnum')}" var="monitorType"></c:set>
-		<div class="aui-dimsel" id="monitorType" name="monitorType">
-			<ul>
-				<li val="-1">全部</li>
-				<c:forEach items="${monitorType}" var="it">
-					<c:if test="${it.code!='UNKNOW'}">
-						<li val="${it.code}">${it.desc}</li>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</div>
-	</div>
-	<div class="aui-dimpanel-func">
-		<button type="button" class="aui-btn aui-btn-sm" id="query-button">查询</button>
-	</div>
-</div> --%>
 <div class="aui-grid-12" style="padding: 15px 10px 0px 10px;" id="warnTypeArea" val="">
    	<div class="aui-grid-4" _id="noexist">
    		<div class="aui-panel aui-nomargin aui-center">
@@ -40,7 +18,7 @@
    				<p class="size-h2">${mismatching}
    					<span class="size-h4">个</span>
    				</p>
-   				<p class="text-muted">配置信息不匹配</p>
+   				<p class="text-muted">配置地市信息不匹配</p>
    			</div>
    		</div>
    	</div>
@@ -156,19 +134,29 @@
 			dataField : 'warnType',
 			align : 'center',
 			cellsAlign : 'left',
-			width : "120"
+			width : "200",
+			cellsRenderer: function (row, column, value, rowData){
+				if(rowData[column]==1){
+					return "配置地市信息不匹配";
+				}else if(rowData[column]==2){
+					return "已使用，但未检测到";
+				}else{
+					return "地址池中不存在";
+				}
+				return "未知";
+			}
 		}, {
 			text : '检测所在地市',
 			dataField : 'checkCityName',
 			align : 'center',
 			cellsAlign : 'left',
-			width : "150"
+			width : "100"
 		}, {
 			text : '采集设备名称',
 			dataField : 'checkDevName',
 			align : 'left',
 			cellsAlign : 'left',
-			width : "150"
+			width : "100"
 		} , {
 			text : '采集时间',
 			dataField : 'checkTime',
