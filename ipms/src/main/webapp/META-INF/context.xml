@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/ipms" auth="Container" type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/ipms?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true"
+		username="ipms" password="ipms123" maxActive="20" maxIdle="10"
+		maxWait="10000" />
+</Context>  
