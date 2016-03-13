@@ -2378,6 +2378,10 @@ position:absolute;top:15px; right:0px;
     padding: 20px 0px;
     box-shadow: 0 0 3px rgba(0,0,0,.1);
     border-radius: 2px;
+    cursor: pointer;
+}
+.box-info:hover,.aui-panel.current{
+	background-color:#eef1f6;
 }
 .size-h2{
     font-size: 30px;

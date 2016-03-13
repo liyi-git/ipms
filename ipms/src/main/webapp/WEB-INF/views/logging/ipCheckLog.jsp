@@ -170,6 +170,8 @@
 				reloadGrid();
 			});
 			$("#warnTypeArea").delegate(".aui-grid-4","click",function(event){
+				$(this).siblings().children(".aui-panel").removeClass("current");
+				$(this).children(".aui-panel").addClass("current");
 				if($(this).attr("_id")==="noexist"){
 					$("#warnTypeArea").attr("val",3);
 				}else if($(this).attr("_id")==="mismatching"){
