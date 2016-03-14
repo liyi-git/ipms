@@ -18,7 +18,7 @@ public interface IPCheckLogDao
 
     int insertBatch(@Param(value = "loglist") Collection<IPCheckLogEntity> logList);
     
-    List<Map<String,Object>> selectCountData();
+    List<Map<String,Integer>> selectCountData();
 
     PageList<IPCheckLogEntity> selectLogsByCond(@Param(value = "ipCheckLog") IPCheckLogEntity ipCheckLog, PageQuery pageQuery);
 }

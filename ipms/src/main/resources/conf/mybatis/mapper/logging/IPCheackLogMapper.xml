@@ -21,7 +21,7 @@
 	
 	
 	<select id="selectCountData" resultType="java.util.Map">
-		SELECT WARN_TYPE,COUNT(1) AS NUM FROM ip_check_log GROUP BY WARN_TYPE ORDER BY	WARN_TYPE
+		SELECT WARN_TYPE,COUNT(1) AS NUM FROM ip_check_log GROUP BY WARN_TYPE ORDER BY WARN_TYPE
 	</select>
 	
 	<select id="selectLogsByCond" parameterType="IPCheckLogEntity"

@@ -12,6 +12,6 @@ public interface IPCheckLogService
 {
     public PageList<IPCheckLogEntity> getLogsByCond(IPCheckLogEntity ipCheckLog, PageQuery pageQuery);
     
-    public List<Map<String,Object>> selectCountData();
+    public List<Map<String,Integer>> selectCountData();
 
 }

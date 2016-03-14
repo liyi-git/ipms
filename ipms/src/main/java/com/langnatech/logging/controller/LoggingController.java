@@ -11,60 +11,60 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.langnatech.core.web.page.PageList;
 import com.langnatech.core.web.page.PageQuery;
+import com.langnatech.ipms.enums.MonitorTypeEnum;
 import com.langnatech.logging.entity.IPCheckLogEntity;
 import com.langnatech.logging.entity.OperateLogEntity;
 import com.langnatech.logging.service.IPCheckLogService;
 import com.langnatech.logging.service.OperateLogService;
 
-
 @Controller
 @RequestMapping("/logging")
-public class LoggingController
-{
+public class LoggingController {
 
-    @Autowired
-    private OperateLogService operateLogService;
-    
-    @Autowired
-    private IPCheckLogService ipCheckLogService;
+	@Autowired
+	private OperateLogService operateLogService;
 
-    @RequestMapping("/operate")
-    public String showOperateLog()
-    {
-        return "logging/operateLog";
-    }
+	@Autowired
+	private IPCheckLogService ipCheckLogService;
 
-    @RequestMapping("/login")
-    public String showLoginLog()
-    {
-        return "logging/loginlog";
-    }
+	@RequestMapping("/operate")
+	public String showOperateLog() {
+		return "logging/operateLog";
+	}
 
-    @RequestMapping("/operate/getData")
-    @ResponseBody
-    public PageList<OperateLogEntity> getOperateLogData(OperateLogEntity operateLog, PageQuery pageQuery)
-    {
-        return this.operateLogService.getLogsByCond(operateLog, pageQuery);
-    }
-    
-    @RequestMapping("/ipCheck")
-    public ModelAndView showIPCheckLog()
-    {
-    	ModelAndView mv=new ModelAndView();
-    	List<Map<String,Object>> list=this.ipCheckLogService.selectCountData();
-    	if(!list.isEmpty()){
-    		mv.addObject("mismatching",list.get(0).get("NUM"));
-    		mv.addObject("nodetected",list.get(1).get("NUM"));
-    		mv.addObject("noexist",list.get(2).get("NUM"));
-    	}
-    	mv.setViewName("logging/ipCheckLog");
-        return mv;
-    }
-    
-    @RequestMapping("/ipCheck/getData")
-    @ResponseBody
-    public PageList<IPCheckLogEntity> getIPCheckLogData(IPCheckLogEntity ipCheckLog, PageQuery pageQuery)
-    {
-        return this.ipCheckLogService.getLogsByCond(ipCheckLog, pageQuery);
-    }
+	@RequestMapping("/login")
+	public String showLoginLog() {
+		return "logging/loginlog";
+	}
+
+	@RequestMapping("/operate/getData")
+	@ResponseBody
+	public PageList<OperateLogEntity> getOperateLogData(OperateLogEntity operateLog, PageQuery pageQuery) {
+		return this.operateLogService.getLogsByCond(operateLog, pageQuery);
+	}
+
+	@RequestMapping("/ipCheck")
+	public ModelAndView showIPCheckLog() {
+		ModelAndView mv = new ModelAndView();
+		List<Map<String, Integer>> list = this.ipCheckLogService.selectCountData();
+		if (!list.isEmpty()) {
+			for (Map<String, Integer> map : list) {
+				if (map.get("WARN_TYPE").intValue() == MonitorTypeEnum.NOEXIST.getCode().intValue()) {
+					mv.addObject("noexist", list.get(2).get("NUM"));
+				} else if (map.get("WARN_TYPE").intValue() == MonitorTypeEnum.MISMATCHING.getCode().intValue()) {
+					mv.addObject("mismatching", list.get(0).get("NUM"));
+				} else if (map.get("WARN_TYPE").intValue() == MonitorTypeEnum.NODETECTED.getCode().intValue()) {
+					mv.addObject("nodetected", list.get(1).get("NUM"));
+				}
+			}
+		}
+		mv.setViewName("logging/ipCheckLog");
+		return mv;
+	}
+
+	@RequestMapping("/ipCheck/getData")
+	@ResponseBody
+	public PageList<IPCheckLogEntity> getIPCheckLogData(IPCheckLogEntity ipCheckLog, PageQuery pageQuery) {
+		return this.ipCheckLogService.getLogsByCond(ipCheckLog, pageQuery);
+	}
 }

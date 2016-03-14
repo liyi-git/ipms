@@ -39,7 +39,7 @@ public class IPCheckLogServiceImpl implements IPCheckLogService, ILoggingService
 	}
 
 	@Override
-	public List<Map<String, Object>> selectCountData() {
+	public List<Map<String, Integer>> selectCountData() {
 		return this.ipCheckLogLogDao.selectCountData();
 	}
 

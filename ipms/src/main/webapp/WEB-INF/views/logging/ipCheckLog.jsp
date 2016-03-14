@@ -5,7 +5,7 @@
    	<div class="aui-grid-4" _id="noexist">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">${noexist}
+   				<p class="size-h2">${(noexist==null)?0:noexist}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">地址池中不存在</p>
@@ -15,7 +15,7 @@
    	<div class="aui-grid-4" _id="mismatching">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">${mismatching}
+   				<p class="size-h2">${(mismatching==null)?0:mismatching}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">配置地市信息不匹配</p>
@@ -25,7 +25,7 @@
    	<div class="aui-grid-4" _id="nodetected">
    		<div class="aui-panel aui-nomargin aui-center">
    			<div class="box-info">
-   				<p class="size-h2">${nodetected}
+   				<p class="size-h2">${(nodetected==null)?0:nodetected}
    					<span class="size-h4">个</span>
    				</p>
    				<p class="text-muted">已使用，但未检测到</p>
@@ -130,7 +130,7 @@
 			cellsAlign : 'left',
 			width : "150"			
 		}, {
-			text : '检测类型',
+			text : '预警类型',
 			dataField : 'warnType',
 			align : 'center',
 			cellsAlign : 'left',
@@ -140,19 +140,18 @@
 					return "配置地市信息不匹配";
 				}else if(rowData[column]==2){
 					return "已使用，但未检测到";
-				}else{
-					return "地址池中不存在";
+				}else if(rowData[column]==3){
+					return "监测到的地址,在地址池中不存在";
 				}
-				return "未知";
 			}
 		}, {
-			text : '检测所在地市',
+			text : '采集地市',
 			dataField : 'checkCityName',
 			align : 'center',
 			cellsAlign : 'left',
 			width : "100"
 		}, {
-			text : '采集设备名称',
+			text : '采集设备',
 			dataField : 'checkDevName',
 			align : 'left',
 			cellsAlign : 'left',
