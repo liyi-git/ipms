@@ -46,7 +46,11 @@ require([ 'jquery','module/main','echart-chart/pie','table'], function($,main,ec
             var val=!rowData['IP_COUNT']?0:(rowData['USE_COUNT']/rowData['IP_COUNT']*100).toFixed(2);
             var s = '<div style="width:100px;height:20px;border:1px solid #ccc" title="'+val+'%">';
             if(val){
-            	s+='<div style="width:' + val + '%;height:18px;background:#5ab0ee;color:#fff;font-size:12px;padding-left:2px 0 2px 3px;" title="'+val+'%">'+ val + '%' + '</div>';
+            	if(val>=90){
+            		s+='<div style="width:' + val + '%;height:18px;background:red;color:#fff;font-size:12px;padding-left:2px 0 2px 3px;" title="'+val+'%">'+ val + '%' + '</div>';
+            	}else{
+            		s+='<div style="width:' + val + '%;height:18px;background:#5ab0ee;color:#fff;font-size:12px;padding-left:2px 0 2px 3px;" title="'+val+'%">'+ val + '%' + '</div>';
+            	}
             }else{
             	s+='<div style="font-size:12px;padding:2px 0 2px 3px;">0%</>'
             }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.langnatech.core.web.event.WebVisitEventPublish;
+import com.langnatech.ipms.IPConstant;
 import com.langnatech.ipms.enums.OperateObjTypeEnum;
 import com.langnatech.ipms.enums.OperateTypeEnum;
 import com.langnatech.ipms.enums.OperateWayEnum;
@@ -59,8 +60,11 @@ public class IpmsSoapServiceImpl implements IpmsSoapService {
         ipApplyService.validateApplyHasExist(applyInfo.getApplyCode());
         ApplyResultBean applyResult = ipApplyService.applyReserveIP(applyInfo);
         resultJSON = JsonConvertUtil.nonEmptyMapper().toJson(applyResult);
-        String content =
-            "申请地址数量：" + applyInfo.getIpCount() + ",实际分配地址数量：" + applyResult.getIpCount();
+        int applyCount = applyInfo.getIpCount();
+        if (IPConstant.APPLY_CONTAIN_NET_ADDRESS) {
+          applyCount += 2;
+        }
+        String content = "申请地址数量：" + applyCount + ",实际分配地址数量：" + applyResult.getIpCount();
         WebVisitEventPublish.getInstance().operateEvent(OperateTypeEnum.RESERVE_ADDRESS,
             applyResult.getSubnetDesc(), OperateObjTypeEnum.SUBNET, applyResult.getPoolId(),
             applyResult.getCityId(), content, invokeWay);
