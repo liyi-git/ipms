@@ -64,10 +64,7 @@
 			}, {
 				name : 'checkCityName',
 				type : 'string'
-			}, {
-				name : 'checkDevName',
-				type : 'string'
-			},
+			}
 			, {
 				name : 'checkTime',
 				type : 'string'
@@ -151,12 +148,6 @@
 			cellsAlign : 'left',
 			width : "100"
 		}, {
-			text : '采集设备',
-			dataField : 'checkDevName',
-			align : 'left',
-			cellsAlign : 'left',
-			width : "100"
-		} , {
 			text : '采集时间',
 			dataField : 'checkTime',
 			align : 'left',
