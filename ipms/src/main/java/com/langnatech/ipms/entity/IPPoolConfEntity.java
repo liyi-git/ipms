@@ -2,152 +2,145 @@ package com.langnatech.ipms.entity;
 
 import com.langnatech.core.base.entity.ManagedEntity;
 
+public class IPPoolConfEntity extends ManagedEntity {
 
-public class IPPoolConfEntity extends ManagedEntity
-{
+	private static final long serialVersionUID = 3356491041169581180L;
 
-    private static final long serialVersionUID = 3356491041169581180L;
+	private String poolId;
 
-    private String poolId;
+	private String poolPid;
 
-    private String poolPid;
+	private String poolName;
 
-    private String poolName;
+	private String poolDesc;
 
-    private String poolDesc;
+	private double warnValve;
 
-    private double warnValve;
+	private int isDir;
 
-    private int isDir;
+	private int isPlanCity;
 
-    private int isPlanCity;
+	private int assignType;
 
-    private int assignType;
+	private int sortIndex;
 
-    private int sortIndex;
+	private int deep;
 
-    private int deep;
+	private int lft;
+	private int rgt;
 
-    public int getDeep()
-    {
-        return deep;
-    }
+	public int getDeep() {
+		return deep;
+	}
 
-    public IPPoolConfEntity()
-    {
-        super();
-    }
+	public IPPoolConfEntity() {
+		super();
+	}
 
-    public IPPoolConfEntity(String poolId, String poolName)
-    {
-        super();
-        this.poolId = poolId;
-        this.poolName = poolName;
-    }
+	public IPPoolConfEntity(String poolId, String poolName) {
+		super();
+		this.poolId = poolId;
+		this.poolName = poolName;
+	}
 
-    public void setDeep(int deep)
-    {
-        this.deep = deep;
-    }
+	public int getLft() {
+		return lft;
+	}
 
-    public String getPoolId()
-    {
-        return poolId;
-    }
+	public void setLft(int lft) {
+		this.lft = lft;
+	}
 
-    public void setPoolId(String poolId)
-    {
-        this.poolId = poolId;
-    }
+	public int getRgt() {
+		return rgt;
+	}
 
-    public String getPoolName()
-    {
-        return poolName;
-    }
+	public void setRgt(int rgt) {
+		this.rgt = rgt;
+	}
 
-    public void setPoolName(String poolName)
-    {
-        this.poolName = poolName;
-    }
+	public void setDeep(int deep) {
+		this.deep = deep;
+	}
 
-    public String getPoolDesc()
-    {
-        return poolDesc;
-    }
+	public String getPoolId() {
+		return poolId;
+	}
 
-    public void setPoolDesc(String poolDesc)
-    {
-        this.poolDesc = poolDesc;
-    }
+	public void setPoolId(String poolId) {
+		this.poolId = poolId;
+	}
 
-    public double getWarnValve()
-    {
-        return warnValve;
-    }
+	public String getPoolName() {
+		return poolName;
+	}
 
-    public void setWarnValve(double warnValve)
-    {
-        this.warnValve = warnValve;
-    }
+	public void setPoolName(String poolName) {
+		this.poolName = poolName;
+	}
 
-    public boolean isPlanCity()
-    {
-        return this.getIsPlanCity() != -1;
-    }
+	public String getPoolDesc() {
+		return poolDesc;
+	}
 
-    public int getIsPlanCity()
-    {
-        return isPlanCity;
-    }
+	public void setPoolDesc(String poolDesc) {
+		this.poolDesc = poolDesc;
+	}
 
-    public void setIsPlanCity(int isPlanCity)
-    {
-        this.isPlanCity = isPlanCity;
-    }
+	public double getWarnValve() {
+		return warnValve;
+	}
 
-    public boolean isDir()
-    {
-        return this.getIsDir() != -1;
-    }
+	public void setWarnValve(double warnValve) {
+		this.warnValve = warnValve;
+	}
 
-    public int getIsDir()
-    {
-        return isDir;
-    }
+	public boolean isPlanCity() {
+		return this.getIsPlanCity() != -1;
+	}
 
-    public void setIsDir(int isDir)
-    {
-        this.isDir = isDir;
-    }
+	public int getIsPlanCity() {
+		return isPlanCity;
+	}
 
-    public int getAssignType()
-    {
-        return assignType;
-    }
+	public void setIsPlanCity(int isPlanCity) {
+		this.isPlanCity = isPlanCity;
+	}
 
-    public void setAssignType(int assignType)
-    {
-        this.assignType = assignType;
-    }
+	public boolean isDir() {
+		return this.getIsDir() != -1;
+	}
 
-    public int getSortIndex()
-    {
-        return sortIndex;
-    }
+	public int getIsDir() {
+		return isDir;
+	}
 
-    public void setSortIndex(int sortIndex)
-    {
-        this.sortIndex = sortIndex;
-    }
+	public void setIsDir(int isDir) {
+		this.isDir = isDir;
+	}
 
-    public String getPoolPid()
-    {
-        return poolPid;
-    }
+	public int getAssignType() {
+		return assignType;
+	}
 
-    public void setPoolPid(String poolPid)
-    {
-        this.poolPid = poolPid;
-    }
+	public void setAssignType(int assignType) {
+		this.assignType = assignType;
+	}
+
+	public int getSortIndex() {
+		return sortIndex;
+	}
+
+	public void setSortIndex(int sortIndex) {
+		this.sortIndex = sortIndex;
+	}
+
+	public String getPoolPid() {
+		return poolPid;
+	}
+
+	public void setPoolPid(String poolPid) {
+		this.poolPid = poolPid;
+	}
 
 }

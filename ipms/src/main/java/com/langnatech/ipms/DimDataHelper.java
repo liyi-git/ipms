@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import com.langnatech.core.holder.SpringContextHolder;
@@ -21,23 +22,13 @@ public class DimDataHelper
     public static List<IPPoolConfEntity> getIPPool()
     {
         List<IPPoolConfEntity> list = DimDataHelper.getIPPoolConfService().getAllIPPoolConf();
+        
         Collections.sort(list, new Comparator<IPPoolConfEntity>()
         {
 
             public int compare(IPPoolConfEntity o1, IPPoolConfEntity o2)
             {
-                if (o1.getDeep() > o2.getDeep())
-                {
-                    return 1;
-                }
-                else if (o1.getDeep() == o2.getDeep())
-                {
-                    if (o1.getSortIndex() > o2.getSortIndex())
-                    {
-                        return 1;
-                    }
-                }
-                return 0;
+            	return o1.getLft()-o2.getLft();
             }
         });
         return list;
