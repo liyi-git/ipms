@@ -2,6 +2,7 @@ package com.langnatech.ipms.entity;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -390,4 +391,12 @@ public class IPArchiveInfoEntity implements IEntity{
     public void setGatewayIp(String gatewayIp) {
         this.gatewayIp = gatewayIp == null ? null : gatewayIp.trim();
     }
+
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+    
+    
 }

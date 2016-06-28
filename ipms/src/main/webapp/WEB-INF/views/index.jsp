@@ -25,7 +25,7 @@
 	           <ul class="ipms-menu">
 	           <c:forEach items="${MenuList}" var="subnet" varStatus="s">
 	                <c:if test="${it.menuId==subnet.menuPid}">
-	                   <li url="<c:url value="${subnet.urlPath}"/>"><a href="javascript:;">${subnet.menuName}</a></li>
+	                   <li url="<c:url value="/${subnet.urlPath}"/>"><a href="javascript:;">${subnet.menuName}</a></li>
 	                </c:if>
 	           </c:forEach>
 	           </ul>

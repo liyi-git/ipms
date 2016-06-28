@@ -12,8 +12,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.langnatech.core.holder.IDGeneratorHolder;
+import com.langnatech.ipms.entity.SubNetResEntity;
+import com.langnatech.ipms.enums.IPStatusEnum;
+import com.langnatech.ipms.enums.SubNetPlanStatusEnum;
+import com.langnatech.util.IpUtils;
 
 public class ImportArchiveData {
+
 	@Test
 	public void test() {
 		try {
@@ -32,8 +38,31 @@ public class ImportArchiveData {
 				}
 				list.add(ary);
 			}
-			for(String[] ary:list){
-				System.out.println(ary[1]+"----------"+ary[2]);
+			for (String[] ary : list) {
+				long start = IpUtils.getDecByIp(ary[1]);
+				long end = IpUtils.getDecByIp(ary[2]);
+				int ipCount = (int) (end - start - 1);
+				if (ipCount > 0) {
+					int bit = IpUtils.getmBitsByIpNum(String.valueOf(start), ipCount);
+					SubNetResEntity subNetResBean = new SubNetResEntity();
+					subNetResBean.setSubnetId(IDGeneratorHolder.getId());
+					subNetResBean.setSubnetDesc(ary[1] + "/" + bit);
+					subNetResBean.setBeginIp(ary[1]);
+					subNetResBean.setBeginIpDecimal(IpUtils.getDecByIp(ary[1]));
+					subNetResBean.setEndIp(ary[2]);
+					subNetResBean.setEndIpDecimal(IpUtils.getDecByIp(ary[2]));
+					subNetResBean.setMaskBits((short) bit);
+					subNetResBean.setNetmask(IpUtils.getMask(bit));
+					subNetResBean.setIpCount(ipCount);
+					subNetResBean.setSubnetPid("-1");
+					subNetResBean.setUseStatus(IPStatusEnum.USED.getCode());
+					subNetResBean.setPlanStatus(SubNetPlanStatusEnum.PLANNED.getCode());
+					subNetResBean.setPoolId("301");
+					subNetResBean.setCityId("991");
+					subNetResBean.setOperator("ADMIN");
+					System.out.println(subNetResBean.toString());
+				} else {
+				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
