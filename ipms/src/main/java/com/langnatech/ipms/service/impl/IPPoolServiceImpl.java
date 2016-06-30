@@ -48,7 +48,7 @@ public class IPPoolServiceImpl implements IPPoolService
             resultMap.put("USE_COUNT", useCount);
             resultMap.put("WAIT_COUNT", waitCount);
             resultMap.put("FREE_COUNT", ipCount-useCount);
-            double percent=(ipCount==0)?0:(useCount/ipCount);
+            double percent=(ipCount==0)?0:(useCount/(ipCount*1.00));
             resultMap.put("USE_PERCENT",DecimalFormat.getPercentInstance().format(percent));
         }
         return resultMap;

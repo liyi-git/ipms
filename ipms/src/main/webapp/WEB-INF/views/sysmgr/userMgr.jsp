@@ -1,14 +1,6 @@
-<html lang="zh_cn">
-<head>
-    <title></title>
-    <!-- meta定义 -->
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta http-equiv="Cache-Control" content="no-store" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <link rel="stylesheet" type="text/css" href="static/common/css/main.css" media="all" />
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/views/common/include/base-taglib.jsp"%>
+<%@include file="/WEB-INF/views/common/include/base-header.jsp"%>
   <div class="aui-grid-12">
     <div class="ipms-content" style="margin-left:0px;">
         <!--维度选择区域 start-->
@@ -138,5 +130,4 @@
     </table>
   </div>
   </div>
-</body>
-</html>
+  <%@include file="/WEB-INF/views/common/include/base-footer.jsp"%>

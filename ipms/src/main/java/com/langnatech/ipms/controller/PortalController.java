@@ -83,4 +83,15 @@ public class PortalController
     {
         return "common/error/error-403";
     }
+    
+    @RequestMapping("sys/menuMgr")
+    public String menuMgr()
+    {
+        return "sysmgr/menuMgr";
+    }
+    @RequestMapping("sys/userMgr")
+    public String userMgr()
+    {
+        return "sysmgr/userMgr";
+    } 
 }

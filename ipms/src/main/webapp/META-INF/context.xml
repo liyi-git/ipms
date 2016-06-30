@@ -2,7 +2,7 @@
 <Context>
 	<Resource name="jdbc/ipms" auth="Container" type="javax.sql.DataSource"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://127.0.0.1:3306/ipms?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;rewriteBatchedStatements=true"
+		url="jdbc:mysql://localhost:3306/ipms?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;rewriteBatchedStatements=true"
 		username="ipms" password="ipms123" maxActive="20" maxIdle="10"
 		maxWait="10000" />
 </Context>  

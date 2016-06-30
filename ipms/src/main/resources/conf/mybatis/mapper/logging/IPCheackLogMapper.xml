@@ -56,7 +56,6 @@
 			test="ipCheckLog.poolId!=null and ipCheckLog.poolId!='' and ipCheckLog.poolId!='-1'">
 			AND T1.POOL_ID=#{ipCheckLog.poolId}
 		</if>
-		order by T1.CHECK_TIME desc
 	</select>
 	
 	<insert id="insert" parameterType="IPCheckLogEntity">
